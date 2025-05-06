@@ -13,6 +13,7 @@ jobs:
       matrix:
         os: ["macos-latest", "ubuntu-latest"]
         swift: ["6.1"]
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - uses: swift-actions/setup-swift@682457186b71c25a884c45c06f859febbe259240
