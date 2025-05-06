@@ -10,6 +10,14 @@ import Foundation
 
 extension Xoshiro: @retroactive @unchecked Sendable {}
 
+extension Xoshiro {
+    mutating func perturb() {
+        for _ in 0..<10 {
+            _ = next()
+        }
+    }
+}
+
 extension Xoshiro: @retroactive Hashable {
     public static func == (lhs: Xoshiro, rhs: Xoshiro) -> Bool {
         lhs.currentState == rhs.currentState

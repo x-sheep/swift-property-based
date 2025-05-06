@@ -93,12 +93,15 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         var rng = fixedRng?.rng ?? Xoshiro()
         var rngCopy = rng
         
+        rng.perturb()
+        
         let foundIssues = await countIssues(isolation: isolation) {
             try await body(repeat (each input).run(using: &rng))
         }
         
         if foundIssues > 0 {
             let seed = rngCopy.currentSeed
+            rngCopy.perturb()
             
             var paramLabels: [String] = []
             for gen in repeat each input {
