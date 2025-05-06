@@ -8,7 +8,7 @@
 import Gen
 import Testing
 
-/// A trait that overrides the seed used by all property tests within a Test.
+/// A trait that overrides the seed used by all property checks within a Test.
 ///
 /// Use ``fixedSeed(_:sourceLocation:)`` to construct an instance of this trait.
 public struct FixedSeedTrait: TestTrait, TestScoping {
@@ -38,11 +38,11 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
 }
 
 extension Trait where Self == FixedSeedTrait {
-    /// Override the seed used by all property tests within this Test.
+    /// Override the seed used by all property checks within this Test.
     /// 
-    /// If one of your property tests fails intermittently, apply this trait to reliably reproduce the issue.
+    /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
     /// 
-    /// > Important: Do not commit usages of this trait into version control. This trait will always report an issue regardless of the existence of any failures within the test.
+    /// > Important: Do not commit usages of this trait into version control. Applying this trait will always report an issue regardless of the existence of any failures within the test.
     /// 
     /// - Parameters:
     ///   - seed: The seed to use.
