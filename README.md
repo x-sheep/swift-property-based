@@ -1,5 +1,8 @@
 # PropertyBased
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fx-sheep%2Fswift-property-based%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/x-sheep/swift-property-based)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fx-sheep%2Fswift-property-based%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/x-sheep/swift-property-based)
+
 PropertyBased is a Swift 6 library that enables Property-Based Testing in `swift-testing`, similar to QuickCheck for Haskell or FsCheck for F# and C#.
 
 Property-Based Testing can be used as an alternative for (or in addition to) testing with hardcoded values. Run tests with random values, and easily switch to specific values when debugging a test failure. 
