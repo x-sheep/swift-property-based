@@ -6,24 +6,10 @@
 //
 
 import Testing
-@testable import PropertyBased
+import PropertyBased
 import Gen
 
 @Suite struct FixedSeedTests {
-    private func gatherIssues(block: @Sendable () async -> Void) async -> [Issue] {
-        let mutex = Mutex([] as [Issue])
-
-        // No way to stop issues from still being recorded. Ignore those for now.
-        await withKnownIssue {
-            await block()
-        } matching: { issue in
-            mutex.withLock { $0.append(issue) }
-            return true
-        }
-        
-        return mutex.withLock { $0 }
-    }
-    
     @Test(.fixedSeed("qwert"))
     func testInvalidSeed() async {
         let issues = await gatherIssues {
