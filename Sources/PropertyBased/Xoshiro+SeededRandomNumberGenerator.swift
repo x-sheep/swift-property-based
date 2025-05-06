@@ -6,6 +6,7 @@
 //
 
 import Gen
+import Foundation
 
 extension Xoshiro: @retroactive @unchecked Sendable {}
 
