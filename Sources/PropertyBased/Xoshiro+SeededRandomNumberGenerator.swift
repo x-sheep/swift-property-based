@@ -9,15 +9,6 @@ import Gen
 import Foundation
 
 extension Xoshiro: @retroactive @unchecked Sendable {}
-
-extension Xoshiro {
-    mutating func perturb() {
-        for _ in 0..<10 {
-            _ = next()
-        }
-    }
-}
-
 extension Xoshiro: @retroactive Hashable {
     public static func == (lhs: Xoshiro, rhs: Xoshiro) -> Bool {
         lhs.currentState == rhs.currentState
@@ -35,17 +26,21 @@ extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = String
     
     public init?(seed: String) {
-        guard seed.count == 32,
-              let s1 = UInt64(seed.prefix(8), radix: 16),
-              let s2 = UInt64(seed.dropFirst(8).prefix(8), radix: 16),
-              let s3 = UInt64(seed.dropFirst(16).prefix(8), radix: 16),
-              let s4 = UInt64(seed.dropFirst(24).prefix(8), radix: 16)
+        guard let data = Data(base64Encoded: seed),
+              data.count == MemoryLayout<UInt64>.size * 4
         else { return nil }
         
-        self.init(state: (s1, s2, s3, s4))
+        let state = data.withUnsafeBytes {
+            let pointer = $0.bindMemory(to: UInt64.self)
+            return (pointer[0], pointer[1], pointer[2], pointer[3])
+        }
+        
+        self.init(state: state)
     }
     
     public var currentSeed: String {
-        String(format: "%.8x%.8x%.8x%.8x", currentState.0, currentState.1, currentState.2, currentState.3)
+        let bytes: ContiguousArray = [currentState.0, currentState.1, currentState.2, currentState.3]
+        let data = bytes.withUnsafeBufferPointer { Data(buffer: $0) }
+        return data.base64EncodedString()
     }
 }

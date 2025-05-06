@@ -35,11 +35,11 @@ import Gen
         }))
     }
     
-    @Test(.fixedSeed("11223344556677889900aabbccddeeff"))
+    @Test(.fixedSeed("4tPCyvymNncnc+napVCI0T4Jc6IYw1lXOQbXlIqyHck="))
     func testIdenticalInputs() async throws {
         let issues = await gatherIssues {
             await propertyCheck(input: .int(in: 0...1000000)) { n in
-                #expect(n == 960927)
+                #expect(n == 480813)
             }
         }
         #expect(issues.count == 1)
@@ -49,13 +49,12 @@ import Gen
     }
     
     @Test func testXoshiro() throws {
-        var rng = try #require(Xoshiro(seed: "532896ad4a02a15e184a6be2ad433acd"))
+        var rng = try #require(Xoshiro(seed: "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E="))
         
-        try #require(rng.currentSeed == "532896ad4a02a15e184a6be2ad433acd")
-        rng.perturb()
-        try #require(rng.next() == 4810111524902131809)
-        try #require(rng.next() == 8977626393675964846)
-        try #require(rng.next() == 1239627430587387523)
-        try #require(rng.currentSeed == "68fb55a91e543b7a00c18b38f77fb1b6")
+        try #require(rng.currentSeed == "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E=")
+        try #require(rng.next() == 13012537654314612243)
+        try #require(rng.next() == 17010070744160488460)
+        try #require(rng.next() == 15434697293255949747)
+        try #require(rng.currentSeed == "INXoBVnaU+VA/a0Vu3WfVCmT1mBMK0ZrXJb24K4vLVY=")
     }
 }

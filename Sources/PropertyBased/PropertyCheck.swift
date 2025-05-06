@@ -49,14 +49,14 @@ import Testing
 /// The function will report which input caused the failing case, and which seed was used:
 ///
 /// ```
-/// Failure occured with input 998.
-/// Add `.fixedSeed("e1050d658e5e03cea3c802ed4196207a")` to the Test to reproduce this issue.
+/// Failure occured with input 992.
+/// Add `.fixedSeed("aKPPWDEafU0CGMDYHef/ETcbYUyjWQvRVP1DTNy6qJk=")` to the Test to reproduce this issue.
 /// ```
 ///
 /// You can supply the fixed seed to reproduce the issue every time.
 ///
 /// ```swift
-/// @Test(.fixedSeed("e1050d658e5e03cea3c802ed4196207a"))
+/// @Test(.fixedSeed("aKPPWDEafU0CGMDYHef/ETcbYUyjWQvRVP1DTNy6qJk="))
 /// func failsSometimes() async {
 ///   await propertyCheck(input: .int(in: 0...1000)) { n in
 ///     #expect(n < 990)
@@ -93,15 +93,12 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         var rng = fixedRng?.rng ?? Xoshiro()
         var rngCopy = rng
         
-        rng.perturb()
-        
         let foundIssues = await countIssues(isolation: isolation) {
             try await body(repeat (each input).run(using: &rng))
         }
         
         if foundIssues > 0 {
             let seed = rngCopy.currentSeed
-            rngCopy.perturb()
             
             var paramLabels: [String] = []
             for gen in repeat each input {

@@ -50,14 +50,14 @@ It's possible that a test only fails on very specific inputs that don't trigger 
 PropertyBased will report which input caused the failing case, and which seed was used:
 
 ```
-Failure occured with input 998.
-Add `.fixedSeed("e1050d658e5e03cea3c802ed4196207a")` to the Test to reproduce this issue.
+Failure occured with input 992.
+Add `.fixedSeed("aKPPWDEafU0CGMDYHef/ETcbYUyjWQvRVP1DTNy6qJk=")` to the Test to reproduce this issue.
 ```
 
 You can supply the fixed seed to reproduce the issue every time.
 
 ```swift
-@Test(.fixedSeed("e1050d658e5e03cea3c802ed4196207a"))
+@Test(.fixedSeed("aKPPWDEafU0CGMDYHef/ETcbYUyjWQvRVP1DTNy6qJk="))
 func failsSometimes() async {
   await propertyCheck(input: .int(in: 0...1000)) { n in
     #expect(n < 990)
