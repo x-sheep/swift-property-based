@@ -82,11 +82,6 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
     
     let fixedRng = FixedSeedTrait.fixedRandom
     
-    if let fixedRng, fixedRng.rng == nil {
-        Issue.record("An invalid seed was provided. Remove the fixedSeed Trait from the Test.", sourceLocation: fixedRng.location)
-        return
-    }
-    
     let actualCount = fixedRng != nil ? 1 : count
     
     for _ in 0..<actualCount {

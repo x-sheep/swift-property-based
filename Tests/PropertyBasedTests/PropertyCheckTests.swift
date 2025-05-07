@@ -50,14 +50,14 @@ import Testing
         }
         
         #expect(issues.contains(where: {
-            $0.description.contains("> 20")
+            $0.contains("> 20")
         }))
         #expect(issues.contains(where: {
-            $0.description.contains("to reproduce this issue")
+            $0.contains("to reproduce this issue")
         }))
         
         #expect(!issues.contains(where: {
-            $0.description.contains("> 50")
+            $0.contains("> 50")
         }))
     }
 }

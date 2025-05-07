@@ -8,14 +8,18 @@
 import Testing
 @testable import PropertyBased
 
-func gatherIssues(block: @Sendable () async -> Void) async -> [Issue] {
-    let mutex = Mutex([] as [Issue])
-
+func gatherIssues(block: @Sendable () async throws -> Void) async -> [String] {
+    let mutex = Mutex([] as [String])
+    
     // No way to stop issues from still being recorded. Ignore those for now.
-    await withKnownIssue {
-        await block()
+    await withKnownIssue(isIntermittent: true) {
+        do {
+            try await block()
+        } catch {
+            Issue.record(error)
+        }
     } matching: { issue in
-        mutex.withLock { $0.append(issue) }
+        mutex.withLock { $0.append(issue.description) }
         return true
     }
     

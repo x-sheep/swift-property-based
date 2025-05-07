@@ -21,13 +21,16 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
     let sourceLocation: SourceLocation
     
     @TaskLocal
-    static var fixedRandom: (rng: Xoshiro?, location: SourceLocation)?
+    static var fixedRandom: (rng: Xoshiro, location: SourceLocation)?
     
     public func provideScope(for test: Test, testCase: Test.Case?, performing function: () async throws -> Void) async throws {
         if let existing = Self.fixedRandom {
             Issue.record("Two different fixed seeds are used in the same test.", sourceLocation: existing.location)
-            
-            try await function()
+            return
+        }
+        
+        guard let rng else {
+            Issue.record("An invalid seed was provided. Remove the fixedSeed Trait from the Test.", sourceLocation: sourceLocation)
             return
         }
         
@@ -39,15 +42,15 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
 
 extension Trait where Self == FixedSeedTrait {
     /// Override the seed used by all property checks within this Test.
-    /// 
+    ///
     /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
-    /// 
+    ///
     /// > Important: Do not commit usages of this trait into version control. Applying this trait will always report an issue regardless of the existence of any failures within the test.
-    /// 
+    ///
     /// - Parameters:
     ///   - seed: The seed to use.
     ///   - sourceLocation: The source location of the trait.
-    /// 
+    ///
     /// - Returns: An instance of ``FixedSeedTrait``.
     public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
         return Self(seed.description, sourceLocation)
