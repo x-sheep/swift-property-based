@@ -15,7 +15,7 @@ import Gen
         let scope = try #require(trait.scopeProvider(for: Test.current!, testCase: Test.Case.current))
         
         let issues = await gatherIssues {
-            try await scope.provideScope(for: Test.current!, testCase: Test.Case.current) {
+            await scope.provideScope(for: Test.current!, testCase: Test.Case.current) {
                 try #require(Bool(false), "block must not be called")
             }
         }
@@ -30,8 +30,8 @@ import Gen
         let trait2 = FixedSeedTrait.fixedSeed("I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E=")
         
         let issues = await gatherIssues {
-            try await trait1.provideScope(for: Test.current!, testCase: Test.Case.current) {
-                try await trait2.provideScope(for: Test.current!, testCase: Test.Case.current) {
+            await trait1.provideScope(for: Test.current!, testCase: Test.Case.current) {
+                await trait2.provideScope(for: Test.current!, testCase: Test.Case.current) {
                     try #require(Bool(false), "block must not be called")
                 }
             }
@@ -45,7 +45,7 @@ import Gen
     @Test func testIdenticalInputs() async throws {
         let trait = FixedSeedTrait.fixedSeed("4tPCyvymNncnc+napVCI0T4Jc6IYw1lXOQbXlIqyHck=")
         let issues = await gatherIssues {
-            try await trait.provideScope(for: Test.current!, testCase: Test.Case.current) {
+            await trait.provideScope(for: Test.current!, testCase: Test.Case.current) {
                 await propertyCheck(input: .int(in: 0...1000000)) { n in
                     #expect(n == 480813)
                 }

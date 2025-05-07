@@ -23,7 +23,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
     @TaskLocal
     static var fixedRandom: (rng: Xoshiro, location: SourceLocation)?
     
-    public func provideScope(for test: Test, testCase: Test.Case?, performing function: () async throws -> Void) async throws {
+    public func provideScope(for test: Test, testCase: Test.Case?, performing function: () async throws -> Void) async {
         if let existing = Self.fixedRandom {
             Issue.record("Two different fixed seeds are used in the same test.", sourceLocation: existing.location)
             return
@@ -34,8 +34,14 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
             return
         }
         
-        try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
-            try await function()
+        let foundIssues = await countIssues {
+            try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
+                try await function()
+            }
+        }
+        
+        if foundIssues == 0 {
+            Issue.record("A fixed seed was used, but no expectation failure occured. The property was not tested fully.", sourceLocation: sourceLocation)
         }
     }
 }

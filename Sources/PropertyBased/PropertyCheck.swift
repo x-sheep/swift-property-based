@@ -111,9 +111,5 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
             }
             return
         }
-        
-        if foundIssues == 0, let seedLocation = fixedRng?.location {
-            Issue.record("A fixed seed was used, but no expectation failure occured. The property was not tested fully.", sourceLocation: seedLocation)
-        }
     }
 }
