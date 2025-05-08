@@ -1,5 +1,5 @@
 {
-  "originHash" : "873fbbd8cda9e528e9fb6b1aca87cdc206a6422c8a537e1770d67d27d01e7e90",
+  "originHash" : "4ad88c9148a77a986dab48e91613be26810dd1ef6f77026889f810b798917084",
   "pins" : [
     {
       "identity" : "swift-gen",
@@ -8,6 +8,23 @@
       "state" : {
         "revision" : "5bd20fb662e1ead7ee47df6bb0a15398295f2e06",
         "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "swift-macro-toolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stackotter/swift-macro-toolkit.git",
+      "state" : {
+        "revision" : "569627091e1fbb8745d691aeeb008e7247dedb7c"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
       }
     }
   ],

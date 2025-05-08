@@ -8,6 +8,7 @@
 import Gen
 import Foundation
 
+extension Gen: @retroactive @unchecked Sendable {}
 extension Xoshiro: @retroactive @unchecked Sendable {}
 extension Xoshiro: @retroactive Hashable {
     public static func == (lhs: Xoshiro, rhs: Xoshiro) -> Bool {
