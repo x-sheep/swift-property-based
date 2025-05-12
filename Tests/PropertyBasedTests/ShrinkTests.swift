@@ -31,8 +31,9 @@ import PropertyBased
     }
     
     @Test func testShrinkUInt() async throws {
+        let start = 60000 as UInt32
         let range = 10...(100000 as UInt32)
-        let results = Array(shrink(50000, within: range))
+        let results = Array(start.shrink(within: range))
         
         try #require(results.count > 1)
         #expect(results.allSatisfy { range ~= $0 })
@@ -45,8 +46,9 @@ import PropertyBased
     }
     
     @Test func testShrinkNegativeInt() async throws {
+        let start = -50000 as Int64
         let range = (-1000000)...(-100 as Int64)
-        let results = Array(shrink(-50000, within: range))
+        let results = Array(start.shrink(within: range))
         
         try #require(results.count > 1)
         #expect(results.allSatisfy { range ~= $0 })
@@ -59,7 +61,8 @@ import PropertyBased
     }
     
     @Test func testShrinkIntToZero() async throws {
-        let results = Array(shrink(-50000 as Int32, within: .min ... .max))
+        let start = -50000 as Int32
+        let results = Array(start.shrink(within: .min ... .max))
         try #require(results.count > 1)
         #expect(results.last == 0)
     }

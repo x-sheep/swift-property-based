@@ -69,3 +69,8 @@ extension IteratorProtocol {
         return (copy, next)
     }
 }
+
+@available(*, unavailable)
+extension TupleShrinkSequence: Sendable {}
+@available(*, unavailable)
+extension TupleShrinkSequence.Iterator: Sendable {}
