@@ -5,6 +5,9 @@
 //  Created by Lennard Sprong on 13/05/2025.
 //
 
+/// A sequence of floats used for shrinking.
+///
+/// See ``/PropertyBased/Swift/FloatingPoint/shrink(towards:)`` to construct a sequence of this type.
 public struct FloatingPointShrinkSequence<FloatType: FloatingPoint>: Sequence, IteratorProtocol {
     public typealias Element = FloatType
     
@@ -55,11 +58,21 @@ public struct FloatingPointShrinkSequence<FloatType: FloatingPoint>: Sequence, I
 }
 
 extension FloatingPoint {
+    /// Get a shrinking sequence that shrinks this value to a specific value.
+    ///
+    /// If this value or the given bound is NaN, the sequence is empty.
+    /// - Parameter bound: The value to shrink to.
+    /// - Returns: A new sequence.
     @inlinable
     public func shrink(towards bound: Self) -> FloatingPointShrinkSequence<Self> {
         FloatingPointShrinkSequence(from: self, bound: bound)
     }
     
+    /// Get a shrinking sequence that shrinks this value as close to zero as possible.
+    ///
+    /// If this value is NaN, the sequence is empty.
+    /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
+    /// - Returns: A new sequence.
     @inlinable
     public func shrink(within range: ClosedRange<Self>) -> FloatingPointShrinkSequence<Self> {
         if range.lowerBound > 0 {

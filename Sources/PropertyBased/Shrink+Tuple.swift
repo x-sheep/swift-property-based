@@ -17,13 +17,16 @@ public struct TupleShrinkSequence<Element>: Sequence {
         return iteratorFunc()
     }
     
-    public struct Iterator: IteratorProtocol {
+    /// > Warning: This iterator is not copied by value.
+    /// >
+    /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot use an iterator more than once.
+    public class Iterator: IteratorProtocol {
         @usableFromInline init (nextFunc: @escaping () -> Element?) {
             self.nextFunc = nextFunc
         }
         let nextFunc: () -> Element?
         
-        public mutating func next() -> Element? {
+        public func next() -> Element? {
             return nextFunc()
         }
     }

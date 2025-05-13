@@ -5,6 +5,9 @@
 //  Created by Lennard Sprong on 11/05/2025.
 //
 
+/// A sequence of integers used for shrinking.
+///
+/// See ``/PropertyBased/Swift/FixedWidthInteger/shrink(towards:)`` to construct a sequence of this type.
 public struct IntegralShrinkSequence<IntegerType: FixedWidthInteger>: Sequence, IteratorProtocol {
     public typealias Element = IntegerType
     
@@ -54,11 +57,17 @@ public struct IntegralShrinkSequence<IntegerType: FixedWidthInteger>: Sequence, 
 }
 
 extension FixedWidthInteger {
+    /// Get a shrinking sequence that shrinks this value to a specific value.
+    /// - Parameter bound: The value to shrink to.
+    /// - Returns: A new sequence.
     @inlinable
     public func shrink(towards bound: Self) -> IntegralShrinkSequence<Self> {
         IntegralShrinkSequence(from: self, bound: bound)
     }
     
+    /// Get a shrinking sequence that shrinks this value as close to zero as possible.
+    /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
+    /// - Returns: A new sequence.
     @inlinable
     public func shrink(within range: ClosedRange<Self>) -> IntegralShrinkSequence<Self> {
         if range.lowerBound > 0 {
@@ -68,6 +77,11 @@ extension FixedWidthInteger {
         } else {
             shrink(towards: 0)
         }
+    }
+    
+    @inlinable
+    public func shrink(within range: some RangeExpression<Self>) -> IntegralShrinkSequence<Self> {
+        shrink(within: ClosedRange(range))
     }
 }
 

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import PropertyBased
+@testable import PropertyBased
 
 @Suite struct ShrinkIntegerTests {
     @Test func testShrinkUIntToLow() async throws {
@@ -76,5 +76,25 @@ import PropertyBased
         try #require(results.count > 1)
         #expect(results.first == .min)
         #expect(!results.contains(.max))
+    }
+    
+    @Test func testCoerceRanges() async throws {
+        #expect(ClosedRange(100...).contains(100))
+        #expect(!ClosedRange(100...).contains(99))
+        
+        #expect(ClosedRange(...100).contains(100))
+        #expect(!ClosedRange(...100).contains(101))
+        
+        #expect(ClosedRange(..<100).contains(99))
+        #expect(!ClosedRange(..<100).contains(100))
+
+        #expect(ClosedRange(..<Int.max).contains(Int.min))
+        #expect(!ClosedRange(..<Int.max).contains(Int.max))
+        
+        #expect(ClosedRange(...Int.max).contains(Int.min))
+        #expect(ClosedRange(...Int.max).contains(Int.max))
+        
+        #expect(ClosedRange(Int.max...).contains(Int.max))
+        #expect(!ClosedRange(Int.max...).contains(Int.max - 1))
     }
 }
