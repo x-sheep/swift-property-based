@@ -9,35 +9,46 @@ public struct IntegralShrinkSequence<IntegerType: FixedWidthInteger>: Sequence, 
     public typealias Element = IntegerType
     
     @usableFromInline var current: IntegerType
-    @usableFromInline var leap: IntegerType = 1
+    @usableFromInline var leap: IntegerType
     
     @usableFromInline let isSubtracting: Bool
+    
+    /// The first value in the sequence.
+    @usableFromInline let first: IntegerType
+    /// Stop the sequence when reaching the end. Do not yield this value.
     @usableFromInline let end: IntegerType
     
-    @usableFromInline init(start: IntegerType, end: IntegerType) {
-        // TODO: this should actually run in the reverse direction.
-        self.current = start
-        isSubtracting = start > end
-        self.end = end
+    @usableFromInline init(from: IntegerType, bound: IntegerType) {
+        first = bound
+        current = bound
+        end = from
+        isSubtracting = bound > from
+        
+        let newLeap: (partialValue: IntegerType, overflow: Bool)
+        if isSubtracting {
+            newLeap = (bound / 2).subtractingReportingOverflow(from / 2)
+        } else {
+            newLeap = (from / 2).subtractingReportingOverflow(bound / 2)
+        }
+        leap = !newLeap.overflow ? newLeap.partialValue : .max / 2
     }
     
     public mutating func next() -> IntegerType? {
-        guard current != end else { return nil }
-        
-        let (newValue, overflow) = isSubtracting ? current.subtractingReportingOverflow(leap) : current.addingReportingOverflow(leap)
-        if overflow || (!isSubtracting && newValue > end) || (isSubtracting && newValue < end) {
-            current = end
-            return current
+        let hasReachedEnd = isSubtracting ? current <= end : current >= end
+        guard !hasReachedEnd, leap > 0 else {
+            return nil
         }
         
-        let newLeap = leap.multipliedReportingOverflow(by: 2)
-        if newLeap.overflow {
-            leap = .max
-        } else {
-            leap = newLeap.partialValue
+        defer {
+            if isSubtracting {
+                current -= leap
+            } else {
+                current += leap
+            }
         }
-        
-        current = newValue
+        if current != first {
+            leap /= 2
+        }
         return current
     }
 }
@@ -45,7 +56,7 @@ public struct IntegralShrinkSequence<IntegerType: FixedWidthInteger>: Sequence, 
 extension FixedWidthInteger {
     @inlinable
     public func shrink(towards bound: Self) -> IntegralShrinkSequence<Self> {
-        IntegralShrinkSequence(start: self, end: bound)
+        IntegralShrinkSequence(from: self, bound: bound)
     }
     
     @inlinable
