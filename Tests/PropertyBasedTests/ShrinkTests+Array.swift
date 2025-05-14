@@ -1,0 +1,73 @@
+//
+//  ShrinkTests+Array.swift
+//  PropertyBased
+//
+//  Created by Lennard Sprong on 14/05/2025.
+//
+
+import Testing
+import PropertyBased
+
+@Suite struct ShrinkArrayTests {
+    @Test func testRemoveItems() throws {
+        let input = [4, 10, 25]
+        
+        let seq = shrinkArray(input, shrinker: { _ in [] })
+        let actual = Array(seq)
+        
+        let expected = [
+            [10, 25],
+            [4, 25],
+            [4, 10],
+        ]
+        
+        try #require(actual == expected)
+    }
+    
+    @Test func testShrinkEmptyArray() {
+        let seq = shrinkArray([] as [Int], shrinker: { _ in [] })
+        #expect(Array(seq).isEmpty)
+    }
+    
+    @Test func testShrinkWithoutRemove() throws {
+        let input = [true, true, true]
+        
+        let seq = shrinkArray(input, shrinker: { _ in [false] }, lowerBound: 3)
+        let actual = Array(seq)
+        
+        let expected = [
+            [false, true, true],
+            [true, false, true],
+            [true, true, false],
+        ]
+        
+        try #require(actual == expected)
+    }
+    
+    @Test func testFullShrink() throws {
+        let input = [4, 10, 25]
+        
+        let seq = shrinkArray(input, shrinker: { $0.shrink(towards: 0) })
+        let actual = Array(seq)
+        
+        let expected = [
+            [10, 25],
+            [4, 25],
+            [4, 10],
+            [0, 10, 25],
+            [2, 10, 25],
+            [3, 10, 25],
+            [4, 0, 25],
+            [4, 5, 25],
+            [4, 7, 25],
+            [4, 8, 25],
+            [4, 10, 0],
+            [4, 10, 12],
+            [4, 10, 18],
+            [4, 10, 21],
+            [4, 10, 22]
+        ]
+        
+        print(actual == expected)
+    }
+}
