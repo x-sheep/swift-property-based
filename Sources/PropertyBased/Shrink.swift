@@ -6,3 +6,5 @@
 //
 
 public typealias Shrinker<T, Seq: Sequence<T>> = @Sendable (T) -> Seq
+
+@frozen public enum Shrink {}

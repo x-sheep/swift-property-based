@@ -12,7 +12,7 @@ import PropertyBased
     @Test func testRemoveItems() throws {
         let input = [4, 10, 25]
         
-        let seq = shrinkArray(input, shrinker: { _ in [] })
+        let seq = Shrink.shrinkArray(input, shrinker: { _ in [] })
         let actual = Array(seq)
         
         let expected = [
@@ -25,14 +25,14 @@ import PropertyBased
     }
     
     @Test func testShrinkEmptyArray() {
-        let seq = shrinkArray([] as [Int], shrinker: { _ in [] })
+        let seq = Shrink.shrinkArray([] as [Int], shrinker: { _ in [] })
         #expect(Array(seq).isEmpty)
     }
     
     @Test func testShrinkWithoutRemove() throws {
         let input = [true, true, true]
         
-        let seq = shrinkArray(input, shrinker: { _ in [false] }, lowerBound: 3)
+        let seq = Shrink.shrinkArray(input, shrinker: { _ in [false] }, lowerBound: 3)
         let actual = Array(seq)
         
         let expected = [
@@ -47,7 +47,7 @@ import PropertyBased
     @Test func testFullShrink() throws {
         let input = [4, 10, 25]
         
-        let seq = shrinkArray(input, shrinker: { $0.shrink(towards: 0) })
+        let seq = Shrink.shrinkArray(input, shrinker: { $0.shrink(towards: 0) })
         let actual = Array(seq)
         
         let expected = [

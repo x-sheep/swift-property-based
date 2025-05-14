@@ -20,7 +20,7 @@ public struct TupleShrinkSequence<Element>: Sequence {
     /// > Warning: This iterator is not copied by value.
     /// >
     /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot use an iterator more than once.
-    public class Iterator: IteratorProtocol {
+    public final class Iterator: IteratorProtocol {
         @usableFromInline init (nextFunc: @escaping () -> Element?) {
             self.nextFunc = nextFunc
         }
@@ -32,27 +32,29 @@ public struct TupleShrinkSequence<Element>: Sequence {
     }
 }
 
-public func shrink<each Iter: Sequence>(
-    old: (repeat (each Iter).Element),
-    sequences: repeat each Iter
-) -> TupleShrinkSequence<(repeat (each Iter).Element)> {
-    return TupleShrinkSequence {
-        var iters = (repeat (each sequences).makeIterator())
-        var hasMoreValues = true
-        
-        return .init {
-            // If the previous attempt to get a new value didn't produce anything, the sequence is exhausted.
-            guard hasMoreValues else { return nil }
+extension Shrink {
+    public static func shrinkTuple<each Iter: Sequence>(
+        old: (repeat (each Iter).Element),
+        sequences: repeat each Iter
+    ) -> TupleShrinkSequence<(repeat (each Iter).Element)> {
+        return TupleShrinkSequence {
+            var iters = (repeat (each sequences).makeIterator())
+            var hasMoreValues = true
             
-            // Pack iteration requires going over the entire tuple to make a new tuple.
-            // This flag is used to signal other iterators to skip their attempt to get a new value.
-            hasMoreValues = false
-            
-            let newValue = (repeat (each iters).vend(&hasMoreValues, each old))
-            
-            iters = (repeat (each newValue).iter)
-            
-            return hasMoreValues ? (repeat (each newValue).value) : nil
+            return .init {
+                // If the previous attempt to get a new value didn't produce anything, the sequence is exhausted.
+                guard hasMoreValues else { return nil }
+                
+                // Pack iteration requires going over the entire tuple to make a new tuple.
+                // This flag is used to signal other iterators to skip their attempt to get a new value.
+                hasMoreValues = false
+                
+                let newValue = (repeat (each iters).vend(&hasMoreValues, each old))
+                
+                iters = (repeat (each newValue).iter)
+                
+                return hasMoreValues ? (repeat (each newValue).value) : nil
+            }
         }
     }
 }
