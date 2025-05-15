@@ -47,6 +47,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
 }
 
 extension Trait where Self == FixedSeedTrait {
+#if canImport(Foundation)
     /// Override the seed used by all property checks within this Test.
     ///
     /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
@@ -58,7 +59,6 @@ extension Trait where Self == FixedSeedTrait {
     ///   - sourceLocation: The source location of the trait.
     ///
     /// - Returns: An instance of ``FixedSeedTrait``.
-#if canImport(Foundation)
     public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
         let rng = Xoshiro(seed: seed.description)
         return Self(rng, sourceLocation)
