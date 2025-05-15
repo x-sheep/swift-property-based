@@ -13,7 +13,7 @@
 public protocol SeededRandomNumberGenerator: RandomNumberGenerator, Hashable, Sendable {
     
     /// The type to use as the seed.
-    associatedtype Seed: Hashable & Codable
+    associatedtype Seed: Sendable
     
     /// The current seed of the generator.
     ///
@@ -25,7 +25,7 @@ public protocol SeededRandomNumberGenerator: RandomNumberGenerator, Hashable, Se
     ///
     /// If the seed is invalid or incomplete, this initializer returns `nil`.
     /// - Parameter seed: The seed to use.
-    init?(seed: String)
+    init?(seed: Seed)
     
     /// Create an instance of this generator with a seed provided by a high-quality random source.
     init()

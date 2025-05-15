@@ -6,7 +6,6 @@
 //
 
 import Gen
-import Foundation
 
 extension Xoshiro: @retroactive @unchecked Sendable {}
 extension Xoshiro: @retroactive Hashable {
@@ -21,6 +20,15 @@ extension Xoshiro: @retroactive Hashable {
         currentState.3.hash(into: &hasher)
     }
 }
+
+extension Xoshiro {
+    public init(seed: (UInt64, UInt64, UInt64, UInt64)) {
+        self.init(state: seed)
+    }
+}
+
+#if canImport(Foundation)
+import Foundation
 
 extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = String
@@ -43,4 +51,16 @@ extension Xoshiro: SeededRandomNumberGenerator {
         let data = bytes.withUnsafeBufferPointer { Data(buffer: $0) }
         return data.base64EncodedString()
     }
+    
+    var traitHint: String {
+        "(\"\(currentSeed)\")"
+    }
 }
+#else
+extension Xoshiro: SeededRandomNumberGenerator {
+    public typealias Seed = (UInt64, UInt64, UInt64, UInt64)
+    
+    public var currentSeed: Seed { currentState }
+    var traitHint: String { "\(currentState)" }
+}
+#endif

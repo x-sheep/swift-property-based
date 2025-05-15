@@ -93,7 +93,7 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         }
         
         if foundIssues > 0 {
-            let seed = rngCopy.currentSeed
+            let seed = rngCopy.traitHint
             
             var paramLabels: [String] = []
             for gen in repeat each input {
@@ -105,7 +105,7 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
             "Failure occured with inputs (\(paramLabels.joined(separator: ", ")))."
             
             if fixedRng == nil {
-                Issue.record("\(inputLabel)\n\nAdd `.fixedSeed(\"\(seed)\")` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
+                Issue.record("\(inputLabel)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
             } else {
                 Issue.record("\(inputLabel)", sourceLocation: sourceLocation)
             }

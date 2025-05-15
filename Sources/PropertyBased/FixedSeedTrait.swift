@@ -12,8 +12,8 @@ import Testing
 ///
 /// Use ``fixedSeed(_:sourceLocation:)`` to construct an instance of this trait.
 public struct FixedSeedTrait: TestTrait, TestScoping {
-    init(_ seed: String, _ sourceLocation: SourceLocation) {
-        rng = Xoshiro(seed: seed)
+    init(_ rng: Xoshiro?, _ sourceLocation: SourceLocation) {
+        self.rng = rng
         self.sourceLocation = sourceLocation
     }
     
@@ -58,7 +58,34 @@ extension Trait where Self == FixedSeedTrait {
     ///   - sourceLocation: The source location of the trait.
     ///
     /// - Returns: An instance of ``FixedSeedTrait``.
+#if canImport(Foundation)
     public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
-        return Self(seed.description, sourceLocation)
+        let rng = Xoshiro(seed: seed.description)
+        return Self(rng, sourceLocation)
+    }
+#else
+    @available(*, unavailable, message: "Base64-encoded seeds aren't supported on platforms without Foundation.\nUse the fixedSeed() overload that takes UInt64's instead.")
+    public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
+        fatalError("Base64 is not supported")
+    }
+#endif
+    
+    /// Override the seed used by all property checks within this Test.
+    ///
+    /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
+    ///
+    /// > Important: Do not commit usages of this trait into version control. Applying this trait will always report an issue regardless of the existence of any failures within the test.
+    ///
+    /// - Parameters:
+    ///   - s1: The first part of the seed to use.
+    ///   - s2: The second part of the seed.
+    ///   - s3: The third part of the seed.
+    ///   - s4: The fourth part of the seed.
+    ///   - sourceLocation: The source location of the trait.
+    ///
+    /// - Returns: An instance of ``FixedSeedTrait``.
+    public static func fixedSeed(_ s1: UInt64, _ s2: UInt64, _ s3: UInt64, _ s4: UInt64, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
+        let rng = Xoshiro(seed: (s1, s2, s3, s4))
+        return Self(rng, sourceLocation)
     }
 }
