@@ -9,6 +9,14 @@ Property-Based Testing can be used as an alternative for (or in addition to) tes
 
 This library uses [swift-gen by Point-Free](https://github.com/pointfreeco/swift-gen) for reproducible random generation.
 
+## Requirements
+
+* Swift 6.1 (or Xcode 16.3)
+* Any platform supported by Swift Testing
+  * macOS 10.15+
+  * iOS/tvOS 13.0+, watchOS 6.0+, visionOS 1.0+
+  * Linux, Windows, etc.
+
 ## Examples
 
 Simple example:
