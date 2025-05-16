@@ -10,9 +10,13 @@ extension Shrink {
     public struct ElementWiseShrinkSequence<Item, Input: MutableCollection<Item>, ShrinkSequence: Sequence<Item>>: Sequence {
         public typealias Element = Input
         
-        public let input: Input
+        @usableFromInline let input: Input
         @usableFromInline let itemShrink: Shrinker<Item, ShrinkSequence>
         
+        /// Construct a new sequence.
+        /// - Parameters:
+        ///   - input: The original collection.
+        ///   - itemShrink: The shrinker function to apply to each element of the collection.
         public init(_ input: Input, _ itemShrink: @escaping Shrinker<Item, ShrinkSequence>) {
             self.input = input
             self.itemShrink = itemShrink
