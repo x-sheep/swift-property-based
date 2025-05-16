@@ -5,7 +5,6 @@
 //  Created by Lennard Sprong on 04/05/2025.
 //
 
-import Gen
 import Testing
 
 /// A trait that overrides the seed used by all property checks within a Test.

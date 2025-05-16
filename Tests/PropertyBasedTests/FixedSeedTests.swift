@@ -7,7 +7,6 @@
 
 import Testing
 import PropertyBased
-import Gen
 
 @Suite struct FixedSeedTests {
     @Test func testInvalidSeed() async throws {

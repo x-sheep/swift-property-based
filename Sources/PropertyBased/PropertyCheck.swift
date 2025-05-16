@@ -5,7 +5,6 @@
 //  Created by Lennard Sprong on 03/05/2025.
 //
 
-import Gen
 import Testing
 
 /// Repeatedly calls the given function with randomized inputs to find a failing case.
