@@ -7,6 +7,8 @@
 
 import Testing
 
+#if false
+
 /// Repeatedly calls the given function with randomized inputs to find a failing case.
 ///
 /// Call this within a Test to generate inputs in a reproducible manner.
@@ -112,3 +114,4 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         }
     }
 }
+#endif

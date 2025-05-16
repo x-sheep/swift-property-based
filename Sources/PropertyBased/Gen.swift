@@ -2,13 +2,27 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 /// A composable, transformable context for generating random values.
-public struct Gen<Value>: Sendable {
+public struct Gen<Value, ShrinkSequence: Sequence>: Sendable where ShrinkSequence.Element == Value {
+    public typealias GenResult = (value: Value, shrink: Shrink.Shrinker<Value, ShrinkSequence>)
+    
     @usableFromInline
-    internal var _run: @Sendable (inout any SeededRandomNumberGenerator) -> sending Value
+    internal var _run: @Sendable (inout any SeededRandomNumberGenerator) -> sending GenResult
     
     @inlinable
-    public init(run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending Value) {
-        self._run = run
+    public init(
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending Value,
+        shrink: @escaping Shrink.Shrinker<Value, ShrinkSequence>,
+    ) {
+        self._run = { rng in
+            (run(&rng), shrink)
+        }
+    }
+    
+    @inlinable
+    public init(
+        runWithShrink: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending GenResult
+    ) {
+        self._run = runWithShrink
     }
     
     /// Returns a random value.
@@ -16,14 +30,25 @@ public struct Gen<Value>: Sendable {
     /// - Parameter rng: A random number generator.
     /// - Returns: A random value.
     @inlinable
-    public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending Value {
+    public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending GenResult {
         var arng: any SeededRandomNumberGenerator = rng
         defer { rng = arng as! G }
         return self._run(&arng)
     }
 }
 
-extension Gen where Value: Sendable {
+extension Gen where ShrinkSequence == Shrink.None<Value> {
+    @inlinable
+    public init(
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending Value
+    ) {
+        self._run = { rng in
+            (run(&rng), { _ in .init() })
+        }
+    }
+}
+
+extension Gen where Value: Sendable, ShrinkSequence == Shrink.None<Value> {
     /// Produces a generator that always returns the same, constant value.
     ///
     /// - Parameter value: A constant value.
@@ -34,14 +59,21 @@ extension Gen where Value: Sendable {
     }
 }
 
-extension Gen {
+extension Gen where Value: Sendable {
     /// Transforms a generator of `Value`s into a generator of `NewValue`s by applying a transformation.
     ///
     /// - Parameter transform: A function that transforms `Value`s into `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func map<NewValue: Sendable>(_ transform: @Sendable @escaping (Value) -> NewValue) -> Gen<NewValue> {
-        return Gen<NewValue> { rng in transform(self._run(&rng)) }
+    public func map<NewValue>(_ transform: @Sendable @escaping (Value) -> NewValue) -> Gen<NewValue, some Sequence<NewValue>> {
+        return .init(
+            runWithShrink: { rng in
+                let (value, shrink) = self._run(&rng)
+                return (transform(value), { _ in
+                    shrink(value).lazy.map(transform)
+                })
+            }
+        )
     }
 }
 
@@ -51,12 +83,12 @@ extension Gen {
 ///   - a: A generator of `A`s.
 ///   - b: A generator of `B`s.
 /// - Returns: A generator of `(A, B)` pairs.
-@inlinable
-public func zip<A, B>(_ a: Gen<A>, _ b: Gen<B>) -> Gen<(A, B)> {
-    return Gen<(A, B)> { rng in
-        (a._run(&rng), b._run(&rng))
-    }
-}
+//@inlinable
+//public func zip<A, B>(_ a: Gen<A>, _ b: Gen<B>) -> Gen<(A, B)> {
+//    return Gen<(A, B)> { rng in
+//        (a._run(&rng), b._run(&rng))
+//    }
+//}
 
 extension Gen {
     /// Transforms a generator of `Value`s into a generator of `NewValue`s by transforming a value into a generator of `NewValue`s.
@@ -64,22 +96,29 @@ extension Gen {
     /// - Parameter transform: A function that transforms `Value`s into a generator of `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func flatMap<NewValue>(_ transform: @Sendable @escaping (Value) -> Gen<NewValue>) -> Gen<NewValue> {
-        return Gen<NewValue> { rng in
-            transform(self._run(&rng))._run(&rng)
-        }
+    public func flatMap<NewValue, NewShrinkSequence: Sequence<NewValue>>(_ transform: @Sendable @escaping (Value, @escaping Shrink.Shrinker<Value, ShrinkSequence>) -> Gen<NewValue, NewShrinkSequence>) -> Gen<NewValue, NewShrinkSequence> {
+        return .init(runWithShrink: { rng in
+            let (value, shrink) = self._run(&rng)
+            return transform(value, shrink)._run(&rng)
+        })
     }
+}
+
+extension Gen where Value: Sendable {
     
     /// Returns a generator of the non-nil results of calling the given transformation with a value of the generator.
     ///
     /// - Parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
     /// - Returns: A generator of the non-nil results of calling the given transformation with a value of the generator.
     @inlinable
-    public func compactMap<NewValue>(_ transform: @Sendable @escaping (Value) -> NewValue?) -> Gen<NewValue> {
-        return Gen<NewValue> { rng in
+    public func compactMap<NewValue>(_ transform: @Sendable @escaping (Value) -> NewValue?) -> Gen<NewValue, some Sequence<NewValue>> {
+        return .init { rng in
             while true {
-                if let value = transform(self._run(&rng)) {
-                    return value
+                let (value, shrink) = self._run(&rng)
+                if let newValue = transform(value) {
+                    return (newValue, { _ in
+                        shrink(value).lazy.compactMap(transform)
+                    })
                 }
             }
         }
@@ -90,7 +129,7 @@ extension Gen {
     /// - Parameter predicate: A predicate.
     /// - Returns: A generator of values that match the predicate.
     @inlinable
-    public func filter(_ predicate: @Sendable @escaping (Value) -> Bool) -> Gen<Value> {
+    public func filter(_ predicate: @Sendable @escaping (Value) -> Bool) -> Gen<Value, some Sequence<Value>> {
         return self.compactMap { predicate($0) ? $0 : nil }
     }
     
@@ -107,16 +146,18 @@ extension Gen {
         
         let generators = distribution.flatMap { Array(repeating: $1, count: $0) }
         return Gen { rng in
-            Gen<Int>.int(in: 0...generators.count - 1)
-                .flatMap { idx in generators[idx] }
-                .run(using: &rng)
+            let gen = generators.randomElement(using: &rng)!
+            return gen.run(using: &rng)
         }
     }
 }
 
-extension Gen where Value == Bool {
+extension Gen where Value == Bool, ShrinkSequence == Repeated<Bool> {
     /// A generator of random boolean values.
-    public static let bool = Gen { rng in Bool.random(using: &rng) }
+    public static let bool = Gen(
+        run: { rng in Bool.random(using: &rng) },
+        shrink: { wasTrue in repeatElement(false, count: wasTrue ? 1 : 0) }
+    )
 }
 
 extension Gen {
@@ -124,26 +165,26 @@ extension Gen {
     ///
     /// - Returns: A generator of optional values.
     @inlinable
-    public var optional: Gen<Value?> {
-        let parent = self
-        return flatMap { rng in
-            Gen<Value?> { rng in
-                if Int.random(in: 0..<4) == 0 {
-                    return nil
-                }
-                return parent._run(&rng)
-            }
+    public var optional: Gen<Value?, Shrink.OptionalShrinkSequence<ShrinkSequence>> {
+        return flatMap { value, shrink in
+                .init(runWithShrink: { rng in
+                    if Int.random(in: 0..<4) == 0 {
+                        return (nil as Value?, { _ in Shrink.OptionalShrinkSequence(nil) })
+                    }
+                    let (value, shrink) = self._run(&rng)
+                    return (value, { Shrink.OptionalShrinkSequence(shrink($0!)) })
+                })
         }
     }
     
     /// Produces a new generator of failable values.
     ///
     /// - Returns: A generator of failable values.
-    @inlinable
-    public func asResult<Failure>(withFailure gen: Gen<Failure>) -> Gen<Result<Value, Failure>> where Value: Sendable {
-        return Gen<Result<Value, Failure>>.frequency(
-            (1, gen.map(Result.failure)),
-            (3, self.map(Result.success))
-        )
-    }
+//    @inlinable
+//    public func asResult<Failure>(withFailure gen: Gen<Failure, any Sequence<Failure>>) -> Gen<Result<Value, Failure>, any Sequence> where Value: Sendable {
+//        return Gen<Result<Value, Failure>>.frequency(
+//            (1, gen.map(Result.failure)),
+//            (3, self.map(Result.success))
+//        )
+//    }
 }
