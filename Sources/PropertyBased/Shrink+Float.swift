@@ -75,7 +75,6 @@ extension FloatingPoint {
     /// If this value is NaN, the sequence is empty.
     /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
     /// - Returns: A new sequence.
-    @inlinable
     public func shrink(within range: ClosedRange<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
         if range.lowerBound > 0 {
             shrink(towards: range.lowerBound)

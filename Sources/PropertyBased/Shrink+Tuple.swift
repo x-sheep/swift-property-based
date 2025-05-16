@@ -6,6 +6,9 @@
 //
 
 extension Shrink {
+    /// A sequence of tuple where a single element of the tuple is shrunk at a time.
+    ///
+    /// See ``/PropertyBased/Shrink/shrinkTuple(_:shrinkers:)`` to construct an instance of this type.
     public struct TupleShrinkSequence<Element>: Sequence {
         // Variadic types aren't supported on all platforms, so this struct erases the packed parameters by only holding on to a closure.
         
@@ -14,13 +17,16 @@ extension Shrink {
         }
         let iteratorFunc: () -> Iterator
         
+        /// > Warning: The result of this function is not copyable by value.
+        /// >
+        /// > While you can call this function multiple times, you cannot clone an iterator.
         public func makeIterator() -> Iterator {
             return iteratorFunc()
         }
         
         /// > Warning: This iterator is not copied by value.
         /// >
-        /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot use an iterator more than once.
+        /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot clone an iterator.
         public final class Iterator: IteratorProtocol {
             @usableFromInline init (nextFunc: @escaping () -> Element?) {
                 self.nextFunc = nextFunc
@@ -32,13 +38,18 @@ extension Shrink {
             }
         }
     }
-
+    
+    /// Return a sequence of collections that each have one element shrunk from the given tuple.
+    /// - Parameters:
+    ///   - tuple: The tuple to shrink.
+    ///   - shrinkers: A list of shrinkers, which will be used for each position in the tuple. The length of this parameter must match the length of the tuple.
+    /// - Returns: A sequence of tuples.
     public static func shrinkTuple<each Iter: Sequence>(
-        old: (repeat (each Iter).Element),
-        sequences: repeat each Iter
+        _ tuple: (repeat (each Iter).Element),
+        shrinkers: repeat each Iter
     ) -> TupleShrinkSequence<(repeat (each Iter).Element)> {
         return TupleShrinkSequence {
-            var iters = (repeat (each sequences).makeIterator())
+            var iters = (repeat (each shrinkers).makeIterator())
             var hasMoreValues = true
             
             return .init {
@@ -49,7 +60,7 @@ extension Shrink {
                 // This flag is used to signal other iterators to skip their attempt to get a new value.
                 hasMoreValues = false
                 
-                let newValue = (repeat (each iters).vend(&hasMoreValues, each old))
+                let newValue = (repeat (each iters).vend(&hasMoreValues, each tuple))
                 
                 iters = (repeat (each newValue).iter)
                 

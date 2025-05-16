@@ -16,7 +16,7 @@ import PropertyBased
         let shrink2 = ["a", "b", "c"]
         let shrink3 = [false]
         
-        let seq = Shrink.shrinkTuple(old: input, sequences: shrink1, shrink2, shrink3)
+        let seq = Shrink.shrinkTuple(input, shrinkers: shrink1, shrink2, shrink3)
         let actual = Array(seq)
         
         try #require(actual.count == 7)

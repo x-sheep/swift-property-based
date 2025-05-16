@@ -6,11 +6,18 @@
 //
 
 extension Shrink {
+    /// Appends two sequences. The sequences can have different types, as long as the elements have the same type.
     public struct AppendedSequence<Element, First: Sequence<Element>, Second: Sequence<Element>> : Sequence {
         public let first: First?
         public let second: Second?
         
-        public init (first: First?, second: Second?) {
+        /// Create a sequence by appending two sequences.
+        ///
+        /// A `nil` parameter is treated as an empty sequence.
+        /// - Parameters:
+        ///   - first: The first sequence.
+        ///   - second: The second sequence.
+        @inlinable public init(first: First?, second: Second?) {
             self.first = first
             self.second = second
         }
@@ -37,6 +44,9 @@ extension Shrink {
 }
 
 extension Sequence {
+    /// Append a sequence to this sequence.
+    /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
+    /// - Returns: A new sequence.
     @inlinable
     public func append<Other: Sequence<Element>>(_ other: Other?) -> Shrink.AppendedSequence<Element, Self, Other> {
         Shrink.AppendedSequence(first: self, second: other)
@@ -44,12 +54,15 @@ extension Sequence {
 }
 
 extension Optional where Wrapped: Sequence {
+    /// Append a sequence to this sequence. If this sequence is nil, the other sequence is returned.
+    /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
+    /// - Returns: A new sequence.
     @inlinable
     public func append<Other: Sequence<Wrapped.Element>>(_ other: Other?) -> Shrink.AppendedSequence<Wrapped.Element, Wrapped, Other> {
         Shrink.AppendedSequence(first: self, second: other)
     }
     
-    public func orEmpty() -> some Sequence<Wrapped.Element> {
-        Shrink.AppendedSequence(first: self, second: EmptyCollection())
+    @inlinable func orEmpty() -> some Sequence<Wrapped.Element> {
+        Shrink.AppendedSequence(first: self, second: nil as Shrink.None?)
     }
 }

@@ -12,8 +12,9 @@ extension Shrink {
         
         @usableFromInline let sequence: S?
         
-        @usableFromInline
-        init(_ sequence: S?) {
+        /// Construct a new sequence.
+        /// - Parameter sequence: The sequence to map. If this parameter is `nil`, the resulting sequence is empty.
+        public init(_ sequence: S?) {
             self.sequence = sequence
         }
         

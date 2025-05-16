@@ -6,6 +6,9 @@
 //
 
 extension ClosedRange where Bound: FixedWidthInteger {
+    /// Coerce any range to a ClosedRange.
+    ///
+    /// If the range doesn't have a lower or upper bound, `Bound.min` and `Bound.max` are used respectively.
     @usableFromInline init(_ range: some RangeExpression<Bound>) {
         if !range.contains(Bound.max) {
             self = .init(range.relative(to: .min ..< .max))
