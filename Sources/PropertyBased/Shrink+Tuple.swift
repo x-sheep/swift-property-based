@@ -5,34 +5,34 @@
 //  Created by Lennard Sprong on 11/05/2025.
 //
 
-public struct TupleShrinkSequence<Element>: Sequence {
-    // Variadic types aren't supported on all platforms, so this struct erases the packed parameters by only holding on to a closure.
-    
-    @usableFromInline init(_ iteratorFunc: @escaping () -> Iterator) {
-        self.iteratorFunc = iteratorFunc
-    }
-    let iteratorFunc: () -> Iterator
-    
-    public func makeIterator() -> Iterator {
-        return iteratorFunc()
-    }
-    
-    /// > Warning: This iterator is not copied by value.
-    /// >
-    /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot use an iterator more than once.
-    public final class Iterator: IteratorProtocol {
-        @usableFromInline init (nextFunc: @escaping () -> Element?) {
-            self.nextFunc = nextFunc
-        }
-        let nextFunc: () -> Element?
-        
-        public func next() -> Element? {
-            return nextFunc()
-        }
-    }
-}
-
 extension Shrink {
+    public struct TupleShrinkSequence<Element>: Sequence {
+        // Variadic types aren't supported on all platforms, so this struct erases the packed parameters by only holding on to a closure.
+        
+        @usableFromInline init(_ iteratorFunc: @escaping () -> Iterator) {
+            self.iteratorFunc = iteratorFunc
+        }
+        let iteratorFunc: () -> Iterator
+        
+        public func makeIterator() -> Iterator {
+            return iteratorFunc()
+        }
+        
+        /// > Warning: This iterator is not copied by value.
+        /// >
+        /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot use an iterator more than once.
+        public final class Iterator: IteratorProtocol {
+            @usableFromInline init (nextFunc: @escaping () -> Element?) {
+                self.nextFunc = nextFunc
+            }
+            let nextFunc: () -> Element?
+            
+            public func next() -> Element? {
+                return nextFunc()
+            }
+        }
+    }
+
     public static func shrinkTuple<each Iter: Sequence>(
         old: (repeat (each Iter).Element),
         sequences: repeat each Iter
@@ -76,6 +76,6 @@ extension IteratorProtocol {
 }
 
 @available(*, unavailable)
-extension TupleShrinkSequence: Sendable {}
+extension Shrink.TupleShrinkSequence: Sendable {}
 @available(*, unavailable)
-extension TupleShrinkSequence.Iterator: Sendable {}
+extension Shrink.TupleShrinkSequence.Iterator: Sendable {}
