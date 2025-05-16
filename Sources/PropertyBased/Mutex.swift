@@ -9,7 +9,7 @@
 import Darwin
 
 /// A back-ported version of Mutex from the Synchronization library.
-class Mutex<Value: ~Copyable>: @unchecked Sendable {
+final class Mutex<Value: ~Copyable>: @unchecked Sendable {
     private nonisolated(unsafe) var _value: Value
     private nonisolated(unsafe) var lock = os_unfair_lock()
     
