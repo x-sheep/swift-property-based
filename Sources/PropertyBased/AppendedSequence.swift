@@ -48,4 +48,8 @@ extension Optional where Wrapped: Sequence {
     public func append<Other: Sequence<Wrapped.Element>>(_ other: Other?) -> Shrink.AppendedSequence<Wrapped.Element, Wrapped, Other> {
         Shrink.AppendedSequence(first: self, second: other)
     }
+    
+    public func orEmpty() -> some Sequence<Wrapped.Element> {
+        Shrink.AppendedSequence(first: self, second: EmptyCollection())
+    }
 }
