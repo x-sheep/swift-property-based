@@ -29,13 +29,13 @@ import Testing
     
     @Test func testCountParameter() async {
         await confirmation(expectedCount: 12) { confirm in
-            await propertyCheck(count: 12) {
+            await propertyCheck(count: 12, input: Gen.bool) { _ in
                 confirm()
             }
         }
         
         await confirmation(expectedCount: 7) { confirm in
-            await propertyCheck(count: 7) {
+            await propertyCheck(count: 7, input: Gen.bool) { _ in
                 confirm()
             }
         }

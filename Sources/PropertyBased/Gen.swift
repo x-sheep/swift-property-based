@@ -96,22 +96,6 @@ extension Gen where Value: Sendable {
     }
 }
 
-/// Combines two generators into a single one.
-///
-/// - Parameters:
-///   - a: A generator of `A`s.
-///   - b: A generator of `B`s.
-/// - Returns: A generator of `(A, B)` pairs.
-@inlinable
-public func zip<A, B>(_ a: Gen<A, some Sequence<A>>, _ b: Gen<B, some Sequence<B>>) -> Gen<(A, B), Shrink.TupleShrinkSequence<(A, B)>> {
-    return .init(runWithShrink: { rng in
-        let p1 = a._run(&rng)
-        let p2 = b.run(using: &rng)
-        let values = (p1.value, p2.value)
-        
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: p1.shrink, p2.shrink))
-    })
-}
 
 extension Gen {
     /// Transforms a generator of `Value`s into a generator of `NewValue`s by transforming a value into a generator of `NewValue`s.

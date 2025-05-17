@@ -7,8 +7,6 @@
 
 import Testing
 
-#if false
-
 /// Repeatedly calls the given function with randomized inputs to find a failing case.
 ///
 /// Call this within a Test to generate inputs in a reproducible manner.
@@ -74,7 +72,13 @@ import Testing
 ///   - input: One or more generators to invoke. The result of each generator is passed to `body` as an input.
 ///   - body: The function to invoke repeatedly.
 ///   - sourceLocation: The source location to which any recorded issues should be attributed.
-public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolation, count: Int = 100, input: repeat Gen<each Value>, perform body: (repeat each Value) async throws -> Void, sourceLocation: SourceLocation = #_sourceLocation) async {
+public func propertyCheck<Value>(
+    count: Int = 100,
+    input: Gen<Value, some Sequence<Value>>,
+    perform body: (Value) async throws -> Void,
+    isolation: isolated (any Actor)? = #isolation,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async {
     
     precondition(Test.Case.current != nil, "This function must be called from within a Test.")
     precondition(count >= 0, "count must be a non-negative number")
@@ -89,21 +93,18 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         var rng = fixedRng?.rng ?? Xoshiro()
         var rngCopy = rng
         
+        let (inputValue, shrink) = input.run(using: &rng)
+        
         let foundIssues = await countIssues(isolation: isolation) {
-            try await body(repeat (each input).run(using: &rng))
+            try await body(inputValue)
         }
         
         if foundIssues > 0 {
             let seed = rngCopy.traitHint
             
-            var paramLabels: [String] = []
-            for gen in repeat each input {
-                paramLabels.append(String(describingForTest: gen.run(using: &rngCopy)))
-            }
+            let paramLabel = String(describingForTest: inputValue)
             
-            let inputLabel = paramLabels.count == 1 ?
-            "Failure occured with input \(paramLabels.first!)." :
-            "Failure occured with inputs (\(paramLabels.joined(separator: ", ")))."
+            let inputLabel = "Failure occured with input \(paramLabel)."
             
             if fixedRng == nil {
                 Issue.record("\(inputLabel)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
@@ -114,4 +115,3 @@ public func propertyCheck<each Value>(isolation: isolated (any Actor)? = #isolat
         }
     }
 }
-#endif
