@@ -1,0 +1,44 @@
+// Auto-generated from Zip.swift.gyb
+
+// Yes, I very much would like to use Swift's parameter packing here,
+// but there is currently a compiler crash when trying to evaluate the `Gen` type,
+// which needs to read from the Value type pack twice. There is also no way to work around it
+// by only packing the Sequence type, since same-type constraints are not currently supported by Swift.
+//
+// These functions will all be removed as soon as it can be fully expressed using a parameter pack.
+
+% for size in range(2, 27):
+%  tupleType = ', '.join([chr(n + 65) for n in range(size)])
+/// Combines multiple generators into a single one.
+///
+/// - Parameters:
+%  for n in range(size):
+///   - p${n}: A generator of `${chr(n + 65)}`s.
+%  end
+/// - Returns: A generator of tuples.
+%  if size != 2:
+@_documentation(visibility: private)
+%  end
+@inlinable
+public func zip<${tupleType}>(
+%  for n in range(size):
+%   t = chr(n + 65)
+    _ p${n}: Gen<${t}, some Sequence<${t}>>, 
+%  end
+) -> Gen<
+    (${tupleType}),
+    Shrink.TupleShrinkSequence<(${tupleType})>
+> {
+    return .init(runWithShrink: { rng in
+%  for n in range(size):
+        let (v${n}, s${n}) = p${n}._run(&rng)
+%  end
+        let values = (
+            ${', '.join([f"v{n}" for n in range(size)])}
+        )
+        
+        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: ${', '.join([f"s{n}" for n in range(size)])}))
+    })
+}
+
+% end
