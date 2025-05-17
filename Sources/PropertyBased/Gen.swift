@@ -84,6 +84,16 @@ extension Gen where Value: Sendable {
             }
         )
     }
+    
+    @inlinable
+    public func mapWithShrink<NewValue, NewSequence: Sequence<NewValue>>(_ transform: @Sendable @escaping (Value, ShrinkSequence) -> (NewValue, NewSequence)) -> Gen<NewValue, NewSequence> {
+        return .init(
+            runWithShrink: { rng in
+                let (value, shrink) = self._run(&rng)
+                return transform(value, shrink)
+            }
+        )
+    }
 }
 
 /// Combines two generators into a single one.
@@ -187,11 +197,22 @@ extension Gen {
     /// Produces a new generator of failable values.
     ///
     /// - Returns: A generator of failable values.
-//    @inlinable
-//    public func asResult<Failure>(withFailure gen: Gen<Failure, any Sequence<Failure>>) -> Gen<Result<Value, Failure>, any Sequence> where Value: Sendable {
-//        return Gen<Result<Value, Failure>>.frequency(
-//            (1, gen.map(Result.failure)),
-//            (3, self.map(Result.success))
-//        )
-//    }
+    @inlinable
+    public func asResult<
+        Failure: Error,
+        FailSeq: Sequence<Failure>
+    >(withFailure gen: Gen<Failure, FailSeq>) -> Gen<Result<Value, Failure>, AnySequence<Result<Value, Failure>>> where Value: Sendable {
+        return Gen<Result<Value, Failure>, AnySequence<Result<Value, Failure>>>.frequency(
+            (1, gen.map(Result.failure).eraseToAnySequence()),
+            (3, self.map(Result.success).eraseToAnySequence())
+        )
+    }
+}
+
+extension Gen where Value: Sendable {
+    @inlinable public func eraseToAnySequence() -> Gen<Value, AnySequence<Value>> {
+        mapWithShrink { value, shrink in
+            (value, AnySequence(shrink))
+        }
+    }
 }
