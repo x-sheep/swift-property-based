@@ -2,8 +2,18 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 /// A composable, transformable context for generating random values.
+///
+/// A shrinking sequence must contain values that are closer than the input value to a specific bound. This bound should be the same for every call to this function, but it doesn't need to use the same ordering used by the `Comparable` protocol. For example: An integer that represents a year could be shrunk by moving it closer to the current year, instead of closer to zero.
+///
+/// When the property checker finds a failing input for a specific check, it will use a shrinking sequence to find another failing input. It will stop iterating the sequence as soon as a value is found that also causes a check failure. The Shrinker function is then called again with the lower input to get another sequence.
+///
+/// > Tip: For optimal performance, it's recommended that a shrinking sequence orders the values from most shrunk to least shrunk.
+///
+/// > Important: The sequence must _not_ contain the input value, or return any value that is further away from the bound than the input. The property checker may cause an infinite loop if this happens.
+/// >
+/// > An infinite loop can also happen if the bound changes between calls to the same Shrinker function, e.g. it contains an uncached read of the current system time.
 public struct Gen<Value, ShrinkSequence: Sequence>: Sendable where ShrinkSequence.Element == Value {
-    public typealias GenResult = (value: Value, shrink: Shrink.Shrinker<Value, ShrinkSequence>)
+    public typealias GenResult = (value: Value, shrink: ShrinkSequence)
     
     @usableFromInline
     internal var _run: @Sendable (inout any SeededRandomNumberGenerator) -> sending GenResult
@@ -11,10 +21,11 @@ public struct Gen<Value, ShrinkSequence: Sequence>: Sendable where ShrinkSequenc
     @inlinable
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending Value,
-        shrink: @escaping Shrink.Shrinker<Value, ShrinkSequence>,
+        shrink: @Sendable @escaping (Value) -> sending ShrinkSequence,
     ) {
         self._run = { rng in
-            (run(&rng), shrink)
+            let value = run(&rng)
+            return (value, shrink(value))
         }
     }
     
@@ -43,7 +54,7 @@ extension Gen where ShrinkSequence == Shrink.None<Value> {
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending Value
     ) {
         self._run = { rng in
-            (run(&rng), { _ in .init() })
+            (run(&rng), .init())
         }
     }
 }
@@ -69,9 +80,7 @@ extension Gen where Value: Sendable {
         return .init(
             runWithShrink: { rng in
                 let (value, shrink) = self._run(&rng)
-                return (transform(value), { _ in
-                    shrink(value).lazy.map(transform)
-                })
+                return (transform(value), shrink.lazy.map(transform))
             }
         )
     }
@@ -96,7 +105,7 @@ extension Gen {
     /// - Parameter transform: A function that transforms `Value`s into a generator of `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func flatMap<NewValue, NewShrinkSequence: Sequence<NewValue>>(_ transform: @Sendable @escaping (Value, @escaping Shrink.Shrinker<Value, ShrinkSequence>) -> Gen<NewValue, NewShrinkSequence>) -> Gen<NewValue, NewShrinkSequence> {
+    public func flatMap<NewValue, NewShrinkSequence: Sequence<NewValue>>(_ transform: @Sendable @escaping (Value, ShrinkSequence) -> Gen<NewValue, NewShrinkSequence>) -> Gen<NewValue, NewShrinkSequence> {
         return .init(runWithShrink: { rng in
             let (value, shrink) = self._run(&rng)
             return transform(value, shrink)._run(&rng)
@@ -116,9 +125,7 @@ extension Gen where Value: Sendable {
             while true {
                 let (value, shrink) = self._run(&rng)
                 if let newValue = transform(value) {
-                    return (newValue, { _ in
-                        shrink(value).lazy.compactMap(transform)
-                    })
+                    return (newValue, shrink.lazy.compactMap(transform))
                 }
             }
         }
@@ -169,10 +176,10 @@ extension Gen {
         return flatMap { value, shrink in
                 .init(runWithShrink: { rng in
                     if Int.random(in: 0..<4) == 0 {
-                        return (nil as Value?, { _ in Shrink.OptionalShrinkSequence(nil) })
+                        return (nil as Value?, Shrink.OptionalShrinkSequence(nil))
                     }
                     let (value, shrink) = self._run(&rng)
-                    return (value, { Shrink.OptionalShrinkSequence(shrink($0!)) })
+                    return (value, Shrink.OptionalShrinkSequence(shrink))
                 })
         }
     }

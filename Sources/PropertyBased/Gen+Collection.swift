@@ -52,7 +52,7 @@ extension Gen {
         return count.flatMap { count, _ in
             return .init { rng in
                 var collection = C()
-                var shrinkers: [Shrink.Shrinker<Value, ShrinkSequence>] = []
+                var shrinkers: [ShrinkSequence] = []
                 
                 guard count > 0 else { return collection }
                 collection.reserveCapacity(count)
@@ -89,7 +89,7 @@ extension Gen {
                     let (k, v) = self._run(&rng).value
                     dictionary[k] = v
                 }
-                return (dictionary, { Shrink.omitSingleElement(from: $0) })
+                return (dictionary, Shrink.omitSingleElement(from: dictionary))
             }
         }
     }
