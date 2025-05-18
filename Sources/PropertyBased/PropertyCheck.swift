@@ -72,10 +72,10 @@ import Testing
 ///   - input: One or more generators to invoke. The result of each generator is passed to `body` as an input.
 ///   - body: The function to invoke repeatedly.
 ///   - sourceLocation: The source location to which any recorded issues should be attributed.
-public func propertyCheck<Value>(
+public func propertyCheck<InputValue, ResultValue>(
     count: Int = 100,
-    input: Generator<Value, some Sequence<Value>>,
-    perform body: (Value) async throws -> Void,
+    input: Generator<InputValue, some Sequence<InputValue>, ResultValue>,
+    perform body: (ResultValue) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
@@ -93,10 +93,10 @@ public func propertyCheck<Value>(
         var rng = fixedRng?.rng ?? Xoshiro()
         var rngCopy = rng
         
-        let (inputValue, shrink) = input.run(using: &rng)
+        let ((inputValue, shrink), resultValue) = input.run(using: &rng)
         
         let foundIssues = await countIssues(isolation: isolation) {
-            try await body(inputValue)
+            try await body(resultValue)
         }
         
         if foundIssues > 0 {

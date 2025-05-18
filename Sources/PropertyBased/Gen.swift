@@ -14,7 +14,7 @@ extension Gen where Value: Sendable {
     /// - Parameter value: A constant value.
     /// - Returns: A generator of a constant value.
     @inlinable
-    public static func always(_ value: Value) -> Generator<Value, Shrink.None<Value>> {
+    public static func always(_ value: Value) -> Generator<Value, Shrink.None<Value>, Value> {
         return Generator { _ in value }
     }
 }
