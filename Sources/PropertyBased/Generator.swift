@@ -173,17 +173,16 @@ extension Generator {
     /// Produces a new generator of failable values.
     ///
     /// - Returns: A generator of failable values.
-//    @inlinable
-//    public func asResult<
-//        Failure: Error,
-//        FailSeq: Sequence<Failure>,
-//        FailResult: Error,
-//    >(withFailure gen: Generator<Failure, FailSeq, FailResult>) -> Generator<Result<InputValue, Failure>, AnySequence<Result<InputValue, Failure>>, Result<ResultValue, Failure>> where InputValue: Sendable {
-//        return Gen<Result<Value, Failure>>.frequency(
-//            (1, gen.map(Result.failure).eraseToAnySequence()),
-//            (3, self.map(Result.success).eraseToAnySequence())
-//        )
-//    }
+    @inlinable
+    public func asResult<
+        InFailure,
+        FailSeq: Sequence<InFailure>,
+        FailResult: Error,
+    >(withFailure gen: Generator<InFailure, FailSeq, FailResult>) -> Generator<(InputValue, InFailure, Int), some Sequence<(InputValue, InFailure, Int)>, Result<ResultValue, FailResult>> where InputValue: Sendable {
+        return zip(self, gen, Gen.int(in: 0..<4).withoutShrink).map { success, failure, chance in
+            chance > 0 ? .success(success) : .failure(failure)
+        }
+    }
 }
 
 extension Generator {
