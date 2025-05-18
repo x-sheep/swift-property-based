@@ -41,6 +41,21 @@ public struct Generator<InputValue, ShrinkSequence: Sequence, ResultValue>: Send
     }
 }
 
+extension Generator {
+    public var withoutShrink: Generator<InputValue, Shrink.None<InputValue>, ResultValue> {
+        .init(runWithShrink: { rng in
+            (self._run(&rng).value, { _ in .init() })
+        }, finalResult: self._finalResult)
+    }
+}
+
+extension Generator where ShrinkSequence == Shrink.None<InputValue> {
+    @available(*, deprecated, message: "This generator already has no shrinker.")
+    public var withoutShrink: Generator<InputValue, Shrink.None<InputValue>, ResultValue> {
+        self
+    }
+}
+
 extension Generator where InputValue == ResultValue {
     @inlinable
     public init(
