@@ -46,10 +46,10 @@ extension Shrink {
     /// - Returns: A sequence of tuples.
     public static func shrinkTuple<each Iter: Sequence>(
         _ tuple: (repeat (each Iter).Element),
-        shrinkers: repeat each Iter
+        shrinkers: repeat @escaping ((each Iter).Element) -> each Iter
     ) -> TupleShrinkSequence<(repeat (each Iter).Element)> {
         return TupleShrinkSequence {
-            var iters = (repeat (each shrinkers).makeIterator())
+            var iters = (repeat (each shrinkers)(each tuple).makeIterator())
             var hasMoreValues = true
             
             return .init {

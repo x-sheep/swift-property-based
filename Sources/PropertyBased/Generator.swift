@@ -14,7 +14,7 @@
 /// > An infinite loop can also happen if the bound changes between calls to the same Shrinker function, e.g. it contains an uncached read of the current system time.
 public struct Generator<InputValue, ShrinkSequence: Sequence, ResultValue>: Sendable where ShrinkSequence.Element == InputValue {
     @usableFromInline
-    internal typealias GenResult = (value: InputValue, shrink: ShrinkSequence)
+    internal typealias GenResult = (value: InputValue, shrink: (InputValue) -> ShrinkSequence)
     
     @usableFromInline
     internal var _run: @Sendable (inout any SeededRandomNumberGenerator) -> sending GenResult
@@ -49,7 +49,7 @@ extension Generator where InputValue == ResultValue {
     ) {
         self._run = { rng in
             let value = run(&rng)
-            return (value, shrink(value))
+            return (value, { shrink($0) })
         }
         self._finalResult = { $0 }
     }
@@ -80,7 +80,7 @@ extension Generator where ShrinkSequence == Shrink.None<InputValue>, InputValue 
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue
     ) {
         self._run = { rng in
-            (run(&rng), .init())
+            (run(&rng), { _ in .init() })
         }
         self._finalResult = { $0 }
     }
@@ -137,10 +137,16 @@ extension Generator {
     public var optional: Generator<InputValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>, ResultValue?> {
         return .init(runWithShrink: { rng in
             if Int.random(in: 0..<4) == 0 {
-                return (nil as InputValue?, Shrink.OptionalShrinkSequence(nil))
+                return (nil as InputValue?, { _ in Shrink.OptionalShrinkSequence(nil) })
             }
             let (value, shrink) = self._run(&rng)
-            return (value, Shrink.OptionalShrinkSequence(shrink))
+            return (value, {
+                if let some = $0 {
+                    Shrink.OptionalShrinkSequence(shrink(some))
+                } else {
+                    Shrink.OptionalShrinkSequence(nil)
+                }
+            })
         }, finalResult: {
             if let some = $0 {
                 return self._finalResult(some)
@@ -170,7 +176,7 @@ extension Generator {
         return .init(
             runWithShrink: { rng in
                 let (value, shrink) = self._run(&rng)
-                return (value, AnySequence(shrink))
+                return (value, { AnySequence(shrink($0)) })
             },
             finalResult: _finalResult
         )

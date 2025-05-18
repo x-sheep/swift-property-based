@@ -12,9 +12,9 @@ import PropertyBased
     @Test func testShrinkTuple() throws {
         let input = (100, "foo", true)
         
-        let shrink1 = [12, 25, 50]
-        let shrink2 = ["a", "b", "c"]
-        let shrink3 = [false]
+        let shrink1 = { (_: Int) in [12, 25, 50] }
+        let shrink2 = { (_: String) in ["a", "b", "c"] }
+        let shrink3 = { (_: Bool) in [false] }
         
         let seq = Shrink.shrinkTuple(input, shrinkers: shrink1, shrink2, shrink3)
         let actual = Array(seq)

@@ -29,7 +29,9 @@ public func zip<InA, InB, OutA, OutB>(
             v0, v1
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -65,7 +67,9 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
             v0, v1, v2
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -105,7 +109,9 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
             v0, v1, v2, v3
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -149,7 +155,9 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
             v0, v1, v2, v3, v4
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -197,7 +205,9 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
             v0, v1, v2, v3, v4, v5
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -249,7 +259,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
             v0, v1, v2, v3, v4, v5, v6
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -305,7 +317,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
             v0, v1, v2, v3, v4, v5, v6, v7
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -365,7 +379,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
             v0, v1, v2, v3, v4, v5, v6, v7, v8
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -429,7 +445,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -497,7 +515,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -569,7 +589,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -645,7 +667,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -725,7 +749,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -809,7 +835,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -897,7 +925,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -989,7 +1019,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1085,7 +1117,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1185,7 +1219,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1289,7 +1325,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1397,7 +1435,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1509,7 +1549,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1625,7 +1667,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1745,7 +1789,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1869,7 +1915,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),
@@ -1997,7 +2045,9 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24, s25))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24, s25
+        )})
     }, finalResult: { input in
         guard
             let r0 = p0._finalResult(input.0),

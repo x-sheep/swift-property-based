@@ -39,7 +39,9 @@ public func zip<${inTupleType}, ${outTupleType}>(
             ${', '.join([f"v{n}" for n in range(size)])}
         )
         
-        return (value: values, shrink: Shrink.shrinkTuple(values, shrinkers: ${', '.join([f"s{n}" for n in range(size)])}))
+        return (value: values, shrink: { tuple in 
+            Shrink.shrinkTuple(tuple, shrinkers: ${', '.join([f"s{n}" for n in range(size)])}
+        )})
     }, finalResult: { input in
         guard
 %  for n in range(size):

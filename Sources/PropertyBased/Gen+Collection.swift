@@ -53,7 +53,7 @@ extension Generator {
             var collection: [ResultValue] = []
             
             guard itemCount > 0 else {
-                return (collection, Shrink.omitSingleElement(from: collection))
+                return (collection, { Shrink.omitSingleElement(from: $0) })
             }
             collection.reserveCapacity(itemCount)
             for _ in 1...itemCount {
@@ -62,7 +62,7 @@ extension Generator {
                 collection.append(result)
             }
             // TODO: use full array shrinker
-            return (collection, Shrink.omitSingleElement(from: collection, lowerBound: count.lowerBound))
+            return (collection, { Shrink.omitSingleElement(from: $0, lowerBound: count.lowerBound) })
         })
     }
     
