@@ -69,4 +69,13 @@ extension Generator where ResultValue == Character {
     public func string(of count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, String> {
         return self.array(of: count).map { String($0) }
     }
+    
+    /// Produces a new generator of strings of this generator's characters.
+    ///
+    /// - Parameter count: The size of the random string.
+    /// - Returns: A generator of strings.
+    @inlinable
+    public func string(of count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, String> {
+        return self.array(of: count).map { String($0) }
+    }
 }

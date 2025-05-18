@@ -68,12 +68,32 @@ extension Generator {
         })
     }
     
+    /// Produces a new generator of arrays of this generator's values.
+    ///
+    /// - Parameter count: The size of the random array.
+    /// - Returns: A generator of arrays.
+    @inlinable
+    public func array(of count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, [ResultValue]> {
+        return array(of: count...count)
+    }
+    
     /// Produces a new generator of dictionaries of this generator's pairs.
     ///
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
     public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
+        return array(of: count).map {
+            Dictionary($0, uniquingKeysWith: { a, _ in a })
+        }
+    }
+    
+    /// Produces a new generator of dictionaries of this generator's pairs.
+    ///
+    /// - Parameter count: The size of the random dictionary.
+    /// - Returns: A generator of dictionaries.
+    @inlinable
+    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
@@ -88,6 +108,15 @@ extension Generator {
     public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
         return array(of: count).map { S($0) }
     }
+    
+    /// Produces a new generator of sets of this generator's values.
+    ///
+    /// - Parameter count: The size of the random set.
+    /// - Returns: A generator of sets.
+    @inlinable
+    public func set<S>(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
+        return array(of: count).map { S($0) }
+    }
 }
 
 extension Generator where ResultValue: Hashable {
@@ -97,6 +126,15 @@ extension Generator where ResultValue: Hashable {
     /// - Returns: A generator of sets.
     @inlinable
     public func set(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, Set<ResultValue>> {
+        return array(of: count).map { Set($0) }
+    }
+    
+    /// Produces a new generator of sets of this generator's values.
+    ///
+    /// - Parameter count: The size of the random set.
+    /// - Returns: A generator of sets.
+    @inlinable
+    public func set(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, Set<ResultValue>> {
         return array(of: count).map { Set($0) }
     }
 }
