@@ -48,6 +48,10 @@ extension Shrink {
     ///   - shrinker: The function to apply to each element of this collection.
     ///   - lowerBound: The minimum amount of items the collection should keep.
     /// - Returns: A sequence of collections.
+    public static func shrinkArray<Item, Collection: RangeReplaceableCollection<Item> & MutableCollection<Item>>(_ array: Collection, shrinker: [(Item) -> some Sequence<Item>], lowerBound: Int = 0) -> some Sequence<Collection> {
+        omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWiseShrinkSequence(array, shrinker))
+    }
+    
     public static func shrinkArray<Item, Collection: RangeReplaceableCollection<Item> & MutableCollection<Item>>(_ array: Collection, shrinker: @escaping (Item) -> some Sequence<Item>, lowerBound: Int = 0) -> some Sequence<Collection> {
         omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWiseShrinkSequence(array, shrinker))
     }

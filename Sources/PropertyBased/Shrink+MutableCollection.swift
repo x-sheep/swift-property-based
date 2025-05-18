@@ -11,15 +11,22 @@ extension Shrink {
         public typealias Element = Input
         
         @usableFromInline let input: Input
-        @usableFromInline let itemShrink: (Item) -> ShrinkSequence
+        @usableFromInline let itemShrink: [(Item) -> ShrinkSequence]
         
         /// Construct a new sequence.
         /// - Parameters:
         ///   - input: The original collection.
         ///   - itemShrink: The shrinker function to apply to each element of the collection.
-        public init(_ input: Input, _ itemShrink: @escaping (Item) -> ShrinkSequence) {
+        public init(_ input: Input, _ itemShrink: [(Item) -> ShrinkSequence]) {
+            precondition(input.count == itemShrink.count, "Number of shrinkers must match number of elements")
+            
             self.input = input
             self.itemShrink = itemShrink
+        }
+        
+        public init(_ input: Input, _ itemShrink: @escaping (Item) -> ShrinkSequence) {
+            self.input = input
+            self.itemShrink = Array(repeatElement(itemShrink, count: input.count))
         }
         
         public func makeIterator() -> Iterator {
@@ -30,7 +37,7 @@ extension Shrink {
             @usableFromInline let old: Input
             @usableFromInline var current: Input
             
-            @usableFromInline let itemShrink: (Item) -> ShrinkSequence
+            @usableFromInline let itemShrink: [(Item) -> ShrinkSequence]
             @usableFromInline var currentShrink: ShrinkSequence.Iterator?
             
             @usableFromInline var index: Input.Index?
@@ -56,7 +63,8 @@ extension Shrink {
                         return nil
                     }
                     
-                    currentShrink = itemShrink(current[index!]).makeIterator()
+                    let shrinkIndex = itemShrink.index(itemShrink.startIndex, offsetBy: current.distance(from: current.startIndex, to: index!))
+                    currentShrink = itemShrink[shrinkIndex](current[index!]).makeIterator()
                 }
             }
         }
