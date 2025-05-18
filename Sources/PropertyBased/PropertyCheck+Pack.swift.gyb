@@ -10,20 +10,21 @@
 import Testing
 
 % for size in range(2, 27):
-%  tupleType = ', '.join([chr(n + 65) for n in range(size)])
+%  inTupleType = ', '.join(["In" + chr(n + 65) for n in range(size)])
+%  outTupleType = ', '.join(["Out" + chr(n + 65) for n in range(size)])
 /// See ``propertyCheck(count:input:perform:isolation:sourceLocation:)``
 @_documentation(visibility: private)
 @inlinable
 public func propertyCheck<
-    ${tupleType}
+    ${inTupleType}, ${outTupleType},
 >(
     count: Int = 100,
-    input g0: Generator<A, some Sequence<A>>,
+    input g0: Generator<InA, some Sequence<InA>, OutA>,
 %  for n in range(1, size):
 %   t = chr(n + 65)
-    _ g${n}: Generator<${t}, some Sequence<${t}>>, 
+    _ g${n}: Generator<In${t}, some Sequence<In${t}>, Out${t}>, 
 %  end
-    perform body: (${tupleType}) async throws -> Void,
+    perform body: (${outTupleType}) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
