@@ -27,7 +27,7 @@ public struct Generator<InputValue, ShrinkSequence: Sequence, ResultValue>: Send
     /// - Parameter rng: A random number generator.
     /// - Returns: A random value.
     @inlinable
-    internal func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending (GenResult, ResultValue) {
+    internal func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending (gen: GenResult, result: ResultValue) {
         var arng: any SeededRandomNumberGenerator = rng
         defer { rng = arng as! G }
         
@@ -101,18 +101,6 @@ extension Generator {
                 return nil
             }
         )
-    }
-    
-    /// Transforms a generator of `Value`s into a generator of `NewValue`s by transforming a value into a generator of `NewValue`s.
-    ///
-    /// - Parameter transform: A function that transforms `Value`s into a generator of `NewValue`s.
-    /// - Returns: A generator of `NewValue`s.
-    @inlinable
-    public func flatMap<NewValue, NewShrinkSequence: Sequence<NewValue>>(_ transform: @Sendable @escaping (InputValue, ShrinkSequence, @Sendable (InputValue) -> ResultValue?) -> Generator<NewValue, NewShrinkSequence, NewValue>) -> Generator<NewValue, NewShrinkSequence, NewValue> {
-        return .init(runWithShrink: { rng in
-            let (value, shrink) = self._run(&rng)
-            return transform(value, shrink, _finalResult)._run(&rng)
-        })
     }
     
     /// Returns a generator of the non-nil results of calling the given transformation with a value of the generator.

@@ -23,11 +23,10 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
     /// Produces a generator of random elements of this generator's collection.
     @inlinable
     public var element: Generator<ResultValue.Element?, Shrink.None<ResultValue.Element?>, ResultValue.Element?> {
-        return flatMap { value, _, map in
-                .init(run: { rng in
-                    map(value).randomElement(using: &rng)
-                })
-        }
+        return .init(run: { rng in
+            let (_, value) = self.run(using: &rng)
+            return value.randomElement(using: &rng)
+        })
     }
 }
 
@@ -42,38 +41,29 @@ extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
 }
 
 extension Generator {
-    /// Produces a new generator of collections of this generator's values.
+    /// Produces a new generator of arrays of this generator's values.
     ///
-    /// - Parameter count: The size of the random collection.
-    /// - Returns: A generator of collections.
+    /// - Parameter count: The size of the random array.
+    /// - Returns: A generator of arrays.
     @inlinable
-    public func collection<C>(of count: ClosedRange<Int>) -> Generator<C, some Sequence<C>, C>
-    where C: RangeReplaceableCollection, C.Element == ResultValue {
-        return .init { rng in
+    public func array(of count: ClosedRange<Int>) -> Generator<[ResultValue], some Sequence<[ResultValue]>, [ResultValue]> {
+        return .init(runWithShrink: { rng in
             let itemCount = Int.random(in: count, using: &rng)
             
-            var collection = C()
+            var collection: [ResultValue] = []
             
             guard itemCount > 0 else {
                 return (collection, Shrink.omitSingleElement(from: collection))
             }
             collection.reserveCapacity(itemCount)
             for _ in 1...itemCount {
-                let (value, shrink) = self.run(using: &rng)
-                collection.append(value)
+                // FIXME: run the compactMap here instead, so the shrinker is guaranteed to work
+                let (_, result) = self.run(using: &rng)
+                collection.append(result)
             }
-            return (collection, Shrink.omitSingleElement(from: collection))
-        }
-    }
-    
-    /// Produces a new generator of arrays of this generator's values.
-    ///
-    /// - Parameter count: The size of the random array.
-    /// - Returns: A generator of arrays.
-    @inlinable
-    public func array(of count: ClosedRange<Int>) -> Generator<[Value], some Sequence<[Value]>> {
-        // FIXME: use full array shrinker
-        return collection(of: count)
+            // TODO: use full array shrinker
+            return (collection, Shrink.omitSingleElement(from: collection, lowerBound: count.lowerBound))
+        })
     }
     
     /// Produces a new generator of dictionaries of this generator's pairs.
@@ -81,16 +71,9 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[K: V], some Sequence<[K: V]>> where Value == (K, V) {
-        return .init { rng in
-            let itemCount = Int.random(in: count, using: &rng)
-            var dictionary: [K: V] = [:]
-            dictionary.reserveCapacity(itemCount)
-            for _ in 1...itemCount {
-                let (k, v) = self._run(&rng).value
-                dictionary[k] = v
-            }
-            return (dictionary, Shrink.omitSingleElement(from: dictionary))
+    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[(K, V)], some Sequence<[(K, V)]>, [K: V]> where ResultValue == (K, V) {
+        return array(of: count).map {
+            Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
     }
     
@@ -100,15 +83,8 @@ extension Generator {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<S, Shrink.None<S>> where S: SetAlgebra, S.Element == Value {
-        return .init { rng in
-            let itemCount = Int.random(in: count, using: &rng)
-            var set = S()
-            for _ in 1...count {
-                set.insert(self._run(&rng).value)
-            }
-            return set
-        }
+    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<[ResultValue], some Sequence<[ResultValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
+        return array(of: count).map { S($0) }
     }
 }
 
@@ -118,14 +94,7 @@ extension Generator where ResultValue: Hashable {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<Set<Value>, some Sequence<Set<Value>>> {
-        return .init { rng in
-            let itemCount = Int.random(in: count, using: &rng)
-            var set: Set<Value> = []
-            for _ in 1...itemCount {
-                set.insert(self._run(&rng).value)
-            }
-            return set
-        }
+    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<[ResultValue], some Sequence<[ResultValue]>, Set<ResultValue>> {
+        return array(of: count).map { Set($0) }
     }
 }
