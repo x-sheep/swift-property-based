@@ -59,17 +59,6 @@ extension Generator where ShrinkSequence == Shrink.None<Value> {
     }
 }
 
-extension Gen where Value: Sendable {
-    /// Produces a generator that always returns the same, constant value.
-    ///
-    /// - Parameter value: A constant value.
-    /// - Returns: A generator of a constant value.
-    @inlinable
-    public static func always(_ value: Value) -> Generator<Value, Shrink.None<Value>> {
-        return Generator { _ in value }
-    }
-}
-
 extension Generator where Value: Sendable {
     /// Transforms a generator of `Value`s into a generator of `NewValue`s by applying a transformation.
     ///
@@ -137,32 +126,6 @@ extension Generator where Value: Sendable {
     public func filter(_ predicate: @Sendable @escaping (Value) -> Bool) -> Generator<Value, some Sequence<Value>> {
         return self.compactMap { predicate($0) ? $0 : nil }
     }
-    
-    /// Uses a weighted distribution to randomly select one of the generators in the list.
-    @inlinable
-    public static func frequency(_ distribution: (Int, Generator)...) -> Generator {
-        return frequency(distribution)
-    }
-    
-    /// Uses a weighted distribution to randomly select one of the generators in the list.
-    @inlinable
-    public static func frequency(_ distribution: [(Int, Generator)]) -> Generator {
-        precondition(!distribution.isEmpty, "At least one generator is required")
-        
-        let generators = distribution.flatMap { Array(repeating: $1, count: $0) }
-        return .init { rng in
-            let gen = generators.randomElement(using: &rng)!
-            return gen.run(using: &rng)
-        }
-    }
-}
-
-extension Gen where Value == Bool {
-    /// A generator of random boolean values.
-    public static let bool = Generator(
-        run: { rng in Bool.random(using: &rng) },
-        shrink: { wasTrue in repeatElement(false, count: wasTrue ? 1 : 0) }
-    )
 }
 
 extension Generator {
@@ -190,7 +153,7 @@ extension Generator {
         Failure: Error,
         FailSeq: Sequence<Failure>
     >(withFailure gen: Generator<Failure, FailSeq>) -> Generator<Result<Value, Failure>, AnySequence<Result<Value, Failure>>> where Value: Sendable {
-        return Generator<Result<Value, Failure>, AnySequence<Result<Value, Failure>>>.frequency(
+        return Gen<Result<Value, Failure>>.frequency(
             (1, gen.map(Result.failure).eraseToAnySequence()),
             (3, self.map(Result.success).eraseToAnySequence())
         )
