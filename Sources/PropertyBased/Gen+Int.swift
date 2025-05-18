@@ -7,10 +7,19 @@ extension Gen where Value: FixedWidthInteger & Sendable {
     /// - Parameter range: The range in which to create a random value. `range` must be finite.
     /// - Returns: A generator of random values within the bounds of range.
     @inlinable
-    public static func int(in range: ClosedRange<Value>) -> Generator<Value, Shrink.IntegralShrinkSequence<Value>, Value> {
-        .init(
-            run: { rng in Value.random(in: range, using: &rng) },
-            shrink: { $0.shrink(within: range) }
+    public static func int(in range: some RangeExpression<Value>) -> Generator<Value, Shrink.IntegralShrinkSequence<Value>, Value> {
+        let closedRange = ClosedRange(range)
+        return .init(
+            run: { rng in Value.random(in: closedRange, using: &rng) },
+            shrink: { $0.shrink(within: closedRange) }
         )
+    }
+    
+    /// Returns a generator of random values within the full range of the integer type.
+    ///
+    /// - Returns: A generator of random values.
+    @inlinable
+    public static func int() -> Generator<Value, Shrink.IntegralShrinkSequence<Value>, Value> {
+        return int(in: Value.min ... Value.max)
     }
 }
