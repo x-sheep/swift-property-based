@@ -34,7 +34,7 @@ public struct Generator<InputValue, ShrinkSequence: Sequence, ResultValue>: Send
         while true {
             let run = _run(&arng)
             
-            if let ret = _finalResult(_run(&arng).value) {
+            if let ret = _finalResult(run.value) {
                 return (run, ret)
             }
         }

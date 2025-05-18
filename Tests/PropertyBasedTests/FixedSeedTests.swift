@@ -46,7 +46,7 @@ import PropertyBased
         let issues = await gatherIssues {
             await trait.provideScope(for: Test.current!, testCase: Test.Case.current) {
                 await propertyCheck(input: Gen.int(in: 0...1000000)) { n in
-                    #expect(n == 821019)
+                    #expect(n == 480813)
                 }
             }
         }

@@ -91,7 +91,7 @@ public func propertyCheck<InputValue, ResultValue>(
     
     for _ in 0..<actualCount {
         var rng = fixedRng?.rng ?? Xoshiro()
-        var rngCopy = rng
+        let rngCopy = rng
         
         let ((inputValue, shrink), resultValue) = input.run(using: &rng)
         
@@ -102,14 +102,45 @@ public func propertyCheck<InputValue, ResultValue>(
         if foundIssues > 0 {
             let seed = rngCopy.traitHint
             
-            let paramLabel = String(describingForTest: inputValue)
+            var shrunkenInput = inputValue
             
-            let inputLabel = "Failure occured with input \(paramLabel)."
+            var didShrink = true
+            var shrinkCount = 0
+            while didShrink {
+                didShrink = false
+                let candidates = shrink(shrunkenInput)
+                
+                for c in candidates {
+                    guard let mappedShrunk = input._finalResult(c) else { continue }
+                    
+                    let shrunkIssues = await countIssues(isolation: isolation) {
+                        try await body(mappedShrunk)
+                    }
+                    
+                    if shrunkIssues > 0 {
+                        didShrink = true
+                        shrinkCount += 1
+                        shrunkenInput = c
+                        break
+                    }
+                }
+            }
+            
+            let shrunkParamLabel = String(describingForTest: shrunkenInput)
+            
+            let failureMessage: String
+            
+            if shrinkCount == 0 {
+                failureMessage = "Failure occured with input \(shrunkParamLabel)."
+            } else {
+                let originalParamLabel = String(describingForTest: inputValue)
+                failureMessage = "Failure occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
+            }
             
             if fixedRng == nil {
-                Issue.record("\(inputLabel)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
+                Issue.record("\(failureMessage)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
             } else {
-                Issue.record("\(inputLabel)", sourceLocation: sourceLocation)
+                Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
             }
             return
         }
