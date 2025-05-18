@@ -15,9 +15,9 @@
 /// - Returns: A generator of tuples.
 @inlinable
 public func zip<A, B>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+) -> Generator<
     (A, B),
     Shrink.TupleShrinkSequence<(A, B)>
 > {
@@ -42,10 +42,10 @@ public func zip<A, B>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+) -> Generator<
     (A, B, C),
     Shrink.TupleShrinkSequence<(A, B, C)>
 > {
@@ -72,11 +72,11 @@ public func zip<A, B, C>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+) -> Generator<
     (A, B, C, D),
     Shrink.TupleShrinkSequence<(A, B, C, D)>
 > {
@@ -105,12 +105,12 @@ public func zip<A, B, C, D>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+) -> Generator<
     (A, B, C, D, E),
     Shrink.TupleShrinkSequence<(A, B, C, D, E)>
 > {
@@ -141,13 +141,13 @@ public func zip<A, B, C, D, E>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+) -> Generator<
     (A, B, C, D, E, F),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F)>
 > {
@@ -180,14 +180,14 @@ public func zip<A, B, C, D, E, F>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+) -> Generator<
     (A, B, C, D, E, F, G),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G)>
 > {
@@ -222,15 +222,15 @@ public func zip<A, B, C, D, E, F, G>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H)>
 > {
@@ -267,16 +267,16 @@ public func zip<A, B, C, D, E, F, G, H>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I)>
 > {
@@ -315,17 +315,17 @@ public func zip<A, B, C, D, E, F, G, H, I>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J)>
 > {
@@ -366,18 +366,18 @@ public func zip<A, B, C, D, E, F, G, H, I, J>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K)>
 > {
@@ -420,19 +420,19 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L)>
 > {
@@ -477,20 +477,20 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M)>
 > {
@@ -537,21 +537,21 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N)>
 > {
@@ -600,22 +600,22 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O)>
 > {
@@ -666,23 +666,23 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P)>
 > {
@@ -735,24 +735,24 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q)>
 > {
@@ -807,25 +807,25 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R)>
 > {
@@ -882,26 +882,26 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S)>
 > {
@@ -960,27 +960,27 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T)>
 > {
@@ -1041,28 +1041,28 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U)>
 > {
@@ -1125,29 +1125,29 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-    _ p21: Gen<V, some Sequence<V>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+    _ p21: Generator<V, some Sequence<V>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V)>
 > {
@@ -1212,30 +1212,30 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-    _ p21: Gen<V, some Sequence<V>>, 
-    _ p22: Gen<W, some Sequence<W>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+    _ p21: Generator<V, some Sequence<V>>, 
+    _ p22: Generator<W, some Sequence<W>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W)>
 > {
@@ -1302,31 +1302,31 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-    _ p21: Gen<V, some Sequence<V>>, 
-    _ p22: Gen<W, some Sequence<W>>, 
-    _ p23: Gen<X, some Sequence<X>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+    _ p21: Generator<V, some Sequence<V>>, 
+    _ p22: Generator<W, some Sequence<W>>, 
+    _ p23: Generator<X, some Sequence<X>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X)>
 > {
@@ -1395,32 +1395,32 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-    _ p21: Gen<V, some Sequence<V>>, 
-    _ p22: Gen<W, some Sequence<W>>, 
-    _ p23: Gen<X, some Sequence<X>>, 
-    _ p24: Gen<Y, some Sequence<Y>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+    _ p21: Generator<V, some Sequence<V>>, 
+    _ p22: Generator<W, some Sequence<W>>, 
+    _ p23: Generator<X, some Sequence<X>>, 
+    _ p24: Generator<Y, some Sequence<Y>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y)>
 > {
@@ -1491,33 +1491,33 @@ public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V
 @_documentation(visibility: private)
 @inlinable
 public func zip<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z>(
-    _ p0: Gen<A, some Sequence<A>>, 
-    _ p1: Gen<B, some Sequence<B>>, 
-    _ p2: Gen<C, some Sequence<C>>, 
-    _ p3: Gen<D, some Sequence<D>>, 
-    _ p4: Gen<E, some Sequence<E>>, 
-    _ p5: Gen<F, some Sequence<F>>, 
-    _ p6: Gen<G, some Sequence<G>>, 
-    _ p7: Gen<H, some Sequence<H>>, 
-    _ p8: Gen<I, some Sequence<I>>, 
-    _ p9: Gen<J, some Sequence<J>>, 
-    _ p10: Gen<K, some Sequence<K>>, 
-    _ p11: Gen<L, some Sequence<L>>, 
-    _ p12: Gen<M, some Sequence<M>>, 
-    _ p13: Gen<N, some Sequence<N>>, 
-    _ p14: Gen<O, some Sequence<O>>, 
-    _ p15: Gen<P, some Sequence<P>>, 
-    _ p16: Gen<Q, some Sequence<Q>>, 
-    _ p17: Gen<R, some Sequence<R>>, 
-    _ p18: Gen<S, some Sequence<S>>, 
-    _ p19: Gen<T, some Sequence<T>>, 
-    _ p20: Gen<U, some Sequence<U>>, 
-    _ p21: Gen<V, some Sequence<V>>, 
-    _ p22: Gen<W, some Sequence<W>>, 
-    _ p23: Gen<X, some Sequence<X>>, 
-    _ p24: Gen<Y, some Sequence<Y>>, 
-    _ p25: Gen<Z, some Sequence<Z>>, 
-) -> Gen<
+    _ p0: Generator<A, some Sequence<A>>, 
+    _ p1: Generator<B, some Sequence<B>>, 
+    _ p2: Generator<C, some Sequence<C>>, 
+    _ p3: Generator<D, some Sequence<D>>, 
+    _ p4: Generator<E, some Sequence<E>>, 
+    _ p5: Generator<F, some Sequence<F>>, 
+    _ p6: Generator<G, some Sequence<G>>, 
+    _ p7: Generator<H, some Sequence<H>>, 
+    _ p8: Generator<I, some Sequence<I>>, 
+    _ p9: Generator<J, some Sequence<J>>, 
+    _ p10: Generator<K, some Sequence<K>>, 
+    _ p11: Generator<L, some Sequence<L>>, 
+    _ p12: Generator<M, some Sequence<M>>, 
+    _ p13: Generator<N, some Sequence<N>>, 
+    _ p14: Generator<O, some Sequence<O>>, 
+    _ p15: Generator<P, some Sequence<P>>, 
+    _ p16: Generator<Q, some Sequence<Q>>, 
+    _ p17: Generator<R, some Sequence<R>>, 
+    _ p18: Generator<S, some Sequence<S>>, 
+    _ p19: Generator<T, some Sequence<T>>, 
+    _ p20: Generator<U, some Sequence<U>>, 
+    _ p21: Generator<V, some Sequence<V>>, 
+    _ p22: Generator<W, some Sequence<W>>, 
+    _ p23: Generator<X, some Sequence<X>>, 
+    _ p24: Generator<Y, some Sequence<Y>>, 
+    _ p25: Generator<Z, some Sequence<Z>>, 
+) -> Generator<
     (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z),
     Shrink.TupleShrinkSequence<(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z)>
 > {

@@ -12,7 +12,7 @@ import Testing
     @Test func testFunctionIsCalledWithInputs() async {
         let mutex = Mutex((a: 0, b: 0))
         
-        await propertyCheck(input: .bool) { bool in
+        await propertyCheck(input: Gen.bool) { bool in
             mutex.withLock {
                 if bool {
                     $0.a += 1
@@ -43,7 +43,7 @@ import Testing
     
     @Test func testIssuesArePropagated() async {
         let issues = await gatherIssues {
-            await propertyCheck(input: .int(in: 0...10)) { a in
+            await propertyCheck(input: Gen.int(in: 0...10)) { a in
                 try #require(a > 20)
                 #expect(a > 50)
             }

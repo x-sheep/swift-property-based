@@ -45,7 +45,7 @@ import PropertyBased
         let trait = FixedSeedTrait.fixedSeed("4tPCyvymNncnc+napVCI0T4Jc6IYw1lXOQbXlIqyHck=")
         let issues = await gatherIssues {
             await trait.provideScope(for: Test.current!, testCase: Test.Case.current) {
-                await propertyCheck(input: .int(in: 0...1000000)) { n in
+                await propertyCheck(input: Gen.int(in: 0...1000000)) { n in
                     #expect(n == 480813)
                 }
             }
