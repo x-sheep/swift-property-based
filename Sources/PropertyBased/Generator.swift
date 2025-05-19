@@ -113,6 +113,22 @@ extension Generator {
         )
     }
     
+    /// Transforms a generator of `ResultValue`s into a generator of `NewValue`s by applying a transformation.
+    ///
+    /// - Parameter transform: A function that transforms a 2-tuple into `NewValue`s.
+    /// - Returns: A generator of `NewValue`s.
+    @inlinable
+    public func map<NewValue, ItemA, ItemB>(_ transform: @Sendable @escaping (ItemA, ItemB) -> NewValue) -> Generator<NewValue, ShrinkSequence> where ResultValue == (ItemA, ItemB) {
+        return .init(
+            runWithShrink: _run, finalResult: {
+                if let result = self._finalResult($0) {
+                    return transform(result.0, result.1)
+                }
+                return nil
+            }
+        )
+    }
+    
     /// Returns a generator of the non-nil results of calling the given transformation with a value of the generator.
     ///
     /// - Parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
