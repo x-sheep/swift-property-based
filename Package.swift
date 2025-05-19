@@ -13,7 +13,11 @@ let package = Package(
     ],
     dependencies: [],
     targets: [
-        .target(name: "PropertyBased", dependencies: []),
+        .target(
+            name: "PropertyBased",
+            dependencies: [],
+            exclude: ["PropertyCheck+Pack.swift.gyb", "Zip.swift.gyb"]
+        ),
         .testTarget(
             name: "PropertyBasedTests",
             dependencies: ["PropertyBased"]
