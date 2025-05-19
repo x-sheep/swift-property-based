@@ -9,7 +9,7 @@ extension Gen where Value == UnicodeScalar {
     @inlinable
     public static func unicodeScalar(in range: ClosedRange<Value>) -> Generator<UnicodeScalar, Shrink.None<UInt32>> {
         return Gen<UInt32>
-            .int(in: range.lowerBound.value...range.upperBound.value)
+            .value(in: range.lowerBound.value...range.upperBound.value)
             .withoutShrink
             .map { UnicodeScalar($0)! }
     }
@@ -52,11 +52,11 @@ extension Gen where Value == Character {
         .map { $0! }
     
     /// A generator of ASCII characters.
-    public static let ascii = Gen<UInt8>.int(in: 0...127)
+    public static let ascii = Gen<UInt8>.value(in: 0...127)
         .map { Character(UnicodeScalar($0)) }
     
     /// A generator of Latin-1 characters.
-    public static let latin1 = Gen<UInt8>.int(in: 0...255)
+    public static let latin1 = Gen<UInt8>.value(in: 0...255)
         .map { Character(UnicodeScalar($0)) }
 }
 
