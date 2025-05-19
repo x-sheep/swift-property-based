@@ -6,7 +6,7 @@ extension Gen {
     ///
     /// - Parameter collection: A collection.
     @inlinable
-    public static func element<C>(of collection: C) -> Generator<Value, Shrink.None<Value>, Value> where C: Collection & Sendable, Value == C.Element? {
+    public static func element<C>(of collection: C) -> Generator<Shrink.None<Value>, Value> where C: Collection & Sendable, Value == C.Element? {
         return Generator { rng in collection.randomElement(using: &rng) }
     }
     
@@ -14,7 +14,7 @@ extension Gen {
     ///
     /// - Parameter collection: A collection.
     @inlinable
-    public static func shuffled<C>(_ collection: C) -> Generator<Value, Shrink.None<Value>, Value> where C: Collection & Sendable, Value == [C.Element] {
+    public static func shuffled<C>(_ collection: C) -> Generator<Shrink.None<Value>, Value> where C: Collection & Sendable, Value == [C.Element] {
         return Generator { rng in collection.shuffled(using: &rng) }
     }
 }
@@ -22,7 +22,7 @@ extension Gen {
 extension Generator where InputValue: Sendable, ResultValue: Collection & Sendable {
     /// Produces a generator of random elements of this generator's collection.
     @inlinable
-    public var element: Generator<ResultValue.Element?, Shrink.None<ResultValue.Element?>, ResultValue.Element?> {
+    public var element: Generator<Shrink.None<ResultValue.Element?>, ResultValue.Element?> {
         return .init(run: { rng in
             let (_, value) = self.run(using: &rng)
             return value.randomElement(using: &rng)
@@ -33,7 +33,7 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
 extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
     /// Produces a generator of all case-iterable cases.
     @inlinable
-    public static var `case`: Generator<Value, Shrink.None<Value>, Value> {
+    public static var `case`: Generator<Shrink.None<Value>, Value> {
         return .init { rng in
             Value.allCases.randomElement(using: &rng)!
         }
@@ -46,7 +46,7 @@ extension Generator {
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
     @inlinable
-    public func array(of count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, [ResultValue]> {
+    public func array(of count: ClosedRange<Int>) -> Generator<some Sequence<[InputValue]>, [ResultValue]> {
         return .init(runWithShrink: { rng in
             let itemCount = Int.random(in: count, using: &rng)
             
@@ -73,7 +73,7 @@ extension Generator {
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
     @inlinable
-    public func array(of count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, [ResultValue]> {
+    public func array(of count: Int) -> Generator<some Sequence<[InputValue]>, [ResultValue]> {
         return array(of: count...count)
     }
     
@@ -82,7 +82,7 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
+    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
@@ -93,7 +93,7 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
+    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<some Sequence<[InputValue]>, [K: V]> where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
@@ -105,7 +105,7 @@ extension Generator {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
+    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
         return array(of: count).map { S($0) }
     }
     
@@ -114,7 +114,7 @@ extension Generator {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set<S>(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
+    public func set<S>(ofAtMost count: Int) -> Generator<some Sequence<[InputValue]>, S> where S: SetAlgebra, S.Element == ResultValue {
         return array(of: count).map { S($0) }
     }
 }
@@ -125,7 +125,7 @@ extension Generator where ResultValue: Hashable {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, Set<ResultValue>> {
+    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<some Sequence<[InputValue]>, Set<ResultValue>> {
         return array(of: count).map { Set($0) }
     }
     
@@ -134,7 +134,7 @@ extension Generator where ResultValue: Hashable {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set(ofAtMost count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, Set<ResultValue>> {
+    public func set(ofAtMost count: Int) -> Generator<some Sequence<[InputValue]>, Set<ResultValue>> {
         return array(of: count).map { Set($0) }
     }
 }

@@ -74,7 +74,7 @@ import Testing
 ///   - sourceLocation: The source location to which any recorded issues should be attributed.
 public func propertyCheck<InputValue, ResultValue>(
     count: Int = 100,
-    input: Generator<InputValue, some Sequence<InputValue>, ResultValue>,
+    input: Generator<some Sequence<InputValue>, ResultValue>,
     perform body: (ResultValue) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation

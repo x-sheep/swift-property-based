@@ -7,7 +7,7 @@ extension Gen where Value == UnicodeScalar {
     /// - Parameter range: The range in which to create a random unicode scalar. `range` must be finite.
     /// - Returns: A generator of random unicode scalars within the bounds of range.
     @inlinable
-    public static func unicodeScalar(in range: ClosedRange<Value>) -> Generator<UInt32, Shrink.None<UInt32>, UnicodeScalar> {
+    public static func unicodeScalar(in range: ClosedRange<Value>) -> Generator<Shrink.None<UInt32>, UnicodeScalar> {
         return Gen<UInt32>
             .int(in: range.lowerBound.value...range.upperBound.value)
             .withoutShrink
@@ -22,7 +22,7 @@ extension Gen where Value == Character {
     /// - Parameter range: The range in which to create a random character. `range` must be finite.
     /// - Returns: A generator of random characters within the bounds of range.
     @inlinable
-    public static func character(in range: ClosedRange<Value>) -> Generator<UInt32, Shrink.None<UInt32>, Character> {
+    public static func character(in range: ClosedRange<Value>) -> Generator<Shrink.None<UInt32>, Character> {
         return Gen<UnicodeScalar>
             .unicodeScalar(
                 in: range.lowerBound.unicodeScalars.first!...range.upperBound.unicodeScalars.last!
@@ -66,7 +66,7 @@ extension Generator where ResultValue == Character {
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.
     @inlinable
-    public func string(of count: ClosedRange<Int>) -> Generator<[InputValue], some Sequence<[InputValue]>, String> {
+    public func string(of count: ClosedRange<Int>) -> Generator<some Sequence<[InputValue]>, String> {
         return self.array(of: count).map { String($0) }
     }
     
@@ -75,7 +75,7 @@ extension Generator where ResultValue == Character {
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.
     @inlinable
-    public func string(of count: Int) -> Generator<[InputValue], some Sequence<[InputValue]>, String> {
+    public func string(of count: Int) -> Generator<some Sequence<[InputValue]>, String> {
         return self.array(of: count).map { String($0) }
     }
 }

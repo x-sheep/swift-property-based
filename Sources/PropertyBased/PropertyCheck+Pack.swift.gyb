@@ -19,10 +19,10 @@ public func propertyCheck<
     ${inTupleType}, ${outTupleType},
 >(
     count: Int = 100,
-    input g0: Generator<InA, some Sequence<InA>, OutA>,
+    input g0: Generator<some Sequence<InA>, OutA>,
 %  for n in range(1, size):
 %   t = chr(n + 65)
-    _ g${n}: Generator<In${t}, some Sequence<In${t}>, Out${t}>, 
+    _ g${n}: Generator<some Sequence<In${t}>, Out${t}>, 
 %  end
     perform body: (${outTupleType}) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
