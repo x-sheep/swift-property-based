@@ -15,11 +15,11 @@
 /// - Returns: A generator of tuples.
 @inlinable
 public func zip<InA, InB, OutA, OutB>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB)>,
-    (OutA, OutB)
+    (OutA, OutB),
+    Shrink.TupleShrinkSequence<(InA, InB)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -50,12 +50,12 @@ public func zip<InA, InB, OutA, OutB>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, OutA, OutB, OutC>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC)>,
-    (OutA, OutB, OutC)
+    (OutA, OutB, OutC),
+    Shrink.TupleShrinkSequence<(InA, InB, InC)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -89,13 +89,13 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD)>,
-    (OutA, OutB, OutC, OutD)
+    (OutA, OutB, OutC, OutD),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -132,14 +132,14 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE)>,
-    (OutA, OutB, OutC, OutD, OutE)
+    (OutA, OutB, OutC, OutD, OutE),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -179,15 +179,15 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF)
+    (OutA, OutB, OutC, OutD, OutE, OutF),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -230,16 +230,16 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE, OutF, OutG>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -285,17 +285,17 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -344,18 +344,18 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -407,19 +407,19 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -474,20 +474,20 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -545,21 +545,21 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -620,22 +620,22 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -699,23 +699,23 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -782,24 +782,24 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -869,25 +869,25 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -960,26 +960,26 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1055,27 +1055,27 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1154,28 +1154,28 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1257,29 +1257,29 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1364,30 +1364,30 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1475,31 +1475,31 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
-    _ p21: Generator<some Sequence<InV>, OutV>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
+    _ p21: Generator<OutV, some Sequence<InV>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1590,32 +1590,32 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
-    _ p21: Generator<some Sequence<InV>, OutV>, 
-    _ p22: Generator<some Sequence<InW>, OutW>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
+    _ p21: Generator<OutV, some Sequence<InV>>, 
+    _ p22: Generator<OutW, some Sequence<InW>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1709,33 +1709,33 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
-    _ p21: Generator<some Sequence<InV>, OutV>, 
-    _ p22: Generator<some Sequence<InW>, OutW>, 
-    _ p23: Generator<some Sequence<InX>, OutX>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
+    _ p21: Generator<OutV, some Sequence<InV>>, 
+    _ p22: Generator<OutW, some Sequence<InW>>, 
+    _ p23: Generator<OutX, some Sequence<InX>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1832,34 +1832,34 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
-    _ p21: Generator<some Sequence<InV>, OutV>, 
-    _ p22: Generator<some Sequence<InW>, OutW>, 
-    _ p23: Generator<some Sequence<InX>, OutX>, 
-    _ p24: Generator<some Sequence<InY>, OutY>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
+    _ p21: Generator<OutV, some Sequence<InV>>, 
+    _ p22: Generator<OutW, some Sequence<InW>>, 
+    _ p23: Generator<OutX, some Sequence<InX>>, 
+    _ p24: Generator<OutY, some Sequence<InY>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1959,35 +1959,35 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
 @_documentation(visibility: private)
 @inlinable
 public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ, OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY, OutZ>(
-    _ p0: Generator<some Sequence<InA>, OutA>, 
-    _ p1: Generator<some Sequence<InB>, OutB>, 
-    _ p2: Generator<some Sequence<InC>, OutC>, 
-    _ p3: Generator<some Sequence<InD>, OutD>, 
-    _ p4: Generator<some Sequence<InE>, OutE>, 
-    _ p5: Generator<some Sequence<InF>, OutF>, 
-    _ p6: Generator<some Sequence<InG>, OutG>, 
-    _ p7: Generator<some Sequence<InH>, OutH>, 
-    _ p8: Generator<some Sequence<InI>, OutI>, 
-    _ p9: Generator<some Sequence<InJ>, OutJ>, 
-    _ p10: Generator<some Sequence<InK>, OutK>, 
-    _ p11: Generator<some Sequence<InL>, OutL>, 
-    _ p12: Generator<some Sequence<InM>, OutM>, 
-    _ p13: Generator<some Sequence<InN>, OutN>, 
-    _ p14: Generator<some Sequence<InO>, OutO>, 
-    _ p15: Generator<some Sequence<InP>, OutP>, 
-    _ p16: Generator<some Sequence<InQ>, OutQ>, 
-    _ p17: Generator<some Sequence<InR>, OutR>, 
-    _ p18: Generator<some Sequence<InS>, OutS>, 
-    _ p19: Generator<some Sequence<InT>, OutT>, 
-    _ p20: Generator<some Sequence<InU>, OutU>, 
-    _ p21: Generator<some Sequence<InV>, OutV>, 
-    _ p22: Generator<some Sequence<InW>, OutW>, 
-    _ p23: Generator<some Sequence<InX>, OutX>, 
-    _ p24: Generator<some Sequence<InY>, OutY>, 
-    _ p25: Generator<some Sequence<InZ>, OutZ>, 
+    _ p0: Generator<OutA, some Sequence<InA>>, 
+    _ p1: Generator<OutB, some Sequence<InB>>, 
+    _ p2: Generator<OutC, some Sequence<InC>>, 
+    _ p3: Generator<OutD, some Sequence<InD>>, 
+    _ p4: Generator<OutE, some Sequence<InE>>, 
+    _ p5: Generator<OutF, some Sequence<InF>>, 
+    _ p6: Generator<OutG, some Sequence<InG>>, 
+    _ p7: Generator<OutH, some Sequence<InH>>, 
+    _ p8: Generator<OutI, some Sequence<InI>>, 
+    _ p9: Generator<OutJ, some Sequence<InJ>>, 
+    _ p10: Generator<OutK, some Sequence<InK>>, 
+    _ p11: Generator<OutL, some Sequence<InL>>, 
+    _ p12: Generator<OutM, some Sequence<InM>>, 
+    _ p13: Generator<OutN, some Sequence<InN>>, 
+    _ p14: Generator<OutO, some Sequence<InO>>, 
+    _ p15: Generator<OutP, some Sequence<InP>>, 
+    _ p16: Generator<OutQ, some Sequence<InQ>>, 
+    _ p17: Generator<OutR, some Sequence<InR>>, 
+    _ p18: Generator<OutS, some Sequence<InS>>, 
+    _ p19: Generator<OutT, some Sequence<InT>>, 
+    _ p20: Generator<OutU, some Sequence<InU>>, 
+    _ p21: Generator<OutV, some Sequence<InV>>, 
+    _ p22: Generator<OutW, some Sequence<InW>>, 
+    _ p23: Generator<OutX, some Sequence<InX>>, 
+    _ p24: Generator<OutY, some Sequence<InY>>, 
+    _ p25: Generator<OutZ, some Sequence<InZ>>, 
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>,
-    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY, OutZ)
+    (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY, OutZ),
+    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)

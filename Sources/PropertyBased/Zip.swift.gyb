@@ -24,11 +24,11 @@
 public func zip<${inTupleType}, ${outTupleType}>(
 %  for n in range(size):
 %   t = chr(n + 65)
-    _ p${n}: Generator<some Sequence<In${t}>, Out${t}>, 
+    _ p${n}: Generator<Out${t}, some Sequence<In${t}>>, 
 %  end
 ) -> Generator<
-    Shrink.TupleShrinkSequence<(${inTupleType})>,
-    (${outTupleType})
+    (${outTupleType}),
+    Shrink.TupleShrinkSequence<(${inTupleType})>
 > {
     return .init(runWithShrink: { rng in
 %  for n in range(size):

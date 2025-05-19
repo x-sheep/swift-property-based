@@ -12,7 +12,7 @@
 /// > Important: The sequence must _not_ contain the input value, or return any value that is further away from the bound than the input. The property checker may cause an infinite loop if this happens.
 /// >
 /// > An infinite loop can also happen if the bound changes between calls to the same Shrinker function, e.g. it contains an uncached read of the current system time.
-public struct Generator<ShrinkSequence: Sequence, ResultValue>: Sendable {
+public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
     
     @usableFromInline
@@ -44,7 +44,7 @@ public struct Generator<ShrinkSequence: Sequence, ResultValue>: Sendable {
 }
 
 extension Generator {
-    public var withoutShrink: Generator<Shrink.None<InputValue>, ResultValue> {
+    public var withoutShrink: Generator<ResultValue, Shrink.None<InputValue>> {
         .init(runWithShrink: { rng in
             (self._run(&rng).value, { _ in .init() })
         }, finalResult: self._finalResult)
@@ -102,7 +102,7 @@ extension Generator {
     /// - Parameter transform: A function that transforms `ResultValue`s into `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func map<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue) -> Generator<ShrinkSequence, NewValue> {
+    public func map<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue) -> Generator<NewValue, ShrinkSequence> {
         return .init(
             runWithShrink: _run, finalResult: {
                 if let result = self._finalResult($0) {
@@ -118,7 +118,7 @@ extension Generator {
     /// - Parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
     /// - Returns: A generator of the non-nil results of calling the given transformation with a value of the generator.
     @inlinable
-    public func compactMap<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue?) -> Generator<ShrinkSequence, NewValue> {
+    public func compactMap<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue?) -> Generator<NewValue, ShrinkSequence> {
         return .init(
             runWithShrink: _run, finalResult: {
                 if let result = self._finalResult($0) {
@@ -134,7 +134,7 @@ extension Generator {
     /// - Parameter predicate: A predicate.
     /// - Returns: A generator of values that match the predicate.
     @inlinable
-    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<some Sequence<InputValue>, ResultValue> {
+    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<ResultValue, some Sequence<InputValue>> {
         return self.compactMap { predicate($0) ? $0 : nil }
     }
 }
@@ -144,7 +144,7 @@ extension Generator {
     ///
     /// - Returns: A generator of optional values.
     @inlinable
-    public var optional: Generator<Shrink.OptionalShrinkSequence<ShrinkSequence>, ResultValue?> {
+    public var optional: Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> {
         return .init(runWithShrink: { rng in
             if Int.random(in: 0..<4) == 0 {
                 return (nil as InputValue?, { _ in Shrink.OptionalShrinkSequence(nil) })
@@ -173,7 +173,7 @@ extension Generator {
         InFailure,
         FailSeq: Sequence<InFailure>,
         FailResult: Error,
-    >(withFailure gen: Generator<FailSeq, FailResult>) -> Generator<some Sequence<(InputValue, InFailure, Int)>, Result<ResultValue, FailResult>> where InputValue: Sendable {
+    >(withFailure gen: Generator<FailResult, FailSeq>) -> Generator<Result<ResultValue, FailResult>, some Sequence<(InputValue, InFailure, Int)>> where InputValue: Sendable {
         return zip(self, gen, Gen.int(in: 0..<4).withoutShrink).map { success, failure, chance in
             chance > 0 ? .success(success) : .failure(failure)
         }
@@ -181,7 +181,7 @@ extension Generator {
 }
 
 extension Generator {
-    @inlinable public func eraseToAnySequence() -> Generator<AnySequence<InputValue>, ResultValue> {
+    @inlinable public func eraseToAnySequence() -> Generator<ResultValue, AnySequence<InputValue>> {
         return .init(
             runWithShrink: { rng in
                 let (value, shrink) = self._run(&rng)
