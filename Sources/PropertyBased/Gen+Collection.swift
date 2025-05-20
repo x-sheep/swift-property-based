@@ -41,12 +41,15 @@ extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
 }
 
 extension Generator {
+    @_documentation(visibility: internal)
+    public typealias ArrayShrink = Shrink.Appended<Shrink.Appended<LazyMapSequence<[InputValue].Indices, [InputValue]>, Shrink.None<[InputValue]>>, Shrink.ElementWise<InputValue, [InputValue], ShrinkSequence>>
+    
     /// Produces a new generator of arrays of this generator's values.
     ///
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
     @inlinable
-    public func array(of count: ClosedRange<Int>) -> Generator<[ResultValue], some Sequence<[InputValue]>> {
+    public func array(of count: ClosedRange<Int>) -> Generator<[ResultValue], ArrayShrink> {
         return .init(runWithShrink: { rng in
             let itemCount = Int.random(in: count, using: &rng)
             
@@ -73,7 +76,7 @@ extension Generator {
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
     @inlinable
-    public func array(of count: Int) -> Generator<[ResultValue], some Sequence<[InputValue]>> {
+    public func array(of count: Int) -> Generator<[ResultValue], ArrayShrink> {
         return array(of: count...count)
     }
     
@@ -82,7 +85,7 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[K: V], some Sequence<[InputValue]>> where ResultValue == (K, V) {
+    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[K: V], ArrayShrink> where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
@@ -93,7 +96,7 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], some Sequence<[InputValue]>> where ResultValue == (K, V) {
+    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink> where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
         }
@@ -105,7 +108,7 @@ extension Generator {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<S, some Sequence<[InputValue]>> where S: SetAlgebra, S.Element == ResultValue {
+    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<S, ArrayShrink> where S: SetAlgebra, S.Element == ResultValue {
         return array(of: count).map { S($0) }
     }
     
@@ -114,7 +117,7 @@ extension Generator {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set<S>(ofAtMost count: Int) -> Generator<S, some Sequence<[InputValue]>> where S: SetAlgebra, S.Element == ResultValue {
+    public func set<S>(ofAtMost count: Int) -> Generator<S, ArrayShrink> where S: SetAlgebra, S.Element == ResultValue {
         return array(of: count).map { S($0) }
     }
 }
@@ -125,7 +128,7 @@ extension Generator where ResultValue: Hashable {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<Set<ResultValue>, some Sequence<[InputValue]>> {
+    public func set(ofAtMost count: ClosedRange<Int>) -> Generator<Set<ResultValue>, ArrayShrink> {
         return array(of: count).map { Set($0) }
     }
     
@@ -134,7 +137,7 @@ extension Generator where ResultValue: Hashable {
     /// - Parameter count: The size of the random set.
     /// - Returns: A generator of sets.
     @inlinable
-    public func set(ofAtMost count: Int) -> Generator<Set<ResultValue>, some Sequence<[InputValue]>> {
+    public func set(ofAtMost count: Int) -> Generator<Set<ResultValue>, ArrayShrink> {
         return array(of: count).map { Set($0) }
     }
 }

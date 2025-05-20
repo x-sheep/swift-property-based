@@ -66,7 +66,7 @@ extension Generator where ResultValue == Character {
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.
     @inlinable
-    public func string(of count: ClosedRange<Int>) -> Generator<String, some Sequence<[InputValue]>> {
+    public func string(of count: ClosedRange<Int>) -> Generator<String, ArrayShrink> {
         return self.array(of: count).map { String($0) }
     }
     
@@ -75,7 +75,7 @@ extension Generator where ResultValue == Character {
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.
     @inlinable
-    public func string(of count: Int) -> Generator<String, some Sequence<[InputValue]>> {
+    public func string(of count: Int) -> Generator<String, ArrayShrink> {
         return self.array(of: count).map { String($0) }
     }
 }

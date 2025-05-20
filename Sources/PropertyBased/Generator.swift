@@ -158,7 +158,7 @@ extension Generator {
     /// - Parameter predicate: A predicate.
     /// - Returns: A generator of values that match the predicate.
     @inlinable
-    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<ResultValue, some Sequence<InputValue>> {
+    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<ResultValue, ShrinkSequence> {
         return self.compactMap { predicate($0) ? $0 : nil }
     }
 }
@@ -203,7 +203,7 @@ extension Generator {
         InFailure,
         FailSeq: Sequence<InFailure>,
         FailResult: Error,
-    >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<Result<ResultValue, FailResult>, some Sequence<(InputValue, InFailure, Bool)>> where InputValue: Sendable {
+    >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<Result<ResultValue, FailResult>, Shrink.Tuple<(InputValue, InFailure, Bool)>> where InputValue: Sendable {
         zip(self, gen, Gen.bool(successRate).withoutShrink())
             .map { success, failure, isSuccess in
                 isSuccess ? .success(success) : .failure(failure)

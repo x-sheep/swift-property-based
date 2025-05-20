@@ -50,7 +50,7 @@ struct PairwiseSequence<Base: Sequence>: Sequence {
 }
 
 extension Sequence {
-    func pairwise() -> some Sequence<(Element, Element)> {
+    func pairwise() -> PairwiseSequence<Self> {
         PairwiseSequence(base: self)
     }
 }
