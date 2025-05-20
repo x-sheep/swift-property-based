@@ -9,7 +9,7 @@ import Testing
 import PropertyBased
 
 @Suite struct ShrinkArrayTests {
-    @Test func testRemoveItems() throws {
+    @Test func testRemoveItems() {
         let input = [4, 10, 25]
         
         let seq = Shrink.shrinkArray(input, shrinker: { _ in [] })
@@ -21,7 +21,7 @@ import PropertyBased
             [4, 10],
         ]
         
-        try #require(actual == expected)
+        #expect(actual == expected)
     }
     
     @Test func testShrinkEmptyArray() {
@@ -29,7 +29,7 @@ import PropertyBased
         #expect(Array(seq).isEmpty)
     }
     
-    @Test func testShrinkWithoutRemove() throws {
+    @Test func testShrinkWithoutRemove() {
         let input = [true, true, true]
         
         let seq = Shrink.shrinkArray(input, shrinker: { _ in [false] }, lowerBound: 3)
@@ -41,13 +41,13 @@ import PropertyBased
             [true, true, false],
         ]
         
-        try #require(actual == expected)
+        #expect(actual == expected)
     }
     
-    @Test func testFullShrink() throws {
+    @Test func testFullShrink() {
         let input = [4, 10, 25]
         
-        let seq = Shrink.shrinkArray(input, shrinker: { $0.shrink(towards: 0) })
+        let seq = Shrink.shrinkArray(input, shrinker: { (i: Int) in i.shrink(towards: 0) })
         let actual = Array(seq)
         
         let expected = [
@@ -68,6 +68,6 @@ import PropertyBased
             [4, 10, 22]
         ]
         
-        print(actual == expected)
+        #expect(actual == expected)
     }
 }

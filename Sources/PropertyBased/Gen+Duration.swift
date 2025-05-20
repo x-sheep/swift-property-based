@@ -30,7 +30,7 @@ extension Gen where Value == Duration {
     ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random durations within the bounds of range.
-    @inlinable public static func duration(in range: ClosedRange<Duration>) -> Generator<Duration, Shrink.IntegralShrinkSequence<Int128>> {
+    @inlinable public static func duration(in range: ClosedRange<Duration>) -> Generator<Duration, Shrink.Integer<Int128>> {
         let seconds = range.lowerBound.int128 ... range.upperBound.int128
         
         return Gen<Int128>.value(in: seconds).map { Duration($0) }

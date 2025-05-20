@@ -1,5 +1,5 @@
 //
-//  AppendedSequence.swift
+//  Shrink+Appended.swift
 //  PropertyBased
 //
 //  Created by Lennard Sprong on 14/05/2025.
@@ -7,7 +7,7 @@
 
 extension Shrink {
     /// Appends two sequences. The sequences can have different types, as long as the elements have the same type.
-    public struct AppendedSequence<First: Sequence, Second: Sequence> : Sequence where First.Element == Second.Element {
+    public struct Appended<First: Sequence, Second: Sequence> : Sequence where First.Element == Second.Element {
         public typealias Element = First.Element
         
         public let first: First?
@@ -50,8 +50,8 @@ extension Sequence {
     /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
     /// - Returns: A new sequence.
     @inlinable
-    public func append<Other: Sequence>(_ other: Other?) -> Shrink.AppendedSequence<Self, Other> where Other.Element == Element {
-        Shrink.AppendedSequence(first: self, second: other)
+    public func append<Other: Sequence>(_ other: Other?) -> Shrink.Appended<Self, Other> where Other.Element == Element {
+        Shrink.Appended(first: self, second: other)
     }
 }
 
@@ -60,11 +60,11 @@ extension Optional where Wrapped: Sequence {
     /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
     /// - Returns: A new sequence.
     @inlinable
-    public func append<Other: Sequence>(_ other: Other?) -> Shrink.AppendedSequence<Wrapped, Other> where Other.Element == Wrapped.Element {
-        Shrink.AppendedSequence(first: self, second: other)
+    public func append<Other: Sequence>(_ other: Other?) -> Shrink.Appended<Wrapped, Other> where Other.Element == Wrapped.Element {
+        Shrink.Appended(first: self, second: other)
     }
     
-    @inlinable func orEmpty() -> Shrink.AppendedSequence<Wrapped, Shrink.None<Wrapped.Element>> {
-        Shrink.AppendedSequence(first: self, second: nil as Shrink.None?)
+    @inlinable func orEmpty() -> Shrink.Appended<Wrapped, Shrink.None<Wrapped.Element>> {
+        Shrink.Appended(first: self, second: nil as Shrink.None?)
     }
 }

@@ -6,10 +6,10 @@
 //
 
 extension Shrink {
-    /// A sequence of tuple where a single element of the tuple is shrunk at a time.
+    /// A sequence of tuples where a single element of the tuple is shrunk at a time.
     ///
     /// See ``/PropertyBased/Shrink/shrinkTuple(_:shrinkers:)`` to construct an instance of this type.
-    public struct TupleShrinkSequence<Element>: Sequence {
+    public struct Tuple<Element>: Sequence {
         // Variadic types aren't supported on all platforms, so this struct erases the packed parameters by only holding on to a closure.
         
         @usableFromInline init(_ iteratorFunc: @escaping () -> Iterator) {
@@ -26,7 +26,7 @@ extension Shrink {
         
         /// > Warning: This iterator is not copied by value.
         /// >
-        /// > While you can iterate the ``TupleShrinkSequence`` multiple times, you cannot clone an iterator.
+        /// > While you can iterate the sequence multiple times, you cannot clone an iterator.
         public final class Iterator: IteratorProtocol {
             @usableFromInline init (nextFunc: @escaping () -> Element?) {
                 self.nextFunc = nextFunc
@@ -39,7 +39,7 @@ extension Shrink {
         }
     }
     
-    /// Return a sequence of collections that each have one element shrunk from the given tuple.
+    /// Return a sequence of tuples that each have one element shrunk from the given tuple.
     /// - Parameters:
     ///   - tuple: The tuple to shrink.
     ///   - shrinkers: A list of shrinkers, which will be used for each position in the tuple. The length of this parameter must match the length of the tuple.
@@ -47,8 +47,8 @@ extension Shrink {
     public static func shrinkTuple<each Iter: Sequence>(
         _ tuple: (repeat (each Iter).Element),
         shrinkers: repeat @escaping ((each Iter).Element) -> each Iter
-    ) -> TupleShrinkSequence<(repeat (each Iter).Element)> {
-        return TupleShrinkSequence {
+    ) -> Tuple<(repeat (each Iter).Element)> {
+        return Tuple {
             var iters = (repeat (each shrinkers)(each tuple).makeIterator())
             var hasMoreValues = true
             
@@ -87,6 +87,6 @@ extension IteratorProtocol {
 }
 
 @available(*, unavailable)
-extension Shrink.TupleShrinkSequence: Sendable {}
+extension Shrink.Tuple: Sendable {}
 @available(*, unavailable)
-extension Shrink.TupleShrinkSequence.Iterator: Sendable {}
+extension Shrink.Tuple.Iterator: Sendable {}

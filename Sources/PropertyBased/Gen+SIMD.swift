@@ -9,21 +9,21 @@ extension Generator {
     /// Create a pair of values.
     ///
     /// This is equivalent to calling `zip(self, self)`.
-    public var pair: Generator<(ResultValue, ResultValue), Shrink.TupleShrinkSequence<(InputValue, InputValue)>> {
+    public var pair: Generator<(ResultValue, ResultValue), Shrink.Tuple<(InputValue, InputValue)>> {
         return zip(self, self)
     }
 }
 
 extension Generator where ResultValue: SIMDScalar {
-    public var simd2: Generator<SIMD2<ResultValue>, Shrink.TupleShrinkSequence<(InputValue, InputValue)>> {
+    public var simd2: Generator<SIMD2<ResultValue>, Shrink.Tuple<(InputValue, InputValue)>> {
         return pair.map { SIMD2($0, $1) }
     }
     
-    public var simd3: Generator<SIMD3<ResultValue>, Shrink.TupleShrinkSequence<(InputValue, InputValue, InputValue)>> {
+    public var simd3: Generator<SIMD3<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue)>> {
         return zip(self, self, self).map { t in SIMD3(t.0, t.1, t.2) }
     }
     
-    public var simd4: Generator<SIMD4<ResultValue>, Shrink.TupleShrinkSequence<(InputValue, InputValue, InputValue, InputValue)>> {
+    public var simd4: Generator<SIMD4<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue, InputValue)>> {
         return zip(self, self, self, self).map { t in SIMD4(t.0, t.1, t.2, t.3) }
     }
 }
@@ -73,7 +73,7 @@ extension Gen where Value == simd_double4 {
 }
 
 extension Gen where Value == simd_quatf {
-    public static var quatf: Generator<simd_quatf, Shrink.TupleShrinkSequence<(Float, (Float, Float, Float))>> {
+    public static var quatf: Generator<simd_quatf, Shrink.Tuple<(Float, (Float, Float, Float))>> {
         let angle = Gen<Float>.float(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_float3>.unitVector
         return zip(angle, vector).map { t in simd_quatf(angle: t.0, axis: t.1) }
@@ -81,7 +81,7 @@ extension Gen where Value == simd_quatf {
 }
 
 extension Gen where Value == simd_quatd {
-    public static var quatd: Generator<simd_quatd, Shrink.TupleShrinkSequence<(Double, (Double, Double, Double))>> {
+    public static var quatd: Generator<simd_quatd, Shrink.Tuple<(Double, (Double, Double, Double))>> {
         let angle = Gen<Double>.double(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_double3>.unitVector
         return zip(angle, vector).map { t in simd_quatd(angle: t.0, axis: t.1) }

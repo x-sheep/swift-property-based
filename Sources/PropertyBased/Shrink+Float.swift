@@ -6,10 +6,10 @@
 //
 
 extension Shrink {
-/// A sequence of floats used for shrinking.
-///
-/// See ``/PropertyBased/Swift/FloatingPoint/shrink(towards:)`` to construct a sequence of this type.
-    public struct FloatingPointShrinkSequence<FloatType: FloatingPoint>: Sequence, IteratorProtocol {
+    /// A sequence of floats used for shrinking.
+    ///
+    /// See ``/PropertyBased/Swift/FloatingPoint/shrink(towards:)`` to construct a sequence of this type.
+    public struct Floating<FloatType: FloatingPoint>: Sequence, IteratorProtocol {
         public typealias Element = FloatType
         
         @usableFromInline var current: FloatType
@@ -66,8 +66,8 @@ extension FloatingPoint {
     /// - Parameter bound: The value to shrink to.
     /// - Returns: A new sequence.
     @inlinable
-    public func shrink(towards bound: Self) -> Shrink.FloatingPointShrinkSequence<Self> {
-        Shrink.FloatingPointShrinkSequence(from: self, bound: bound)
+    public func shrink(towards bound: Self) -> Shrink.Floating<Self> {
+        Shrink.Floating(from: self, bound: bound)
     }
     
     /// Get a shrinking sequence that shrinks this value as close to zero as possible.
@@ -75,7 +75,7 @@ extension FloatingPoint {
     /// If this value is NaN, the sequence is empty.
     /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
     /// - Returns: A new sequence.
-    public func shrink(within range: ClosedRange<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
+    public func shrink(within range: ClosedRange<Self>) -> Shrink.Floating<Self> {
         if range.lowerBound > 0 {
             shrink(towards: range.lowerBound)
         } else if range.upperBound < 0 {
@@ -85,19 +85,19 @@ extension FloatingPoint {
         }
     }
     
-    @inlinable public func shrink(within range: Range<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
+    @inlinable public func shrink(within range: Range<Self>) -> Shrink.Floating<Self> {
         shrink(within: range.lowerBound ... range.upperBound.nextDown)
     }
-    @inlinable public func shrink(within range: PartialRangeThrough<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
+    @inlinable public func shrink(within range: PartialRangeThrough<Self>) -> Shrink.Floating<Self> {
         shrink(towards: min(0, range.upperBound))
     }
-    @inlinable public func shrink(within range: PartialRangeUpTo<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
+    @inlinable public func shrink(within range: PartialRangeUpTo<Self>) -> Shrink.Floating<Self> {
         shrink(towards: min(0, range.upperBound.nextDown))
     }
-    @inlinable public func shrink(within range: PartialRangeFrom<Self>) -> Shrink.FloatingPointShrinkSequence<Self> {
+    @inlinable public func shrink(within range: PartialRangeFrom<Self>) -> Shrink.Floating<Self> {
         shrink(towards: max(0, range.lowerBound))
     }
 }
 
-extension Shrink.FloatingPointShrinkSequence: Sendable where FloatType: Sendable {}
-extension Shrink.FloatingPointShrinkSequence: BitwiseCopyable where FloatType: BitwiseCopyable {}
+extension Shrink.Floating: Sendable where FloatType: Sendable {}
+extension Shrink.Floating: BitwiseCopyable where FloatType: BitwiseCopyable {}

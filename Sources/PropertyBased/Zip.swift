@@ -19,7 +19,7 @@ public func zip<InA, InB, OutA, OutB>(
     _ p1: Generator<OutB, some Sequence<InB>>, 
 ) -> Generator<
     (OutA, OutB),
-    Shrink.TupleShrinkSequence<(InA, InB)>
+    Shrink.Tuple<(InA, InB)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -55,7 +55,7 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
     _ p2: Generator<OutC, some Sequence<InC>>, 
 ) -> Generator<
     (OutA, OutB, OutC),
-    Shrink.TupleShrinkSequence<(InA, InB, InC)>
+    Shrink.Tuple<(InA, InB, InC)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -95,7 +95,7 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
     _ p3: Generator<OutD, some Sequence<InD>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD)>
+    Shrink.Tuple<(InA, InB, InC, InD)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -139,7 +139,7 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
     _ p4: Generator<OutE, some Sequence<InE>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -187,7 +187,7 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
     _ p5: Generator<OutF, some Sequence<InF>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -239,7 +239,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
     _ p6: Generator<OutG, some Sequence<InG>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -295,7 +295,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
     _ p7: Generator<OutH, some Sequence<InH>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -355,7 +355,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
     _ p8: Generator<OutI, some Sequence<InI>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -419,7 +419,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
     _ p9: Generator<OutJ, some Sequence<InJ>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -487,7 +487,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
     _ p10: Generator<OutK, some Sequence<InK>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -559,7 +559,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
     _ p11: Generator<OutL, some Sequence<InL>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -635,7 +635,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p12: Generator<OutM, some Sequence<InM>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -715,7 +715,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p13: Generator<OutN, some Sequence<InN>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -799,7 +799,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p14: Generator<OutO, some Sequence<InO>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -887,7 +887,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p15: Generator<OutP, some Sequence<InP>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -979,7 +979,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p16: Generator<OutQ, some Sequence<InQ>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1075,7 +1075,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p17: Generator<OutR, some Sequence<InR>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1175,7 +1175,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p18: Generator<OutS, some Sequence<InS>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1279,7 +1279,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p19: Generator<OutT, some Sequence<InT>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1387,7 +1387,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p20: Generator<OutU, some Sequence<InU>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1499,7 +1499,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p21: Generator<OutV, some Sequence<InV>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1615,7 +1615,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p22: Generator<OutW, some Sequence<InW>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1735,7 +1735,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p23: Generator<OutX, some Sequence<InX>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1859,7 +1859,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p24: Generator<OutY, some Sequence<InY>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)
@@ -1987,7 +1987,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     _ p25: Generator<OutZ, some Sequence<InZ>>, 
 ) -> Generator<
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY, OutZ),
-    Shrink.TupleShrinkSequence<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>
+    Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>
 > {
     return .init(runWithShrink: { rng in
         let (v0, s0) = p0._run(&rng)

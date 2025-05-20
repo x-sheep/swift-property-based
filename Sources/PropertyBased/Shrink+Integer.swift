@@ -9,7 +9,7 @@ extension Shrink {
     /// A sequence of integers used for shrinking.
     ///
     /// See ``/PropertyBased/Swift/FixedWidthInteger/shrink(towards:)`` to construct a sequence of this type.
-    public struct IntegralShrinkSequence<IntegerType: FixedWidthInteger>: Sequence, IteratorProtocol {
+    public struct Integer<IntegerType: FixedWidthInteger>: Sequence, IteratorProtocol {
         public typealias Element = IntegerType
         
         @usableFromInline var current: IntegerType
@@ -63,14 +63,14 @@ extension FixedWidthInteger {
     /// - Parameter bound: The value to shrink to.
     /// - Returns: A new sequence.
     @inlinable
-    public func shrink(towards bound: Self) -> Shrink.IntegralShrinkSequence<Self> {
-        Shrink.IntegralShrinkSequence(from: self, bound: bound)
+    public func shrink(towards bound: Self) -> Shrink.Integer<Self> {
+        Shrink.Integer(from: self, bound: bound)
     }
     
     /// Get a shrinking sequence that shrinks this value as close to zero as possible.
     /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
     /// - Returns: A new sequence.
-    public func shrink(within range: ClosedRange<Self>) -> Shrink.IntegralShrinkSequence<Self> {
+    public func shrink(within range: ClosedRange<Self>) -> Shrink.Integer<Self> {
         if range.lowerBound > 0 {
             shrink(towards: range.lowerBound)
         } else if range.upperBound < 0 {
@@ -81,10 +81,10 @@ extension FixedWidthInteger {
     }
     
     @inlinable
-    public func shrink(within range: some RangeExpression<Self>) -> Shrink.IntegralShrinkSequence<Self> {
+    public func shrink(within range: some RangeExpression<Self>) -> Shrink.Integer<Self> {
         shrink(within: ClosedRange(range))
     }
 }
 
-extension Shrink.IntegralShrinkSequence: Sendable where IntegerType: Sendable {}
-extension Shrink.IntegralShrinkSequence: BitwiseCopyable where IntegerType: BitwiseCopyable {}
+extension Shrink.Integer: Sendable where IntegerType: Sendable {}
+extension Shrink.Integer: BitwiseCopyable where IntegerType: BitwiseCopyable {}

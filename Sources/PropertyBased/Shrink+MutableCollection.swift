@@ -7,7 +7,7 @@
 
 extension Shrink {
     /// A sequence of collections where a single element of the collection is shrunk at a time.
-    public struct ElementWiseShrinkSequence<Item, Input: MutableCollection<Item>, ShrinkSequence: Sequence<Item>>: Sequence {
+    public struct ElementWise<Item, Input: MutableCollection<Item>, ShrinkSequence: Sequence<Item>>: Sequence {
         public typealias Element = Input
         
         @usableFromInline let input: Input

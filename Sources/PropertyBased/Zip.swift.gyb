@@ -28,7 +28,7 @@ public func zip<${inTupleType}, ${outTupleType}>(
 %  end
 ) -> Generator<
     (${outTupleType}),
-    Shrink.TupleShrinkSequence<(${inTupleType})>
+    Shrink.Tuple<(${inTupleType})>
 > {
     return .init(runWithShrink: { rng in
 %  for n in range(size):
