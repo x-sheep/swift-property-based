@@ -59,6 +59,9 @@ import PropertyBased
     @Test func testXoshiro() throws {
         var rng = try #require(Xoshiro(seed: "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E="))
         
+        try #require(rng == rng)
+        try #require(rng.hashValue == rng.hashValue)
+        
         try #require(rng.currentSeed == "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E=")
         try #require(rng.next() == 13012537654314612243)
         try #require(rng.next() == 17010070744160488460)

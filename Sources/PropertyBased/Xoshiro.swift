@@ -16,8 +16,8 @@ public struct Xoshiro: RandomNumberGenerator, Sendable {
     }
     
     @inlinable
-    public init(state: (UInt64, UInt64, UInt64, UInt64)) {
-        self.state = state
+    public init(seed: (UInt64, UInt64, UInt64, UInt64)) {
+        self.state = seed
     }
     
     @inlinable
@@ -49,12 +49,6 @@ extension Xoshiro: Hashable {
     }
 }
 
-extension Xoshiro {
-    public init(seed: (UInt64, UInt64, UInt64, UInt64)) {
-        self.init(state: seed)
-    }
-}
-
 #if canImport(Foundation)
 import Foundation
 
@@ -71,7 +65,7 @@ extension Xoshiro: SeededRandomNumberGenerator {
             return (pointer[0], pointer[1], pointer[2], pointer[3])
         }
         
-        self.init(state: state)
+        self.init(seed: state)
     }
     
     public var currentSeed: String {
