@@ -7,6 +7,14 @@
 
 /// A namespace for all shrinking functions and structures.
 @frozen public enum Shrink {
+    
     /// Used for generators that don't support shrinking.
-    public typealias None = EmptyCollection
+    @frozen public struct None<Element>: Sequence, IteratorProtocol, Sendable {
+        
+        /// Create an empty sequence.
+        @inlinable public init() {}
+        
+        /// Always returns `nil`.
+        @inlinable public func next() -> Element? { nil }
+    }
 }
