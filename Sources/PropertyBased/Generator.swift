@@ -157,12 +157,15 @@ extension Generator {
 
 extension Generator {
     /// Produces a new generator of optional values.
-    ///
-    /// - Returns: A generator of optional values.
     @inlinable
-    public var optional: Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> {
+    public var optional: Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> { optional() }
+    
+    /// Produces a new generator of optional values.
+    /// - Parameter valueRate: The rate of not-`nil` values. Must be a number between 0 and 1.
+    /// - Returns: A generator of optional values.
+    public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> {
         return .init(runWithShrink: { rng in
-            if Int.random(in: 0..<4) == 0 {
+            if Float.random(in: 0..<1, using: &rng) > valueRate {
                 return (nil as InputValue?, { _ in Shrink.OptionalShrinkSequence(nil) })
             }
             let (value, shrink) = self._run(&rng)
@@ -183,16 +186,20 @@ extension Generator {
     
     /// Produces a new generator of failable values.
     ///
+    /// - Parameters:
+    ///   - gen: The generator for failures.
+    ///   - successRate: The rate of success values. Must be a number between 0 and 1.
     /// - Returns: A generator of failable values.
     @inlinable
     public func asResult<
         InFailure,
         FailSeq: Sequence<InFailure>,
         FailResult: Error,
-    >(withFailure gen: Generator<FailResult, FailSeq>) -> Generator<Result<ResultValue, FailResult>, some Sequence<(InputValue, InFailure, Int)>> where InputValue: Sendable {
-        return zip(self, gen, Gen.int(in: 0..<4).withoutShrink).map { success, failure, chance in
-            chance > 0 ? .success(success) : .failure(failure)
-        }
+    >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<Result<ResultValue, FailResult>, some Sequence<(InputValue, InFailure, Bool)>> where InputValue: Sendable {
+        zip(self, gen, Gen.bool(successRate).withoutShrink)
+            .map { success, failure, isSuccess in
+                isSuccess ? .success(success) : .failure(failure)
+            }
     }
 }
 

@@ -21,8 +21,15 @@ extension Gen where Value: Sendable {
 
 extension Gen where Value == Bool {
     /// A generator of random boolean values.
-    public static let bool = Generator(
-        run: { rng in Bool.random(using: &rng) },
-        shrink: { wasTrue in repeatElement(false, count: wasTrue ? 1 : 0) }
-    )
+    public static var bool: Generator<Bool, Repeated<Bool>> { bool() }
+    
+    /// Create a generator of random boolean values with a specific rate.
+    /// - Parameter rate: The rate of `true` values. Must be a number between 0 and 1.
+    /// - Returns: A generator of random boolean values.
+    public static func bool(_ rate: Float = 0.5) -> Generator<Bool, Repeated<Bool>> {
+        Generator(
+            run: { rng in Float.random(in: 0..<1, using: &rng) < rate },
+            shrink: { wasTrue in repeatElement(false, count: wasTrue ? 1 : 0) }
+        )
+    }
 }
