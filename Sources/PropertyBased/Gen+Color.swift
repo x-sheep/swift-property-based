@@ -13,7 +13,7 @@ extension Gen where Value == CGColor {
         let float = Gen<CGFloat>.value(in: 0...1)
         return zip(float, float, float).map { t in
             CGColor(red: t.0, green: t.1, blue: t.2, alpha: 1)
-        }.withoutShrink
+        }.withoutShrink()
     }
 }
 #endif

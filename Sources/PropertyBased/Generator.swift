@@ -44,11 +44,19 @@ public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
 }
 
 extension Generator {
-    public var withoutShrink: Generator<ResultValue, Shrink.None<InputValue>> {
+    /// Remove the shrinker for this generator.
+    /// - Returns: A new generator with the shrinking function removed.
+    @_disfavoredOverload // Only to show warning for redundant calls
+    public func withoutShrink() -> Generator<ResultValue, Shrink.None<InputValue>> {
         .init(runWithShrink: { rng in
             (self._run(&rng).value, { _ in .init() })
         }, finalResult: self._finalResult)
     }
+    
+    @inlinable
+    @_documentation(visibility: private)
+    @available(*, deprecated, message: "This generator already has no shrinker.")
+    public func withoutShrink<T>() -> Generator<ResultValue, Shrink.None<T>> where ShrinkSequence == Shrink.None<T> { self }
 }
 
 extension Generator where InputValue == ResultValue {
@@ -196,7 +204,7 @@ extension Generator {
         FailSeq: Sequence<InFailure>,
         FailResult: Error,
     >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<Result<ResultValue, FailResult>, some Sequence<(InputValue, InFailure, Bool)>> where InputValue: Sendable {
-        zip(self, gen, Gen.bool(successRate).withoutShrink)
+        zip(self, gen, Gen.bool(successRate).withoutShrink())
             .map { success, failure, isSuccess in
                 isSuccess ? .success(success) : .failure(failure)
             }

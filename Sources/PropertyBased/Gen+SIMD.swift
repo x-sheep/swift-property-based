@@ -33,48 +33,48 @@ import simd
 extension Gen where Value == simd_float2 {
     public static var unitVector: Generator<simd_float2, Shrink.None<(Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_float3 {
     public static var unitVector: Generator<simd_float3, Shrink.None<(Float, Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_float4 {
     public static var unitVector: Generator<simd_float4, Shrink.None<(Float, Float, Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_double2 {
     public static var unitVector: Generator<simd_double2, Shrink.None<(Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_double3 {
     public static var unitVector: Generator<simd_double3, Shrink.None<(Double, Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_double4 {
     public static var unitVector: Generator<simd_double4, Shrink.None<(Double, Double, Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink
+        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
     }
 }
 
 extension Gen where Value == simd_quatf {
     public static var quatf: Generator<simd_quatf, Shrink.TupleShrinkSequence<(Float, (Float, Float, Float))>> {
-        let angle = Gen<Float>.float(in: 0 ..< .pi * 2).withoutShrink
+        let angle = Gen<Float>.float(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_float3>.unitVector
         return zip(angle, vector).map { t in simd_quatf(angle: t.0, axis: t.1) }
     }
@@ -82,7 +82,7 @@ extension Gen where Value == simd_quatf {
 
 extension Gen where Value == simd_quatd {
     public static var quatd: Generator<simd_quatd, Shrink.TupleShrinkSequence<(Double, (Double, Double, Double))>> {
-        let angle = Gen<Double>.double(in: 0 ..< .pi * 2).withoutShrink
+        let angle = Gen<Double>.double(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_double3>.unitVector
         return zip(angle, vector).map { t in simd_quatd(angle: t.0, axis: t.1) }
     }

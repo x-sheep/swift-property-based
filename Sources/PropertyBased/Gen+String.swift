@@ -10,7 +10,7 @@ extension Gen where Value == UnicodeScalar {
     public static func unicodeScalar(in range: ClosedRange<Value>) -> Generator<UnicodeScalar, Shrink.None<UInt32>> {
         return Gen<UInt32>
             .value(in: range.lowerBound.value...range.upperBound.value)
-            .withoutShrink
+            .withoutShrink()
             .map { UnicodeScalar($0)! }
     }
 }
