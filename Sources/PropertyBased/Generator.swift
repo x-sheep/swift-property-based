@@ -166,22 +166,22 @@ extension Generator {
 extension Generator {
     /// Produces a new generator of optional values.
     @inlinable
-    public var optional: Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> { optional() }
+    public var optional: Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> { optional() }
     
     /// Produces a new generator of optional values.
     /// - Parameter valueRate: The rate of not-`nil` values. Must be a number between 0 and 1.
     /// - Returns: A generator of optional values.
-    public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.OptionalShrinkSequence<ShrinkSequence>> {
+    public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
         return .init(runWithShrink: { rng in
             if Float.random(in: 0..<1, using: &rng) > valueRate {
-                return (nil as InputValue?, { _ in Shrink.OptionalShrinkSequence(nil) })
+                return (nil as InputValue?, { _ in Shrink.WithNil(nil) })
             }
             let (value, shrink) = self._run(&rng)
             return (value, {
                 if let some = $0 {
-                    Shrink.OptionalShrinkSequence(shrink(some))
+                    Shrink.WithNil(shrink(some))
                 } else {
-                    Shrink.OptionalShrinkSequence(nil)
+                    Shrink.WithNil(nil)
                 }
             })
         }, finalResult: {

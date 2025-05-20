@@ -7,7 +7,7 @@
 
 extension Shrink {
     /// Shrink an optional value by mapping the values of another sequence, then appending a `nil` at the end.
-    public struct OptionalShrinkSequence<S: Sequence>: Sequence {
+    public struct WithNil<S: Sequence>: Sequence {
         public typealias Element = S.Element?
         
         @usableFromInline let sequence: S?
