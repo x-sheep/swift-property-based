@@ -7,7 +7,9 @@
 
 extension Shrink {
     /// Appends two sequences. The sequences can have different types, as long as the elements have the same type.
-    public struct AppendedSequence<Element, First: Sequence<Element>, Second: Sequence<Element>> : Sequence {
+    public struct AppendedSequence<First: Sequence, Second: Sequence> : Sequence where First.Element == Second.Element {
+        public typealias Element = First.Element
+        
         public let first: First?
         public let second: Second?
         
@@ -48,7 +50,7 @@ extension Sequence {
     /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
     /// - Returns: A new sequence.
     @inlinable
-    public func append<Other: Sequence<Element>>(_ other: Other?) -> Shrink.AppendedSequence<Element, Self, Other> {
+    public func append<Other: Sequence>(_ other: Other?) -> Shrink.AppendedSequence<Self, Other> where Other.Element == Element {
         Shrink.AppendedSequence(first: self, second: other)
     }
 }
@@ -58,11 +60,11 @@ extension Optional where Wrapped: Sequence {
     /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
     /// - Returns: A new sequence.
     @inlinable
-    public func append<Other: Sequence<Wrapped.Element>>(_ other: Other?) -> Shrink.AppendedSequence<Wrapped.Element, Wrapped, Other> {
+    public func append<Other: Sequence>(_ other: Other?) -> Shrink.AppendedSequence<Wrapped, Other> where Other.Element == Wrapped.Element {
         Shrink.AppendedSequence(first: self, second: other)
     }
     
-    @inlinable func orEmpty() -> some Sequence<Wrapped.Element> {
+    @inlinable func orEmpty() -> Shrink.AppendedSequence<Wrapped, Shrink.None<Wrapped.Element>> {
         Shrink.AppendedSequence(first: self, second: nil as Shrink.None?)
     }
 }
