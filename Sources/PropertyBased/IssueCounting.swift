@@ -7,7 +7,7 @@
 
 import Testing
 
-func countIssues(isolation: isolated (any Actor)? = #isolation, perform: () async throws -> Void) async -> Int {
+func countIssues(isolation: isolated (any Actor)? = #isolation, suppress: Bool, perform: () async throws -> Void) async -> Int {
     let found = Mutex(0)
     
     // This is currently the only way to get a callback whenever an issue is found within a block.
@@ -15,7 +15,7 @@ func countIssues(isolation: isolated (any Actor)? = #isolation, perform: () asyn
         try await perform()
     } matching: { _ in
         found.withLock { $0 += 1 }
-        return false
+        return suppress
     }
     
     return found.withLock { $0 }
