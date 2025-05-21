@@ -9,6 +9,25 @@ import Testing
 @testable import PropertyBased
 
 @Suite struct ShrinkIntegerTests {
+    @Test func testShrinkBool() async throws {
+        let gen = Gen.bool
+        var rng = Xoshiro() as any SeededRandomNumberGenerator
+        let (_, shrink) = gen._run(&rng)
+        
+        #expect(Array(shrink(true)) == [false])
+        #expect(Array(shrink(false)).isEmpty)
+    }
+    
+    @Test func testShrinkOptionalBool() async throws {
+        let gen = Gen.bool.optional.filter { $0 != nil }
+        var rng = Xoshiro() as any SeededRandomNumberGenerator
+        let ((_, shrink), _) = gen.run(using: &rng)
+        
+        #expect(Array(shrink(true)) == [false, nil])
+        #expect(Array(shrink(false)) == [nil])
+        #expect(Array(shrink(nil)).isEmpty)
+    }
+    
     @Test func testShrinkUIntToLow() async throws {
         let start = 60000 as UInt32
         let range = 10...(100000 as UInt32)
@@ -42,7 +61,7 @@ import Testing
     
     @Test func testShrinkNegativeInt() async throws {
         let start = -50000 as Int64
-        let range = (-1000000)...(-100 as Int64)
+        let range = ...(-100 as Int64)
         let results = Array(start.shrink(within: range))
         
         try #require(results.count > 1)

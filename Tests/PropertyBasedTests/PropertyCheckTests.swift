@@ -41,6 +41,16 @@ import Testing
         }
     }
     
+    @Test func testEmptyCountParameter() async {
+        await confirmation(expectedCount: 0) { confirm in
+            await propertyCheck(count: 0, input: Generator {
+                _ in confirm();
+                return false
+            }) { _ in
+            }
+        }
+    }
+    
     @Test func testIssuesArePropagated() async {
         let issues = await gatherIssues {
             await propertyCheck(input: Gen.int(in: 0...10)) { a in

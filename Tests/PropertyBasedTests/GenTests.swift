@@ -82,7 +82,7 @@ import Testing
             #expect(Duration(duration.int128) == duration)
         }
         
-        let edge: Int128 = 0xfffffffffffffffff
+        let edge: Int128 = 0xfffffffffffffffffffff
         
         #expect(Duration(edge).int128 == edge)
         
