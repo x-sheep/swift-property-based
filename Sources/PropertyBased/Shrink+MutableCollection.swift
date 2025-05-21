@@ -69,4 +69,32 @@ extension Shrink {
             }
         }
     }
+    
+    /// Return a sequence of collections that each have one element omitted or shrunk from the given collection.
+    /// - Parameters:
+    ///   - array: The collection to shrink.
+    ///   - shrinker: The functions to apply to each respective element of this collection. This array must have the same size as the input.
+    ///   - lowerBound: The minimum amount of items the collection should keep.
+    /// - Returns: A sequence of collections.
+    public static func shrinkArray<
+        Item, Shrinker: Sequence<Item>,
+        Input: RemovableCollection<Item> & MutableCollection<Item>
+    >(_ array: Input, shrinker: [(Item) -> Shrinker], lowerBound: Int = 0) ->
+    Shrink.Appended<Shrink.Appended<LazyMapSequence<Input.Indices, Input>, Shrink.None<Input>>, Shrink.ElementWise<Item, Input, Shrinker>> {
+        omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWise(array, shrinker))
+    }
+    
+    /// Return a sequence of collections that each have one element omitted or shrunk from the given collection.
+    /// - Parameters:
+    ///   - array: The collection to shrink.
+    ///   - shrinker: The function to apply to each element of this collection.
+    ///   - lowerBound: The minimum amount of items the collection should keep.
+    /// - Returns: A sequence of collections.
+    public static func shrinkArray<
+        Item, Shrinker: Sequence<Item>,
+        Input: RemovableCollection<Item> & MutableCollection<Item>
+    >(_ array: Input, shrinker: @escaping (Item) -> Shrinker, lowerBound: Int = 0) ->
+    Shrink.Appended<Shrink.Appended<LazyMapSequence<Input.Indices, Input>, Shrink.None<Input>>, Shrink.ElementWise<Item, Input, Shrinker>> {
+        omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWise(array, shrinker))
+    }
 }
