@@ -6,7 +6,7 @@
 //
 
 extension Generator {
-    /// Create a pair of values.
+    /// Produces a generator that creates a pair of values.
     ///
     /// This is equivalent to calling `zip(self, self)`.
     public var pair: Generator<(ResultValue, ResultValue), Shrink.Tuple<(InputValue, InputValue)>> {
@@ -15,14 +15,17 @@ extension Generator {
 }
 
 extension Generator where ResultValue: SIMDScalar {
+    /// Produces a generator that creates a SIMD vector of values.
     public var simd2: Generator<SIMD2<ResultValue>, Shrink.Tuple<(InputValue, InputValue)>> {
         return pair.map { SIMD2($0, $1) }
     }
     
+    /// Produces a generator that creates a SIMD vector of values.
     public var simd3: Generator<SIMD3<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue)>> {
         return zip(self, self, self).map { t in SIMD3(t.0, t.1, t.2) }
     }
     
+    /// Produces a generator that creates a SIMD vector of values.
     public var simd4: Generator<SIMD4<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue, InputValue)>> {
         return zip(self, self, self, self).map { t in SIMD4(t.0, t.1, t.2, t.3) }
     }
@@ -31,6 +34,7 @@ extension Generator where ResultValue: SIMDScalar {
 #if canImport(simd)
 import simd
 extension Gen where Value == simd_float2 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_float2, Shrink.None<(Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
         return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -38,6 +42,7 @@ extension Gen where Value == simd_float2 {
 }
 
 extension Gen where Value == simd_float3 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_float3, Shrink.None<(Float, Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
         return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -45,6 +50,7 @@ extension Gen where Value == simd_float3 {
 }
 
 extension Gen where Value == simd_float4 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_float4, Shrink.None<(Float, Float, Float, Float)>> {
         let gen = Gen<Float>.float(in: 0...1)
         return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -52,6 +58,7 @@ extension Gen where Value == simd_float4 {
 }
 
 extension Gen where Value == simd_double2 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_double2, Shrink.None<(Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
         return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -59,6 +66,7 @@ extension Gen where Value == simd_double2 {
 }
 
 extension Gen where Value == simd_double3 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_double3, Shrink.None<(Double, Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
         return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -66,6 +74,7 @@ extension Gen where Value == simd_double3 {
 }
 
 extension Gen where Value == simd_double4 {
+    /// A generator of vectors with length 1.
     public static var unitVector: Generator<simd_double4, Shrink.None<(Double, Double, Double, Double)>> {
         let gen = Gen<Double>.double(in: 0...1)
         return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
@@ -73,18 +82,20 @@ extension Gen where Value == simd_double4 {
 }
 
 extension Gen where Value == simd_quatf {
-    public static var quatf: Generator<simd_quatf, Shrink.Tuple<(Float, (Float, Float, Float))>> {
+    /// A generator of rotation quaternions with length 1 and a random angle.
+    public static var simd_quatf: Generator<simd_quatf, Shrink.Tuple<(Float, (Float, Float, Float))>> {
         let angle = Gen<Float>.float(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_float3>.unitVector
-        return zip(angle, vector).map { t in simd_quatf(angle: t.0, axis: t.1) }
+        return zip(angle, vector).map { t in simd.simd_quatf(angle: t.0, axis: t.1) }
     }
 }
 
 extension Gen where Value == simd_quatd {
-    public static var quatd: Generator<simd_quatd, Shrink.Tuple<(Double, (Double, Double, Double))>> {
+    /// A generator of rotation quaternions with length 1 and a random angle.
+    public static var simd_quatd: Generator<simd_quatd, Shrink.Tuple<(Double, (Double, Double, Double))>> {
         let angle = Gen<Double>.double(in: 0 ..< .pi * 2).withoutShrink()
         let vector = Gen<simd_double3>.unitVector
-        return zip(angle, vector).map { t in simd_quatd(angle: t.0, axis: t.1) }
+        return zip(angle, vector).map { t in simd.simd_quatd(angle: t.0, axis: t.1) }
     }
 }
 #endif

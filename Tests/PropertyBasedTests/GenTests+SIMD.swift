@@ -79,12 +79,12 @@ import simd
     }
     
     @Test func testQuatF() async {
-        await propertyCheck(input: Gen.quatf) { quat in
+        await propertyCheck(input: Gen.simd_quatf) { quat in
             #expect(abs(quat.length - 1) < 0.0001)
         }
     }
     @Test func testQuatD() async {
-        await propertyCheck(input: Gen.quatd) { quat in
+        await propertyCheck(input: Gen.simd_quatd) { quat in
             #expect(abs(quat.length - 1) < 0.0001)
         }
     }

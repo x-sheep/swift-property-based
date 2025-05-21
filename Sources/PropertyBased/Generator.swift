@@ -2,32 +2,21 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 /// A composable, transformable context for generating random values.
-///
-/// A shrinking sequence must contain values that are closer than the input value to a specific bound. This bound should be the same for every call to this function, but it doesn't need to use the same ordering used by the `Comparable` protocol. For example: An integer that represents a year could be shrunk by moving it closer to the current year, instead of closer to zero.
-///
-/// When the property checker finds a failing input for a specific check, it will use a shrinking sequence to find another failing input. It will stop iterating the sequence as soon as a value is found that also causes a check failure. The Shrinker function is then called again with the lower input to get another sequence.
-///
-/// > Tip: For optimal performance, it's recommended that a shrinking sequence orders the values from most shrunk to least shrunk.
-///
-/// > Important: The sequence must _not_ contain the input value, or return any value that is further away from the bound than the input. The property checker may cause an infinite loop if this happens.
-/// >
-/// > An infinite loop can also happen if the bound changes between calls to the same Shrinker function, e.g. it contains an uncached read of the current system time.
 public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
     
     @usableFromInline
     internal typealias GenResult = (value: InputValue, shrink: (InputValue) -> ShrinkSequence)
     
+    /// Generate a single result, before mapping or filtering.
     @usableFromInline
     internal var _run: @Sendable (inout any SeededRandomNumberGenerator) -> sending GenResult
     
+    /// Map an intermediate result to its final value, or return `nil` if the value should be filtered.
     @usableFromInline
     internal var _finalResult: @Sendable (InputValue) -> ResultValue?
     
-    /// Returns a random value.
-    ///
-    /// - Parameter rng: A random number generator.
-    /// - Returns: A random value.
+    /// Run the generator until a single unfiltered value is found.
     @inlinable
     internal func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending (gen: GenResult, result: ResultValue) {
         var arng: any SeededRandomNumberGenerator = rng
@@ -60,6 +49,21 @@ extension Generator {
 }
 
 extension Generator where InputValue == ResultValue {
+    /// Create a new generator with a shrinker.
+    ///
+    /// A shrinking sequence must contain values that are closer than the input value to a specific bound. This bound should be the same for every call to this function, but it doesn't need to use the same ordering used by the `Comparable` protocol. For example: An integer that represents a year could be shrunk by moving it closer to the current year, instead of closer to zero.
+    ///
+    /// When the property checker finds a failing input for a specific check, it will use a shrinking sequence to find another failing input. It will stop iterating the sequence as soon as a value is found that also causes a check failure. The Shrinker function is then called again with the lower input to get another sequence.
+    ///
+    /// > Tip: For optimal performance, it's recommended that a shrinking sequence orders the values from most shrunk to least shrunk.
+    ///
+    /// > Important: The sequence must _not_ contain the input value, or return any value that is further away from the bound than the input. The property checker may cause an infinite loop if this happens.
+    /// >
+    /// > An infinite loop can also happen if the bound changes between calls to the same Shrinker function, e.g. it contains an uncached read of the current system time.
+    ///
+    /// - Parameters:
+    ///   - run: A block that returns a random value using a given random number generator.
+    ///   - shrink: A function that returns a shrinking sequence from any input.
     @inlinable
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue,
@@ -93,6 +97,10 @@ extension Generator {
 }
 
 extension Generator where ShrinkSequence == Shrink.None<ResultValue> {
+    /// Create a new generator without a shrinker.
+    ///
+    /// If you want to keep the shrinking functionality, consider using the `zip` function to combine several built-in generators.
+    /// - Parameter run: A block that returns a random value using a given random number generator.
     @inlinable
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue
@@ -212,6 +220,10 @@ extension Generator {
 }
 
 extension Generator {
+    /// Wrap the shrinking sequence into a type-erased `AnySequence` struct.
+    ///
+    /// This can be used if multiple generators must have the exact same type.
+    /// - Returns: A copy of this generator.
     @inlinable public func eraseToAnySequence() -> Generator<ResultValue, AnySequence<InputValue>> {
         return .init(
             runWithShrink: { rng in
