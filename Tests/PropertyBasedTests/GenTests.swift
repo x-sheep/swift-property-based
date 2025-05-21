@@ -20,7 +20,7 @@ import Testing
         #expect(count > 50)
         
         var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let (value, shrink) = gen._run(&rng)
+        let (value, shrink) = gen._runIntermediate(&rng)
         shrink(value).reduce(into: ()) { _, _ in }
     }
     

@@ -21,6 +21,10 @@ extension Gen where Value: Sendable {
 
 extension Gen where Value == Bool {
     /// A generator of random boolean values.
+    /// 
+    /// ## See Also
+    ///
+    /// - ``bool(_:)``
     public static var bool: Generator<Bool, Repeated<Bool>> { bool() }
     
     /// Create a generator of random boolean values with a specific rate.

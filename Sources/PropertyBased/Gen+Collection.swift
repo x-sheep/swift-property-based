@@ -24,7 +24,7 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
     @inlinable
     public var element: Generator<ResultValue.Element?, Shrink.None<ResultValue.Element?>> {
         return .init(run: { rng in
-            let (_, value) = self.run(using: &rng)
+            let (_, value) = self.runFull(&rng)
             return value.randomElement(using: &rng)
         })
     }
@@ -61,13 +61,13 @@ extension Generator {
             }
             collection.reserveCapacity(itemCount)
             for _ in 1...itemCount {
-                let gen = self.run(using: &rng).gen
+                let gen = self.runFull(&rng).gen
                 collection.append(gen.value)
                 shrinkers.append(gen.shrink)
             }
             return (collection, { Shrink.shrinkArray($0, shrinker: shrinkers, lowerBound: count.lowerBound) })
         }, finalResult: {
-            return $0.compactMap(self._finalResult)
+            return $0.compactMap(self._mapFilter)
         })
     }
     

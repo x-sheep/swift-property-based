@@ -32,7 +32,7 @@ public func zip<${inTupleType}, ${outTupleType}>(
 > {
     return .init(runWithShrink: { rng in
 %  for n in range(size):
-        let (v${n}, s${n}) = p${n}._run(&rng)
+        let (v${n}, s${n}) = p${n}._runIntermediate(&rng)
 %  end
         let values = (
             ${', '.join([f"v{n}" for n in range(size)])}
@@ -44,7 +44,7 @@ public func zip<${inTupleType}, ${outTupleType}>(
     }, finalResult: { input in
         guard
 %  for n in range(size):
-            let r${n} = p${n}._finalResult(input.${n}),
+            let r${n} = p${n}._mapFilter(input.${n}),
 %  end
             true else { return nil }
         return (${', '.join([f"r{n}" for n in range(size)])})

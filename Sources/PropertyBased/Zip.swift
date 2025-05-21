@@ -22,8 +22,8 @@ public func zip<InA, InB, OutA, OutB>(
     Shrink.Tuple<(InA, InB)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
         let values = (
             v0, v1
         )
@@ -33,8 +33,8 @@ public func zip<InA, InB, OutA, OutB>(
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
             true else { return nil }
         return (r0, r1)
     })
@@ -58,9 +58,9 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
     Shrink.Tuple<(InA, InB, InC)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
         let values = (
             v0, v1, v2
         )
@@ -70,9 +70,9 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
             true else { return nil }
         return (r0, r1, r2)
     })
@@ -98,10 +98,10 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
     Shrink.Tuple<(InA, InB, InC, InD)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3
         )
@@ -111,10 +111,10 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
             true else { return nil }
         return (r0, r1, r2, r3)
     })
@@ -142,11 +142,11 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
     Shrink.Tuple<(InA, InB, InC, InD, InE)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4
         )
@@ -156,11 +156,11 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
             true else { return nil }
         return (r0, r1, r2, r3, r4)
     })
@@ -190,12 +190,12 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5
         )
@@ -205,12 +205,12 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5)
     })
@@ -242,13 +242,13 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6
         )
@@ -258,13 +258,13 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6)
     })
@@ -298,14 +298,14 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7
         )
@@ -315,14 +315,14 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7)
     })
@@ -358,15 +358,15 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8
         )
@@ -376,15 +376,15 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8)
     })
@@ -422,16 +422,16 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9
         )
@@ -441,16 +441,16 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9)
     })
@@ -490,17 +490,17 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10
         )
@@ -510,17 +510,17 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10)
     })
@@ -562,18 +562,18 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11
         )
@@ -583,18 +583,18 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11)
     })
@@ -638,19 +638,19 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12
         )
@@ -660,19 +660,19 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12)
     })
@@ -718,20 +718,20 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13
         )
@@ -741,20 +741,20 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13)
     })
@@ -802,21 +802,21 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14
         )
@@ -826,21 +826,21 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14)
     })
@@ -890,22 +890,22 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15
         )
@@ -915,22 +915,22 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15)
     })
@@ -982,23 +982,23 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16
         )
@@ -1008,23 +1008,23 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16)
     })
@@ -1078,24 +1078,24 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17
         )
@@ -1105,24 +1105,24 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17)
     })
@@ -1178,25 +1178,25 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18
         )
@@ -1206,25 +1206,25 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18)
     })
@@ -1282,26 +1282,26 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19
         )
@@ -1311,26 +1311,26 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19)
     })
@@ -1390,27 +1390,27 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20
         )
@@ -1420,27 +1420,27 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20)
     })
@@ -1502,28 +1502,28 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
-        let (v21, s21) = p21._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
+        let (v21, s21) = p21._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21
         )
@@ -1533,28 +1533,28 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
-            let r21 = p21._finalResult(input.21),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
+            let r21 = p21._mapFilter(input.21),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21)
     })
@@ -1618,29 +1618,29 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
-        let (v21, s21) = p21._run(&rng)
-        let (v22, s22) = p22._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
+        let (v21, s21) = p21._runIntermediate(&rng)
+        let (v22, s22) = p22._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22
         )
@@ -1650,29 +1650,29 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
-            let r21 = p21._finalResult(input.21),
-            let r22 = p22._finalResult(input.22),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
+            let r21 = p21._mapFilter(input.21),
+            let r22 = p22._mapFilter(input.22),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22)
     })
@@ -1738,30 +1738,30 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
-        let (v21, s21) = p21._run(&rng)
-        let (v22, s22) = p22._run(&rng)
-        let (v23, s23) = p23._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
+        let (v21, s21) = p21._runIntermediate(&rng)
+        let (v22, s22) = p22._runIntermediate(&rng)
+        let (v23, s23) = p23._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23
         )
@@ -1771,30 +1771,30 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
-            let r21 = p21._finalResult(input.21),
-            let r22 = p22._finalResult(input.22),
-            let r23 = p23._finalResult(input.23),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
+            let r21 = p21._mapFilter(input.21),
+            let r22 = p22._mapFilter(input.22),
+            let r23 = p23._mapFilter(input.23),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23)
     })
@@ -1862,31 +1862,31 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
-        let (v21, s21) = p21._run(&rng)
-        let (v22, s22) = p22._run(&rng)
-        let (v23, s23) = p23._run(&rng)
-        let (v24, s24) = p24._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
+        let (v21, s21) = p21._runIntermediate(&rng)
+        let (v22, s22) = p22._runIntermediate(&rng)
+        let (v23, s23) = p23._runIntermediate(&rng)
+        let (v24, s24) = p24._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24
         )
@@ -1896,31 +1896,31 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
-            let r21 = p21._finalResult(input.21),
-            let r22 = p22._finalResult(input.22),
-            let r23 = p23._finalResult(input.23),
-            let r24 = p24._finalResult(input.24),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
+            let r21 = p21._mapFilter(input.21),
+            let r22 = p22._mapFilter(input.22),
+            let r23 = p23._mapFilter(input.23),
+            let r24 = p24._mapFilter(input.24),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24)
     })
@@ -1990,32 +1990,32 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>
 > {
     return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._run(&rng)
-        let (v1, s1) = p1._run(&rng)
-        let (v2, s2) = p2._run(&rng)
-        let (v3, s3) = p3._run(&rng)
-        let (v4, s4) = p4._run(&rng)
-        let (v5, s5) = p5._run(&rng)
-        let (v6, s6) = p6._run(&rng)
-        let (v7, s7) = p7._run(&rng)
-        let (v8, s8) = p8._run(&rng)
-        let (v9, s9) = p9._run(&rng)
-        let (v10, s10) = p10._run(&rng)
-        let (v11, s11) = p11._run(&rng)
-        let (v12, s12) = p12._run(&rng)
-        let (v13, s13) = p13._run(&rng)
-        let (v14, s14) = p14._run(&rng)
-        let (v15, s15) = p15._run(&rng)
-        let (v16, s16) = p16._run(&rng)
-        let (v17, s17) = p17._run(&rng)
-        let (v18, s18) = p18._run(&rng)
-        let (v19, s19) = p19._run(&rng)
-        let (v20, s20) = p20._run(&rng)
-        let (v21, s21) = p21._run(&rng)
-        let (v22, s22) = p22._run(&rng)
-        let (v23, s23) = p23._run(&rng)
-        let (v24, s24) = p24._run(&rng)
-        let (v25, s25) = p25._run(&rng)
+        let (v0, s0) = p0._runIntermediate(&rng)
+        let (v1, s1) = p1._runIntermediate(&rng)
+        let (v2, s2) = p2._runIntermediate(&rng)
+        let (v3, s3) = p3._runIntermediate(&rng)
+        let (v4, s4) = p4._runIntermediate(&rng)
+        let (v5, s5) = p5._runIntermediate(&rng)
+        let (v6, s6) = p6._runIntermediate(&rng)
+        let (v7, s7) = p7._runIntermediate(&rng)
+        let (v8, s8) = p8._runIntermediate(&rng)
+        let (v9, s9) = p9._runIntermediate(&rng)
+        let (v10, s10) = p10._runIntermediate(&rng)
+        let (v11, s11) = p11._runIntermediate(&rng)
+        let (v12, s12) = p12._runIntermediate(&rng)
+        let (v13, s13) = p13._runIntermediate(&rng)
+        let (v14, s14) = p14._runIntermediate(&rng)
+        let (v15, s15) = p15._runIntermediate(&rng)
+        let (v16, s16) = p16._runIntermediate(&rng)
+        let (v17, s17) = p17._runIntermediate(&rng)
+        let (v18, s18) = p18._runIntermediate(&rng)
+        let (v19, s19) = p19._runIntermediate(&rng)
+        let (v20, s20) = p20._runIntermediate(&rng)
+        let (v21, s21) = p21._runIntermediate(&rng)
+        let (v22, s22) = p22._runIntermediate(&rng)
+        let (v23, s23) = p23._runIntermediate(&rng)
+        let (v24, s24) = p24._runIntermediate(&rng)
+        let (v25, s25) = p25._runIntermediate(&rng)
         let values = (
             v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25
         )
@@ -2025,32 +2025,32 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
         )})
     }, finalResult: { input in
         guard
-            let r0 = p0._finalResult(input.0),
-            let r1 = p1._finalResult(input.1),
-            let r2 = p2._finalResult(input.2),
-            let r3 = p3._finalResult(input.3),
-            let r4 = p4._finalResult(input.4),
-            let r5 = p5._finalResult(input.5),
-            let r6 = p6._finalResult(input.6),
-            let r7 = p7._finalResult(input.7),
-            let r8 = p8._finalResult(input.8),
-            let r9 = p9._finalResult(input.9),
-            let r10 = p10._finalResult(input.10),
-            let r11 = p11._finalResult(input.11),
-            let r12 = p12._finalResult(input.12),
-            let r13 = p13._finalResult(input.13),
-            let r14 = p14._finalResult(input.14),
-            let r15 = p15._finalResult(input.15),
-            let r16 = p16._finalResult(input.16),
-            let r17 = p17._finalResult(input.17),
-            let r18 = p18._finalResult(input.18),
-            let r19 = p19._finalResult(input.19),
-            let r20 = p20._finalResult(input.20),
-            let r21 = p21._finalResult(input.21),
-            let r22 = p22._finalResult(input.22),
-            let r23 = p23._finalResult(input.23),
-            let r24 = p24._finalResult(input.24),
-            let r25 = p25._finalResult(input.25),
+            let r0 = p0._mapFilter(input.0),
+            let r1 = p1._mapFilter(input.1),
+            let r2 = p2._mapFilter(input.2),
+            let r3 = p3._mapFilter(input.3),
+            let r4 = p4._mapFilter(input.4),
+            let r5 = p5._mapFilter(input.5),
+            let r6 = p6._mapFilter(input.6),
+            let r7 = p7._mapFilter(input.7),
+            let r8 = p8._mapFilter(input.8),
+            let r9 = p9._mapFilter(input.9),
+            let r10 = p10._mapFilter(input.10),
+            let r11 = p11._mapFilter(input.11),
+            let r12 = p12._mapFilter(input.12),
+            let r13 = p13._mapFilter(input.13),
+            let r14 = p14._mapFilter(input.14),
+            let r15 = p15._mapFilter(input.15),
+            let r16 = p16._mapFilter(input.16),
+            let r17 = p17._mapFilter(input.17),
+            let r18 = p18._mapFilter(input.18),
+            let r19 = p19._mapFilter(input.19),
+            let r20 = p20._mapFilter(input.20),
+            let r21 = p21._mapFilter(input.21),
+            let r22 = p22._mapFilter(input.22),
+            let r23 = p23._mapFilter(input.23),
+            let r24 = p24._mapFilter(input.24),
+            let r25 = p25._mapFilter(input.25),
             true else { return nil }
         return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25)
     })

@@ -12,7 +12,7 @@ import Testing
     @Test func testShrinkBool() async throws {
         let gen = Gen.bool
         var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let (_, shrink) = gen._run(&rng)
+        let (_, shrink) = gen._runIntermediate(&rng)
         
         #expect(Array(shrink(true)) == [false])
         #expect(Array(shrink(false)).isEmpty)
@@ -21,7 +21,7 @@ import Testing
     @Test func testShrinkOptionalBool() async throws {
         let gen = Gen.bool.optional.filter { $0 != nil }
         var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let ((_, shrink), _) = gen.run(using: &rng)
+        let ((_, shrink), _) = gen.runFull(&rng)
         
         #expect(Array(shrink(true)) == [false, nil])
         #expect(Array(shrink(false)) == [nil])
