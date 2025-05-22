@@ -1,0 +1,29 @@
+// Auto-generated from ZipTests.swift.gyb
+
+import Testing
+@testable import PropertyBased
+
+@Suite struct ZipTests {
+    @Test func testPropertyCheckOverloads() async {
+% for size in range(2, 27):
+%  params = ', '.join([chr(n + 97) for n in range(size)])
+
+        await propertyCheck(count: 5, input: ${', '.join([f"Gen.bool" for n in range(size)])}) { ${params} in
+            let values = [${params}]
+            #expect(!values.isEmpty)
+        }
+% end
+    }
+
+    @Test func testZipShrinkOverloads() async {
+        var rng = Xoshiro() as any SeededRandomNumberGenerator
+
+% for size in range(2, 27):
+        repeat {
+            let result = zip(Gen.bool(1), ${', '.join([f"Gen.bool" for n in range(size-1)])})._runIntermediate(&rng)
+            let shrunk = result.shrink(result.value).makeIterator().next()
+            #expect(shrunk != nil)
+        } while false
+% end
+    }
+}
