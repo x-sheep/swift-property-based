@@ -80,7 +80,7 @@ extension Shrink {
         Item, Shrinker: Sequence<Item>,
         Input: RemovableCollection<Item> & MutableCollection<Item>
     >(_ array: Input, shrinker: [(Item) -> Shrinker], lowerBound: Int = 0) ->
-    Shrink.Appended<Shrink.Appended<LazyMapSequence<Input.Indices, Input>, Shrink.None<Input>>, Shrink.ElementWise<Item, Input, Shrinker>> {
+    Shrink.Appended<Shrink.Omit<Input>, Shrink.ElementWise<Item, Input, Shrinker>> {
         omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWise(array, shrinker))
     }
     
@@ -94,7 +94,7 @@ extension Shrink {
         Item, Shrinker: Sequence<Item>,
         Input: RemovableCollection<Item> & MutableCollection<Item>
     >(_ array: Input, shrinker: @escaping (Item) -> Shrinker, lowerBound: Int = 0) ->
-    Shrink.Appended<Shrink.Appended<LazyMapSequence<Input.Indices, Input>, Shrink.None<Input>>, Shrink.ElementWise<Item, Input, Shrinker>> {
+    Shrink.Appended<Shrink.Omit<Input>, Shrink.ElementWise<Item, Input, Shrinker>> {
         omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWise(array, shrinker))
     }
 }

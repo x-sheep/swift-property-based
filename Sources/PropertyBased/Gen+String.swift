@@ -76,6 +76,6 @@ extension Generator where ResultValue == Character {
     /// - Returns: A generator of strings.
     @inlinable
     public func string(of count: Int) -> Generator<String, ArrayShrink> {
-        return self.array(of: count).map { String($0) }
+        return string(of: count...count)
     }
 }

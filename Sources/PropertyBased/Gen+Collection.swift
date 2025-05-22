@@ -42,7 +42,7 @@ extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
 
 extension Generator {
     @_documentation(visibility: internal)
-    public typealias ArrayShrink = Shrink.Appended<Shrink.Appended<LazyMapSequence<[InputValue].Indices, [InputValue]>, Shrink.None<[InputValue]>>, Shrink.ElementWise<InputValue, [InputValue], ShrinkSequence>>
+    public typealias ArrayShrink = Shrink.Appended<Shrink.Omit<[InputValue]>, Shrink.ElementWise<InputValue, [InputValue], ShrinkSequence>>
     
     /// Produces a new generator of arrays of this generator's values.
     ///
@@ -97,9 +97,7 @@ extension Generator {
     /// - Returns: A generator of dictionaries.
     @inlinable
     public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink> where ResultValue == (K, V) {
-        return array(of: count).map {
-            Dictionary($0, uniquingKeysWith: { a, _ in a })
-        }
+        return dictionary(ofAtMost: count...count)
     }
     
     
@@ -118,7 +116,7 @@ extension Generator {
     /// - Returns: A generator of sets.
     @inlinable
     public func set<S>(ofAtMost count: Int) -> Generator<S, ArrayShrink> where S: SetAlgebra, S.Element == ResultValue {
-        return array(of: count).map { S($0) }
+        return set(ofAtMost: count...count)
     }
 }
 
@@ -138,6 +136,6 @@ extension Generator where ResultValue: Hashable {
     /// - Returns: A generator of sets.
     @inlinable
     public func set(ofAtMost count: Int) -> Generator<Set<ResultValue>, ArrayShrink> {
-        return array(of: count).map { Set($0) }
+        return set(ofAtMost: count...count)
     }
 }

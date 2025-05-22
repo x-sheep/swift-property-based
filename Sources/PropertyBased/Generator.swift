@@ -82,14 +82,6 @@ extension Generator where InputValue == ResultValue {
         }
         self._mapFilter = { $0 }
     }
-    
-    @inlinable
-    internal init(
-        runWithShrink: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending GenResult
-    ) {
-        self._runIntermediate = runWithShrink
-        self._mapFilter = { $0 }
-    }
 }
 
 extension Generator {

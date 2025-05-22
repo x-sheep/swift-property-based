@@ -54,17 +54,3 @@ extension Sequence {
         Shrink.Appended(first: self, second: other)
     }
 }
-
-extension Optional where Wrapped: Sequence {
-    /// Append a sequence to this sequence. If this sequence is nil, the other sequence is returned.
-    /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
-    /// - Returns: A new sequence.
-    @inlinable
-    public func append<Other: Sequence>(_ other: Other?) -> Shrink.Appended<Wrapped, Other> where Other.Element == Wrapped.Element {
-        Shrink.Appended(first: self, second: other)
-    }
-    
-    @inlinable func orEmpty() -> Shrink.Appended<Wrapped, Shrink.None<Wrapped.Element>> {
-        Shrink.Appended(first: self, second: nil as Shrink.None?)
-    }
-}
