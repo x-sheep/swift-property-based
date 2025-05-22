@@ -16,7 +16,7 @@ import Testing
 /// Simple example:
 /// ```swift
 /// @Test func testDuplication() async {
-///   await propertyCheck(input: .int(in: 0...100)) { n in
+///   await propertyCheck(input: Gen.int(in: 0...100)) { n in
 ///     #expect(n + n == n * 2)
 ///   }
 /// }
@@ -24,10 +24,10 @@ import Testing
 ///
 /// Example with multiple inputs:
 /// ```swift
-/// let stringCreator = Gen.letterOrNumber.string(of: .int(in: 1...10))
+/// let stringCreator = Gen.letterOrNumber.string(of: Gen.int(in: 1...10))
 ///
 /// @Test func testStringRepeat() async {
-///   await propertyCheck(count: 500, input: stringCreator, .int(in: 0...5)) { str, n in
+///   await propertyCheck(count: 500, input: stringCreator, Gen.int(in: 0...5)) { str, n in
 ///     let actual = String(repeating: str, count: n)
 ///     #expect(actual.length == str.length * n)
 ///   }
@@ -39,7 +39,7 @@ import Testing
 /// It's possible that a test only fails on very specific inputs that don't trigger every time.
 /// ```swift
 /// @Test func failsSometimes() async {
-///   await propertyCheck(input: .int(in: 0...1000)) { n in
+///   await propertyCheck(input: Gen.int(in: 0...1000)) { n in
 ///     #expect(n < 990)
 ///   }
 /// }
@@ -57,7 +57,7 @@ import Testing
 /// ```swift
 /// @Test(.fixedSeed("aKPPWDEafU0CGMDYHef/ETcbYUyjWQvRVP1DTNy6qJk="))
 /// func failsSometimes() async {
-///   await propertyCheck(input: .int(in: 0...1000)) { n in
+///   await propertyCheck(input: Gen.int(in: 0...1000)) { n in
 ///     #expect(n < 990)
 ///   }
 /// }
