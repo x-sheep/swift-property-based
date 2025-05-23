@@ -10,6 +10,8 @@ import Testing
 /// A trait that enables or disables shrinking within a test or test suite.
 ///
 /// Use ``shrinking(_:)`` to construct an instance of this trait.
+///
+/// > Note: This feature is experimental, and disabled by default. The shrinking output will be very verbose, due to a limitation in Swift Testing.
 public struct EnableShrinkTrait: TestTrait, SuiteTrait, TestScoping {
     @_documentation(visibility: internal)
     public var isRecursive: Bool { false }

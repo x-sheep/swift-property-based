@@ -63,6 +63,35 @@ import Testing
 /// }
 /// ```
 ///
+/// ### Shrinking
+///
+/// > Note: This feature is experimental, and disabled by default. The shrinking output will be very verbose, due to a limitation in Swift Testing.
+///
+/// When a failing case has been found, it's possible that the input is large and contrived, such as arrays with many elements. When _shrinking_ is enabled, PropertyBased will repeat a failing test until it finds the smallest possible input that still causes a failure.
+///
+/// For example, the following test fails when the given numbers sum to a value above a certain threshold:
+///
+/// ```swift
+/// @Test func checkSumInRange() async {
+///     await propertyCheck(input: Gen.int(in: 0...100).array(of: 1...10)) { numbers in
+///         let sum = numbers.reduce(0, +)
+///         #expect(sum < 250)
+///     }
+/// }
+/// ```
+///
+/// The generator could come up with an array like `[63, 61, 33, 53, 97, 68, 23, 16]`, which sums to `414`. Ideally, we want to have an input that sums to exactly `250`.
+///
+/// Enable the shrinker by adding the `shrinking` trait:
+/// 
+/// ```swift
+/// @Test(.shrinking) func checkSumInRange() async
+/// ```
+///
+/// After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, which the middle element has been reduced to be closer to the edge.
+///
+/// When using built-in generators and the `zip` function to combine them, shrinkers will also be composed.
+///
 /// - Parameters:
 ///   - isolation: The actor to which `body` is isolated, if any.
 ///   - count:
