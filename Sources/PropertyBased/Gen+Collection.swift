@@ -2,7 +2,7 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 extension Gen {
-    /// Produces a generator of random elements of this generator's collection.
+    /// Produces a generator of random elements of the given collection.
     ///
     /// - Parameter collection: A collection.
     @inlinable
@@ -10,7 +10,7 @@ extension Gen {
         return Generator { rng in collection.randomElement(using: &rng) }
     }
     
-    /// Produces a generator of shuffled arrays of this generator's collection.
+    /// Produces a generator of shuffled arrays of the given collection.
     ///
     /// - Parameter collection: A collection.
     @inlinable
@@ -31,7 +31,17 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
 }
 
 extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
-    /// Produces a generator of all case-iterable cases.
+    /// Produces a generator of random cases of a given enum.
+    ///
+    /// The enum must conform to `CaseIterable`.
+    ///
+    /// ### Example
+    /// ```swift
+    /// enum Direction: CaseIterable {
+    ///     case north, south, east, west
+    /// }
+    /// let gen = Gen<Direction>.case
+    /// ````
     @inlinable
     public static var `case`: Generator<Value, Shrink.None<Value>> {
         return .init { rng in

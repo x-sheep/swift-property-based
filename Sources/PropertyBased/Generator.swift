@@ -144,7 +144,7 @@ extension Generator {
         )
     }
     
-    /// Returns a generator of the non-nil results of calling the given transformation with a value of the generator.
+    /// Produces a generator of the non-nil results of calling the given transformation with a value of the generator.
     ///
     /// - Parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
     /// - Returns: A generator of the non-nil results of calling the given transformation with a value of the generator.

@@ -2,7 +2,7 @@
 //// Copyright (c) 2019 Point-Free, Inc. MIT License
 
 extension Gen where Value == UnicodeScalar {
-    /// Returns a generator of random unicode scalars within the specified range.
+    /// Produces a generator of random unicode scalars within the specified range.
     ///
     /// - Parameter range: The range in which to create a random unicode scalar. `range` must be finite.
     /// - Returns: A generator of random unicode scalars within the bounds of range.
@@ -17,7 +17,7 @@ extension Gen where Value == UnicodeScalar {
 
 extension Gen where Value == Character {
     // FIXME: Make safe for characters with multiple scalars.
-    /// Returns a generator of random characters within the specified range.
+    /// Produces a generator of random characters within the specified range.
     ///
     /// - Parameter range: The range in which to create a random character. `range` must be finite.
     /// - Returns: A generator of random characters within the bounds of range.

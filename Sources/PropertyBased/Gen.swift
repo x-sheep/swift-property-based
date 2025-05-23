@@ -27,7 +27,7 @@ extension Gen where Value == Bool {
     /// - ``bool(_:)``
     public static var bool: Generator<Bool, Repeated<Bool>> { bool() }
     
-    /// Create a generator of random boolean values with a specific rate.
+    /// Produces a generator of random boolean values with a specific rate.
     /// - Parameter rate: The rate of `true` values. Must be a number between 0 and 1.
     /// - Returns: A generator of random boolean values.
     public static func bool(_ rate: Float = 0.5) -> Generator<Bool, Repeated<Bool>> {

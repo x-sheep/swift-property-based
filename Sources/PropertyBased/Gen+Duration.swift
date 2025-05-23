@@ -26,7 +26,7 @@ extension Duration {
 
 @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension Gen where Value == Duration {
-    /// Returns a generator of random durations within the specified range.
+    /// Produces a generator of random durations within the specified range.
     ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random durations within the bounds of range.
