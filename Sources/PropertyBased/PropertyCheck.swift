@@ -11,7 +11,7 @@ import Testing
 ///
 /// Call this within a Test to generate inputs in a reproducible manner.
 ///
-/// # Examples
+/// ### Examples
 ///
 /// Simple example:
 /// ```swift
@@ -34,7 +34,7 @@ import Testing
 /// }
 /// ```
 ///
-/// # Using fixed seeds
+/// ### Using fixed seeds
 ///
 /// It's possible that a test only fails on very specific inputs that don't trigger every time.
 /// ```swift

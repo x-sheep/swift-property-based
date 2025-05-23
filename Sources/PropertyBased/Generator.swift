@@ -2,6 +2,9 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 /// A composable, transformable context for generating random values.
+///
+/// A Generator contains a specific function that creates new values, as well as a function
+/// that builds a shrinking sequence for any value.
 public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
     
@@ -128,7 +131,7 @@ extension Generator {
         )
     }
     
-    /// Transforms a generator of `ResultValue`s into a generator of `NewValue`s by applying a transformation.
+    /// Transforms a generator of pairs into a generator of `NewValue`s by applying a transformation on both values.
     ///
     /// - Parameter transform: A function that transforms a 2-tuple into `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
