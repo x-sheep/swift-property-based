@@ -122,7 +122,7 @@ public func propertyCheck<InputValue, ResultValue>(
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
         
-        let ((inputValue, shrink), resultValue) = input.runFull(&rng)
+        let (inputValue, resultValue) = input.runFull(&rng)
         
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)
@@ -137,7 +137,7 @@ public func propertyCheck<InputValue, ResultValue>(
             var shrinkCount = 0
             while didShrink {
                 didShrink = false
-                let candidates = shrink(shrunkenInput)
+                let candidates = input._shrinker(shrunkenInput)
                 
                 for c in candidates {
                     guard let mappedShrunk = input._mapFilter(c) else { continue }

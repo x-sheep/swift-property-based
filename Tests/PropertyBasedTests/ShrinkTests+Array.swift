@@ -44,23 +44,6 @@ import PropertyBased
         #expect(actual == expected)
     }
     
-    @Test func testShrinkMultiple() {
-        let input = [true, false, true]
-        
-        let seq = Shrink.shrinkArray(input, shrinker: [{ _ in [false] }, { _ in [true] }, { _ in [] }])
-        let actual = Array(seq)
-        
-        let expected = [
-            [false, true],
-            [true, true],
-            [true, false],
-            [false, false, true],
-            [true, true, true],
-        ]
-        
-        #expect(actual == expected)
-    }
-    
     @Test func testFullShrink() {
         let input = [4, 10, 25]
         

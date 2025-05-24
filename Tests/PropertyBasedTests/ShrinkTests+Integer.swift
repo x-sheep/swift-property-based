@@ -10,9 +10,7 @@ import Testing
 
 @Suite struct ShrinkIntegerTests {
     @Test func testShrinkBool() async throws {
-        let gen = Gen.bool
-        var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let (_, shrink) = gen._runIntermediate(&rng)
+        let shrink = Gen.bool._shrinker
         
         #expect(Array(shrink(true)) == [false])
         #expect(Array(shrink(false)).isEmpty)
@@ -20,8 +18,7 @@ import Testing
     
     @Test func testShrinkOptionalBool() async throws {
         let gen = Gen.bool.optional.filter { $0 != nil }
-        var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let ((_, shrink), _) = gen.runFull(&rng)
+        let shrink = gen._shrinker
         
         #expect(Array(shrink(true)) == [false, nil])
         #expect(Array(shrink(false)) == [nil])

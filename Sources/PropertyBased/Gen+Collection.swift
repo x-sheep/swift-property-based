@@ -24,7 +24,7 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
     @inlinable
     public var element: Generator<ResultValue.Element?, Shrink.None<ResultValue.Element?>> {
         return .init(run: { rng in
-            let (_, value) = self.runFull(&rng)
+            let value = self.runFull(&rng).result
             return value.randomElement(using: &rng)
         })
     }
@@ -60,23 +60,20 @@ extension Generator {
     /// - Returns: A generator of arrays.
     @inlinable
     public func array(of count: ClosedRange<Int>) -> Generator<[ResultValue], ArrayShrink> {
-        return .init(runWithShrink: { rng in
+        return .init(run: { rng in
             let itemCount = Int.random(in: count, using: &rng)
             
             var collection: [InputValue] = []
-            var shrinkers: [(InputValue) -> ShrinkSequence] = []
             
-            guard itemCount > 0 else {
-                return (collection, { Shrink.shrinkArray($0, shrinker: shrinkers) })
-            }
             collection.reserveCapacity(itemCount)
-            for _ in 1...itemCount {
-                let gen = self.runFull(&rng).gen
-                collection.append(gen.value)
-                shrinkers.append(gen.shrink)
+            for _ in 0..<itemCount {
+                collection.append(self.runFull(&rng).input)
             }
-            return (collection, { Shrink.shrinkArray($0, shrinker: shrinkers, lowerBound: count.lowerBound) })
-        }, finalResult: {
+            return collection
+        },shrink: {
+            Shrink.shrinkArray($0, shrinker: _shrinker, lowerBound: count.lowerBound)
+        },
+                     finalResult: {
             return $0.compactMap(self._mapFilter)
         })
     }

@@ -30,18 +30,15 @@ public func zip<${inTupleType}, ${outTupleType}>(
     (${outTupleType}),
     Shrink.Tuple<(${inTupleType})>
 > {
-    return .init(runWithShrink: { rng in
+    return .init(
+        run: { rng in (
 %  for n in range(size):
-        let (v${n}, s${n}) = p${n}._runIntermediate(&rng)
+            p${n}.runFull(&rng).input,
 %  end
-        let values = (
-            ${', '.join([f"v{n}" for n in range(size)])}
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: ${', '.join([f"s{n}" for n in range(size)])}
-        )})
-    }, finalResult: { input in
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: ${', '.join([f"p{n}._shrinker" for n in range(size)])})
+        }, finalResult: { input in
         guard
 %  for n in range(size):
             let r${n} = p${n}._mapFilter(input.${n}),

@@ -21,17 +21,14 @@ public func zip<InA, InB, OutA, OutB>(
     (OutA, OutB),
     Shrink.Tuple<(InA, InB)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let values = (
-            v0, v1
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -57,18 +54,15 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
     (OutA, OutB, OutC),
     Shrink.Tuple<(InA, InB, InC)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -97,19 +91,16 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
     (OutA, OutB, OutC, OutD),
     Shrink.Tuple<(InA, InB, InC, InD)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -141,20 +132,17 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
     (OutA, OutB, OutC, OutD, OutE),
     Shrink.Tuple<(InA, InB, InC, InD, InE)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -189,21 +177,18 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
     (OutA, OutB, OutC, OutD, OutE, OutF),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -241,22 +226,19 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -297,23 +279,20 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -357,24 +336,21 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -421,25 +397,22 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, OutA, OutB, Ou
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -489,26 +462,23 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, OutA, Out
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -561,27 +531,24 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, OutA
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -637,28 +604,25 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -717,29 +681,26 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -801,30 +762,27 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -889,31 +847,28 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -981,32 +936,29 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1077,33 +1029,30 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1177,34 +1126,31 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1281,35 +1227,32 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1389,36 +1332,33 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1501,37 +1441,34 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let (v21, s21) = p21._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+            p21.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker, p21._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1617,38 +1554,35 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let (v21, s21) = p21._runIntermediate(&rng)
-        let (v22, s22) = p22._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+            p21.runFull(&rng).input,
+            p22.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker, p21._shrinker, p22._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1737,39 +1671,36 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let (v21, s21) = p21._runIntermediate(&rng)
-        let (v22, s22) = p22._runIntermediate(&rng)
-        let (v23, s23) = p23._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+            p21.runFull(&rng).input,
+            p22.runFull(&rng).input,
+            p23.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker, p21._shrinker, p22._shrinker, p23._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1861,40 +1792,37 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let (v21, s21) = p21._runIntermediate(&rng)
-        let (v22, s22) = p22._runIntermediate(&rng)
-        let (v23, s23) = p23._runIntermediate(&rng)
-        let (v24, s24) = p24._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+            p21.runFull(&rng).input,
+            p22.runFull(&rng).input,
+            p23.runFull(&rng).input,
+            p24.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker, p21._shrinker, p22._shrinker, p23._shrinker, p24._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),
@@ -1989,41 +1917,38 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM,
     (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ, OutK, OutL, OutM, OutN, OutO, OutP, OutQ, OutR, OutS, OutT, OutU, OutV, OutW, OutX, OutY, OutZ),
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ, InK, InL, InM, InN, InO, InP, InQ, InR, InS, InT, InU, InV, InW, InX, InY, InZ)>
 > {
-    return .init(runWithShrink: { rng in
-        let (v0, s0) = p0._runIntermediate(&rng)
-        let (v1, s1) = p1._runIntermediate(&rng)
-        let (v2, s2) = p2._runIntermediate(&rng)
-        let (v3, s3) = p3._runIntermediate(&rng)
-        let (v4, s4) = p4._runIntermediate(&rng)
-        let (v5, s5) = p5._runIntermediate(&rng)
-        let (v6, s6) = p6._runIntermediate(&rng)
-        let (v7, s7) = p7._runIntermediate(&rng)
-        let (v8, s8) = p8._runIntermediate(&rng)
-        let (v9, s9) = p9._runIntermediate(&rng)
-        let (v10, s10) = p10._runIntermediate(&rng)
-        let (v11, s11) = p11._runIntermediate(&rng)
-        let (v12, s12) = p12._runIntermediate(&rng)
-        let (v13, s13) = p13._runIntermediate(&rng)
-        let (v14, s14) = p14._runIntermediate(&rng)
-        let (v15, s15) = p15._runIntermediate(&rng)
-        let (v16, s16) = p16._runIntermediate(&rng)
-        let (v17, s17) = p17._runIntermediate(&rng)
-        let (v18, s18) = p18._runIntermediate(&rng)
-        let (v19, s19) = p19._runIntermediate(&rng)
-        let (v20, s20) = p20._runIntermediate(&rng)
-        let (v21, s21) = p21._runIntermediate(&rng)
-        let (v22, s22) = p22._runIntermediate(&rng)
-        let (v23, s23) = p23._runIntermediate(&rng)
-        let (v24, s24) = p24._runIntermediate(&rng)
-        let (v25, s25) = p25._runIntermediate(&rng)
-        let values = (
-            v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25
-        )
-        
-        return (value: values, shrink: { tuple in 
-            Shrink.shrinkTuple(tuple, shrinkers: s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22, s23, s24, s25
-        )})
-    }, finalResult: { input in
+    return .init(
+        run: { rng in (
+            p0.runFull(&rng).input,
+            p1.runFull(&rng).input,
+            p2.runFull(&rng).input,
+            p3.runFull(&rng).input,
+            p4.runFull(&rng).input,
+            p5.runFull(&rng).input,
+            p6.runFull(&rng).input,
+            p7.runFull(&rng).input,
+            p8.runFull(&rng).input,
+            p9.runFull(&rng).input,
+            p10.runFull(&rng).input,
+            p11.runFull(&rng).input,
+            p12.runFull(&rng).input,
+            p13.runFull(&rng).input,
+            p14.runFull(&rng).input,
+            p15.runFull(&rng).input,
+            p16.runFull(&rng).input,
+            p17.runFull(&rng).input,
+            p18.runFull(&rng).input,
+            p19.runFull(&rng).input,
+            p20.runFull(&rng).input,
+            p21.runFull(&rng).input,
+            p22.runFull(&rng).input,
+            p23.runFull(&rng).input,
+            p24.runFull(&rng).input,
+            p25.runFull(&rng).input,
+        )},
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: p0._shrinker, p1._shrinker, p2._shrinker, p3._shrinker, p4._shrinker, p5._shrinker, p6._shrinker, p7._shrinker, p8._shrinker, p9._shrinker, p10._shrinker, p11._shrinker, p12._shrinker, p13._shrinker, p14._shrinker, p15._shrinker, p16._shrinker, p17._shrinker, p18._shrinker, p19._shrinker, p20._shrinker, p21._shrinker, p22._shrinker, p23._shrinker, p24._shrinker, p25._shrinker)
+        }, finalResult: { input in
         guard
             let r0 = p0._mapFilter(input.0),
             let r1 = p1._mapFilter(input.1),

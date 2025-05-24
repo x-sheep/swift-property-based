@@ -20,8 +20,8 @@ import Testing
         #expect(count > 50)
         
         var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let (value, shrink) = gen._runIntermediate(&rng)
-        shrink(value).reduce(into: ()) { _, _ in }
+        let value = gen._runIntermediate(&rng)
+        gen._shrinker(value).reduce(into: ()) { _, _ in }
     }
     
     @Test func testGenAlways() async {

@@ -11,22 +11,15 @@ extension Shrink {
         public typealias Element = Input
         
         @usableFromInline let input: Input
-        @usableFromInline let itemShrink: [(Item) -> ShrinkSequence]
+        @usableFromInline let itemShrink: (Item) -> ShrinkSequence
         
         /// Construct a new sequence.
         /// - Parameters:
         ///   - input: The original collection.
         ///   - itemShrink: The shrinker function to apply to each element of the collection.
-        public init(_ input: Input, _ itemShrink: [(Item) -> ShrinkSequence]) {
-            precondition(input.count == itemShrink.count, "Number of shrinkers must match number of elements")
-            
-            self.input = input
-            self.itemShrink = itemShrink
-        }
-        
         public init(_ input: Input, _ itemShrink: @escaping (Item) -> ShrinkSequence) {
             self.input = input
-            self.itemShrink = Array(repeatElement(itemShrink, count: input.count))
+            self.itemShrink = itemShrink
         }
         
         public func makeIterator() -> Iterator {
@@ -37,7 +30,7 @@ extension Shrink {
             @usableFromInline let old: Input
             @usableFromInline var current: Input
             
-            @usableFromInline let itemShrink: [(Item) -> ShrinkSequence]
+            @usableFromInline let itemShrink: (Item) -> ShrinkSequence
             @usableFromInline var currentShrink: ShrinkSequence.Iterator?
             
             @usableFromInline var index: Input.Index?
@@ -63,25 +56,10 @@ extension Shrink {
                         return nil
                     }
                     
-                    let shrinkIndex = itemShrink.index(itemShrink.startIndex, offsetBy: current.distance(from: current.startIndex, to: index!))
-                    currentShrink = itemShrink[shrinkIndex](current[index!]).makeIterator()
+                    currentShrink = itemShrink(current[index!]).makeIterator()
                 }
             }
         }
-    }
-    
-    /// Return a sequence of collections that each have one element omitted or shrunk from the given collection.
-    /// - Parameters:
-    ///   - array: The collection to shrink.
-    ///   - shrinker: The functions to apply to each respective element of this collection. This array must have the same size as the input.
-    ///   - lowerBound: The minimum amount of items the collection should keep.
-    /// - Returns: A sequence of collections.
-    public static func shrinkArray<
-        Item, Shrinker: Sequence<Item>,
-        Input: RemovableCollection<Item> & MutableCollection<Item>
-    >(_ array: Input, shrinker: [(Item) -> Shrinker], lowerBound: Int = 0) ->
-    Shrink.Appended<Shrink.Omit<Input>, Shrink.ElementWise<Item, Input, Shrinker>> {
-        omitSingleElement(from: array, lowerBound: lowerBound).append(ElementWise(array, shrinker))
     }
     
     /// Return a sequence of collections that each have one element omitted or shrunk from the given collection.
