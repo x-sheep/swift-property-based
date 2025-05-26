@@ -70,4 +70,11 @@ import Testing
             $0.contains("> 50")
         }))
     }
+    
+    @Test(.shrinking) func testShrinkEnabled() {
+        #expect(EnableShrinkTrait.isEnabled)
+    }
+    @Test(.shrinking(false)) func testShrinkDisabled() {
+        #expect(!EnableShrinkTrait.isEnabled)
+    }
 }

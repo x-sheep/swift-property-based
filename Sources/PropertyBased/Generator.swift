@@ -198,15 +198,13 @@ extension Generator {
                 return nil as InputValue?
             }
             return self._runIntermediate(&rng)
-        },
-                     shrink: { value in
+        }, shrink: { value in
             if let value {
                 Shrink.WithNil(_shrinker(value))
             } else {
                 Shrink.WithNil(nil)
             }
-        },
-                     finalResult: {
+        }, finalResult: {
             if let some = $0 {
                 return self._mapFilter(some)
             }

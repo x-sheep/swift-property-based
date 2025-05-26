@@ -24,7 +24,7 @@ extension Generator where InputValue: Sendable, ResultValue: Collection & Sendab
     @inlinable
     public var element: Generator<ResultValue.Element?, Shrink.None<ResultValue.Element?>> {
         return .init(run: { rng in
-            let value = self.runFull(&rng).result
+            let value = self.run(using: &rng)
             return value.randomElement(using: &rng)
         })
     }
@@ -105,25 +105,6 @@ extension Generator {
     @inlinable
     public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink> where ResultValue == (K, V) {
         return dictionary(ofAtMost: count...count)
-    }
-    
-    
-    /// Produces a new generator of sets of this generator's values.
-    ///
-    /// - Parameter count: The size of the random set.
-    /// - Returns: A generator of sets.
-    @inlinable
-    public func set<S>(ofAtMost count: ClosedRange<Int>) -> Generator<S, ArrayShrink> where S: SetAlgebra, S.Element == ResultValue {
-        return array(of: count).map { S($0) }
-    }
-    
-    /// Produces a new generator of sets of this generator's values.
-    ///
-    /// - Parameter count: The size of the random set.
-    /// - Returns: A generator of sets.
-    @inlinable
-    public func set<S>(ofAtMost count: Int) -> Generator<S, ArrayShrink> where S: SetAlgebra, S.Element == ResultValue {
-        return set(ofAtMost: count...count)
     }
 }
 
