@@ -90,4 +90,49 @@ import Testing
             #expect(Duration(int).int128 == int)
         }
     }
+
+    @Test func testGenerateOptional() async {
+        let gen = Gen.int().optional
+        
+        await testGen(gen)
+        
+        await confirmation(expectedCount: 1...) { confirm in
+            await propertyCheck(count: 200, input: gen) { item in
+                if item == nil {
+                    confirm()
+                }
+            }
+        }
+    }
+    
+    enum CustomError: Hashable, Error {
+        case one
+    }
+    
+    @Test func testGenerateAsResult() async {
+        let successGen = Gen.int()
+        let errorGen = Gen.always(CustomError.one)
+        
+        let gen = successGen.asResult(withFailure: errorGen)
+        
+        await testGen(gen)
+        
+        await confirmation(expectedCount: 1...) { confirm in
+            await propertyCheck(count: 200, input: gen) { item in
+                if case .failure = item {
+                    confirm()
+                }
+            }
+        }
+    }
+    
+    @Test func testEraseToAnySequence() async {
+        let gen1 = Gen.int()
+        let gen2 = gen1.eraseToAnySequence()
+        
+        let seq1 = Array(gen1._shrinker(50))
+        let seq2 = Array(gen2._shrinker(50))
+        
+        #expect(seq1 == seq2)
+    }
 }

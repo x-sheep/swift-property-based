@@ -208,7 +208,7 @@ extension Generator {
             if let some = $0 {
                 return self._mapFilter(some)
             }
-            return nil
+            return .some(.none)
         })
     }
     
