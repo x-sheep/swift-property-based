@@ -20,7 +20,8 @@ let package = Package(
         ),
         .testTarget(
             name: "PropertyBasedTests",
-            dependencies: ["PropertyBased"]
+            dependencies: ["PropertyBased"],
+            exclude: ["ZipTests.swift.gyb"]
         ),
     ]
 )
