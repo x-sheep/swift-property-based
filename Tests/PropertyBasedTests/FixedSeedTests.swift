@@ -7,7 +7,6 @@
 
 import Testing
 import PropertyBased
-import Gen
 
 @Suite struct FixedSeedTests {
     @Test func testInvalidSeed() async throws {
@@ -46,7 +45,7 @@ import Gen
         let trait = FixedSeedTrait.fixedSeed("4tPCyvymNncnc+napVCI0T4Jc6IYw1lXOQbXlIqyHck=")
         let issues = await gatherIssues {
             await trait.provideScope(for: Test.current!, testCase: Test.Case.current) {
-                await propertyCheck(input: .int(in: 0...1000000)) { n in
+                await propertyCheck(input: Gen.int(in: 0...1000000)) { n in
                     #expect(n == 480813)
                 }
             }
@@ -59,6 +58,9 @@ import Gen
     
     @Test func testXoshiro() throws {
         var rng = try #require(Xoshiro(seed: "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E="))
+        
+        try #require(rng == rng)
+        try #require(rng.hashValue == rng.hashValue)
         
         try #require(rng.currentSeed == "I9kE/glCt1MIxbFsddPUSiKFAAJBGKPHSre93c+Wz9E=")
         try #require(rng.next() == 13012537654314612243)

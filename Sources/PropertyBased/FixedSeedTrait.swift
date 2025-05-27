@@ -5,7 +5,6 @@
 //  Created by Lennard Sprong on 04/05/2025.
 //
 
-import Gen
 import Testing
 
 /// A trait that overrides the seed used by all property checks within a Test.
@@ -34,7 +33,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
             return
         }
         
-        let foundIssues = await countIssues {
+        let foundIssues = await countIssues(suppress: false) {
             try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
                 try await function()
             }

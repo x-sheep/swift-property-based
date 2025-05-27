@@ -11,16 +11,17 @@ let package = Package(
             targets: ["PropertyBased"]
         ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-gen.git", from: "0.4.0"),
-    ],
+    dependencies: [],
     targets: [
-        .target(name: "PropertyBased", dependencies: [
-            .product(name: "Gen", package: "swift-gen"),
-        ]),
+        .target(
+            name: "PropertyBased",
+            dependencies: [],
+            exclude: ["PropertyCheck+Pack.swift.gyb", "Zip.swift.gyb"]
+        ),
         .testTarget(
             name: "PropertyBasedTests",
-            dependencies: ["PropertyBased"]
+            dependencies: ["PropertyBased"],
+            exclude: ["ZipTests.swift.gyb"]
         ),
     ]
 )

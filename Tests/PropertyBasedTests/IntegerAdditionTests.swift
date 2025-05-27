@@ -7,7 +7,6 @@
 
 import Testing
 import PropertyBased
-import Gen
 
 /// A simple example of testing an operation by its properties.
 @Suite struct IntegerAdditionTests {
