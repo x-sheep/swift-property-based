@@ -71,10 +71,24 @@ import Testing
         }))
     }
     
-    @Test(.shrinking) func testShrinkEnabled() {
-        #expect(EnableShrinkTrait.isEnabled)
-    }
     @Test(.shrinking(false)) func testShrinkDisabled() {
         #expect(!EnableShrinkTrait.isEnabled)
+    }
+    
+    @Test(.shrinking) func testShrinkUsed() async {
+        let issues = await gatherIssues {
+            await FixedSeedTrait.fixedSeed(25466932810665158, 1321246059880845604, 5313745855673549824, 1730655706999845731).provideScope(for: .current!, testCase: .current) {
+                await propertyCheck(input: Gen.int(in: 0...100)) { i in
+                    #expect(i == 0)
+                }
+            }
+        }
+        
+        #expect(issues.contains(where: {
+            $0.contains("with input 1")
+        }))
+        #expect(issues.contains(where: {
+            $0.contains("shrunk down from")
+        }))
     }
 }

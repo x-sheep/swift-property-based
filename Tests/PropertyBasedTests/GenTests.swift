@@ -9,21 +9,6 @@ import Testing
 @testable import PropertyBased
 
 @Suite struct GenTests {
-    private func testGen<T: Hashable & Sendable>(_ gen: Generator<T, some Sequence>) async {
-        let fullSet = Mutex(Set<T>())
-        await propertyCheck(count: 200, input: gen) { item in
-            #expect(item == item)
-            fullSet.withLock { _ = $0.insert(item) }
-        }
-        
-        let count = fullSet.withLock { $0.count }
-        #expect(count > 50)
-        
-        var rng = Xoshiro() as any SeededRandomNumberGenerator
-        let value = gen._runIntermediate(&rng)
-        gen._shrinker(value).reduce(into: ()) { _, _ in }
-    }
-    
     @Test func testGenAlways() async {
         await propertyCheck(input: Gen.always(360)) { item in
             #expect(item == 360)
