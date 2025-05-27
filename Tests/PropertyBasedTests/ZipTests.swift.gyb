@@ -5,7 +5,7 @@ import Testing
 
 @Suite struct ZipTests {
     @Test func testPropertyCheckOverloads() async {
-% for size in range(2, 27):
+% for size in range(2, 11):
 %  params = ', '.join([chr(n + 97) for n in range(size)])
 
         await propertyCheck(count: 5, input: ${', '.join([f"Gen.bool" for n in range(size)])}) { ${params} in
@@ -18,7 +18,7 @@ import Testing
     @Test func testZipShrinkOverloads() async {
         var rng = Xoshiro() as any SeededRandomNumberGenerator
 
-% for size in range(2, 27):
+% for size in range(2, 11):
         repeat {
             let gen = zip(Gen.bool(1), ${', '.join([f"Gen.bool" for n in range(size-1)])})
             let result = gen._runIntermediate(&rng)

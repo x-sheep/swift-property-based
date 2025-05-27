@@ -9,7 +9,7 @@
 
 import Testing
 
-% for size in range(2, 27):
+% for size in range(2, 11):
 %  inTupleType = ', '.join(["In" + chr(n + 65) for n in range(size)])
 %  outTupleType = ', '.join(["Out" + chr(n + 65) for n in range(size)])
 /// See ``propertyCheck(count:input:perform:isolation:sourceLocation:)``
