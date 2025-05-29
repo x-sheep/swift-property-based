@@ -22,6 +22,17 @@ extension Gen where Value: FixedWidthInteger & Sendable {
     public static func value(in range: some RangeExpression<Value>) -> Generator<Value, Shrink.Integer<Value>> {
         return value(in: ClosedRange(range))
     }
+    
+    /// A generator of random integers within the full range, to be used for option sets.
+    ///
+    /// The associated shrinker will remove every bit, but will never set bits that are unset in the original value.
+    @inlinable
+    public static var bitSet: Generator<Value, Shrink.Bitwise<Value>> {
+        return .init(
+            run: { rng in Value.random(in: .min ... .max, using: &rng) },
+            shrink: { .init($0) }
+        )
+    }
 }
 
 extension Gen where Value == Int {
