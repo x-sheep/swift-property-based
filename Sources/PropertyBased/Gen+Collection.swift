@@ -132,7 +132,7 @@ extension Gen where Value: OptionSet, Value.RawValue: FixedWidthInteger & Sendab
     /// Produces a generator of sets for an OptionSet.
     ///
     /// This generator will generate sets that may exceed the static properties declared in this option set.
-    public var optionSet: Generator<Value, Shrink.Bitwise<Value.RawValue>> {
+    public static var optionSet: Generator<Value, Shrink.Bitwise<Value.RawValue>> {
         Gen<Value.RawValue>.bitSet.map { Value(rawValue: $0) }
     }
 }

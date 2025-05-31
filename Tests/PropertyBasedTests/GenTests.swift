@@ -120,4 +120,12 @@ import Testing
         
         #expect(seq1 == seq2)
     }
+    
+    struct CustomOptionSet: OptionSet, Hashable, Sendable {
+        var rawValue: UInt
+    }
+    
+    @Test func testGenerateOptionSet() async {
+        await testGen(Gen<CustomOptionSet>.optionSet)
+    }
 }
