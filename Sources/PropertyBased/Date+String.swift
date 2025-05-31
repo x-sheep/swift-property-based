@@ -25,6 +25,13 @@ let dateFormats = [
 ]
 
 extension Date: @retroactive ExpressibleByStringLiteral {
+    /// Create a date from a ISO8601-formatted string.
+    ///
+    /// The date components are required. The time and offset components are optional.
+    ///
+    /// This initializer exists as a convenience for creating date ranges. It is not recommended for use in a production environment.
+    /// 
+    /// - Parameter value: The string to parse.
     public init(stringLiteral value: String) {
         let formatter = DateFormatter()
         formatter.calendar = .neutral
