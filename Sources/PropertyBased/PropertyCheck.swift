@@ -162,14 +162,14 @@ public func propertyCheck<InputValue, ResultValue>(
                 }
             }
             
-            let shrunkParamLabel = String(describingForTest: shrunkenInput)
+            let originalParamLabel = String(describingForTest: resultValue)
             
             let failureMessage: String
             
             if shrinkCount == 0 {
-                failureMessage = "Failure occured with input \(shrunkParamLabel)."
+                failureMessage = "Failure occured with input \(originalParamLabel)."
             } else {
-                let originalParamLabel = String(describingForTest: inputValue)
+                let shrunkParamLabel = String(describingForTest: input._mapFilter(shrunkenInput)!)
                 failureMessage = "Failure occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
             }
             

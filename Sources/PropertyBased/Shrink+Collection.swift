@@ -8,7 +8,7 @@
 /// A protocol for collections that support removing elements by index, but don't necessarily conform to `RangeReplaceableCollection`.
 ///
 /// Custom collection types can use this protocol to support shrinking by removing elements. All types that conform to `RangeReplaceableCollection`
-/// already meet the requirement, and `swift-collection` types such as `OrderedSet` or `OrderedDictionary` can also conform without further changes.
+/// already meet the requirement, and `swift-collection` types such as `OrderedSet` and `OrderedDictionary` can also conform without further changes.
 public protocol RemovableCollection<Element>: Collection {
     /// Remove the element at the specified position.
     ///
