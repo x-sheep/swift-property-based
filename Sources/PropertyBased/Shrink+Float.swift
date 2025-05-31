@@ -70,32 +70,33 @@ extension FloatingPoint {
         Shrink.Floating(from: self, bound: bound)
     }
     
-    /// Get a shrinking sequence that shrinks this value as close to zero as possible.
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
     ///
     /// If this value is NaN, the sequence is empty.
-    /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
-    public func shrink(within range: ClosedRange<Self>) -> Shrink.Floating<Self> {
-        if range.lowerBound > 0 {
+    public func shrink(within range: ClosedRange<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+        if range.lowerBound > bound {
             shrink(towards: range.lowerBound)
-        } else if range.upperBound < 0 {
+        } else if range.upperBound < bound {
             shrink(towards: range.upperBound)
         } else {
-            shrink(towards: 0)
+            shrink(towards: bound)
         }
     }
     
-    @inlinable public func shrink(within range: Range<Self>) -> Shrink.Floating<Self> {
-        shrink(within: range.lowerBound ... range.upperBound.nextDown)
+    @inlinable public func shrink(within range: Range<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+        shrink(within: range.lowerBound ... range.upperBound.nextDown, towards: bound)
     }
-    @inlinable public func shrink(within range: PartialRangeThrough<Self>) -> Shrink.Floating<Self> {
-        shrink(towards: min(0, range.upperBound))
+    @inlinable public func shrink(within range: PartialRangeThrough<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+        shrink(towards: min(bound, range.upperBound))
     }
-    @inlinable public func shrink(within range: PartialRangeUpTo<Self>) -> Shrink.Floating<Self> {
-        shrink(towards: min(0, range.upperBound.nextDown))
+    @inlinable public func shrink(within range: PartialRangeUpTo<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+        shrink(towards: min(bound, range.upperBound.nextDown))
     }
-    @inlinable public func shrink(within range: PartialRangeFrom<Self>) -> Shrink.Floating<Self> {
-        shrink(towards: max(0, range.lowerBound))
+    @inlinable public func shrink(within range: PartialRangeFrom<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+        shrink(towards: max(bound, range.lowerBound))
     }
 }
 

@@ -67,22 +67,23 @@ extension FixedWidthInteger {
         Shrink.Integer(from: self, bound: bound)
     }
     
-    /// Get a shrinking sequence that shrinks this value as close to zero as possible.
-    /// - Parameter range: If this range doesn't contain zero, the bound closest to zero will be used.
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
-    public func shrink(within range: ClosedRange<Self>) -> Shrink.Integer<Self> {
-        if range.lowerBound > 0 {
+    public func shrink(within range: ClosedRange<Self>, towards bound: Self = 0) -> Shrink.Integer<Self> {
+        if range.lowerBound > bound {
             shrink(towards: range.lowerBound)
-        } else if range.upperBound < 0 {
+        } else if range.upperBound < bound {
             shrink(towards: range.upperBound)
         } else {
-            shrink(towards: 0)
+            shrink(towards: bound)
         }
     }
     
     @inlinable
-    public func shrink(within range: some RangeExpression<Self>) -> Shrink.Integer<Self> {
-        shrink(within: ClosedRange(range))
+    public func shrink(within range: some RangeExpression<Self>, towards bound: Self = 0) -> Shrink.Integer<Self> {
+        shrink(within: ClosedRange(range), towards: bound)
     }
 }
 
