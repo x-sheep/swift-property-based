@@ -2,10 +2,10 @@
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
 extension Gen where Value: FixedWidthInteger & Sendable {
-    /// Produces a generator of random integers within the specified range.
+    /// Produces a generator of random values within the specified range.
     ///
     /// - Parameter range: The range in which to create a random value.
-    /// - Returns: A generator of random integers within the bounds of range.
+    /// - Returns: A generator of random values within the bounds of range.
     @inlinable
     public static func value(in range: ClosedRange<Value> = Value.min ... Value.max) -> Generator<Value, Shrink.Integer<Value>> {
         return .init(
@@ -14,10 +14,10 @@ extension Gen where Value: FixedWidthInteger & Sendable {
         )
     }
     
-    /// Produces a generator of random integers within the specified range.
+    /// Produces a generator of random values within the specified range.
     ///
     /// - Parameter range: The range in which to create a random value.
-    /// - Returns: A generator of random integers within the bounds of range.
+    /// - Returns: A generator of random values within the bounds of range.
     @inlinable
     public static func value(in range: some RangeExpression<Value>) -> Generator<Value, Shrink.Integer<Value>> {
         return value(in: ClosedRange(range))

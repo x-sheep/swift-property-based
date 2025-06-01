@@ -60,7 +60,7 @@ extension Shrink {
 
 extension FixedWidthInteger {
     /// Get a shrinking sequence that shrinks this value to a specific value.
-    /// - Parameter bound: The value to shrink to.
+    /// - Parameter bound: The value to shrink towards.
     /// - Returns: A new sequence.
     @inlinable
     public func shrink(towards bound: Self) -> Shrink.Integer<Self> {
@@ -81,6 +81,10 @@ extension FixedWidthInteger {
         }
     }
     
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
+    /// - Returns: A new sequence.
     @inlinable
     public func shrink(within range: some RangeExpression<Self>, towards bound: Self = 0) -> Shrink.Integer<Self> {
         shrink(within: ClosedRange(range), towards: bound)

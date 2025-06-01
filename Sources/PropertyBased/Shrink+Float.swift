@@ -63,7 +63,7 @@ extension FloatingPoint {
     /// Get a shrinking sequence that shrinks this value to a specific value.
     ///
     /// If this value or the given bound is NaN, the sequence is empty.
-    /// - Parameter bound: The value to shrink to.
+    /// - Parameter bound: The value to shrink towards.
     /// - Returns: A new sequence.
     @inlinable
     public func shrink(towards bound: Self) -> Shrink.Floating<Self> {
@@ -86,15 +86,42 @@ extension FloatingPoint {
         }
     }
     
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    ///
+    /// If this value is NaN, the sequence is empty.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
+    /// - Returns: A new sequence.
     @inlinable public func shrink(within range: Range<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
         shrink(within: range.lowerBound ... range.upperBound.nextDown, towards: bound)
     }
+
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    ///
+    /// If this value is NaN, the sequence is empty.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
+    /// - Returns: A new sequence.
     @inlinable public func shrink(within range: PartialRangeThrough<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
         shrink(towards: min(bound, range.upperBound))
     }
+
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    ///
+    /// If this value is NaN, the sequence is empty.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
+    /// - Returns: A new sequence.
     @inlinable public func shrink(within range: PartialRangeUpTo<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
         shrink(towards: min(bound, range.upperBound.nextDown))
     }
+
+    /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
+    ///
+    /// If this value is NaN, the sequence is empty.
+    /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
+    /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
+    /// - Returns: A new sequence.
     @inlinable public func shrink(within range: PartialRangeFrom<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
         shrink(towards: max(bound, range.lowerBound))
     }

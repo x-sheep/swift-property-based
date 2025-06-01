@@ -88,7 +88,7 @@ import Testing
 /// @Test(.shrinking) func checkSumInRange() async
 /// ```
 ///
-/// After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, which the middle element has been reduced to be closer to the edge.
+/// After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, while the middle element has been reduced to be closer to the edge.
 ///
 /// When using built-in generators and the `zip` function to combine them, shrinkers will also be composed.
 ///

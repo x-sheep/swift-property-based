@@ -101,7 +101,7 @@ Enable the shrinker by adding the `shrinking` trait:
 @Test(.shrinking) func checkSumInRange() async
 ```
 
-After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, which the middle element has been reduced to be closer to the edge.
+After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, while the middle element has been reduced to be closer to the edge.
 
 When using the built-in generators and the `zip` function, shrinkers will also be composed.
 
