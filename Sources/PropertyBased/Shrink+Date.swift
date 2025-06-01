@@ -9,6 +9,7 @@
 import Foundation
 
 extension Shrink {
+    /// Shrink a TimeInterval by rounding to seconds, then minutes, then 15 minute intervals.
     public struct TruncateTime: Sequence, IteratorProtocol, Sendable, BitwiseCopyable {
         public init(_ value: TimeInterval, roundUp: Bool) {
             self.value = value

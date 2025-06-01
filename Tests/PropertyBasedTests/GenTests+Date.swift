@@ -67,6 +67,16 @@ import Foundation
             let year = Calendar.neutral.component(.year, from: date)
             #expect(year <= 2020)
         }
+        
+        await propertyCheck(input: Gen.date(in: "2022-12-25"..<"2023-01-01")) { date in
+            let year = Calendar.neutral.component(.year, from: date)
+            #expect(year == 2022)
+        }
+        
+        await propertyCheck(input: Gen.date(in: ..<"2023-01-01")) { date in
+            let year = Calendar.neutral.component(.year, from: date)
+            #expect(year < 2023)
+        }
     }
     
     @Test func testGenerateDateTimeLiterals() async {
