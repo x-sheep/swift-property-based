@@ -6,7 +6,7 @@ For example, a new generator for a `Int256` type could be added like this:
 
 ```swift
 extension Gen where Value == Int256 {
-    static func int256() -> Generator<Int256, Shrink.Integral<Int256>> {
+    static func int256() -> Generator<Int256, Shrink.Integer<Int256>> {
         Gen<Int256>.value()
     }
 }
