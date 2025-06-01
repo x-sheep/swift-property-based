@@ -7,7 +7,7 @@ extension Gen where Value == UnicodeScalar {
     /// - Parameter range: The range in which to create a random unicode scalar. `range` must be finite.
     /// - Returns: A generator of random unicode scalars within the bounds of range.
     @inlinable
-    public static func unicodeScalar(in range: ClosedRange<Value>) -> Generator<UnicodeScalar, Shrink.None<UInt32>> {
+    public static func unicodeScalar(in range: ClosedRange<UnicodeScalar>) -> Generator<UnicodeScalar, Shrink.None<UInt32>> {
         return Gen<UInt32>
             .value(in: range.lowerBound.value...range.upperBound.value)
             .withoutShrink()
@@ -22,7 +22,7 @@ extension Gen where Value == Character {
     /// - Parameter range: The range in which to create a random character. `range` must be finite.
     /// - Returns: A generator of random characters within the bounds of range.
     @inlinable
-    public static func character(in range: ClosedRange<Value>) -> Generator<Character, Shrink.None<UInt32>> {
+    public static func character(in range: ClosedRange<Character>) -> Generator<Character, Shrink.None<UInt32>> {
         return Gen<UnicodeScalar>
             .unicodeScalar(
                 in: range.lowerBound.unicodeScalars.first!...range.upperBound.unicodeScalars.last!
