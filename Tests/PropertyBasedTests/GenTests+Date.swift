@@ -57,7 +57,10 @@ import Foundation
         }
     }
     
-    @Test func testGenerateDateLiterals() async {
+    @Test func testGenerateDateLiterals() async throws {
+        let date = try #require(DateComponents(calendar: .neutral, year: 2019, month: 4, day: 15).date)
+        try #require(date == "2019-04-15")
+        
         await propertyCheck(input: Gen.date(in: "2020-01-20"...)) { date in
             let year = Calendar.neutral.component(.year, from: date)
             #expect(year >= 2020)

@@ -36,6 +36,7 @@ extension Date: @retroactive ExpressibleByStringLiteral {
         let formatter = DateFormatter()
         formatter.calendar = .neutral
         formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         
         for format in dateFormats {
             formatter.dateFormat = format
