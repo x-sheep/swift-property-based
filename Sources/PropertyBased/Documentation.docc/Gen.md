@@ -42,11 +42,23 @@ You can generate individual characters, and use ``/Generator/string(of:)`` to fo
 - ``/Gen/character(in:)``
 - ``/Gen/unicodeScalar(in:)``
 
+### Generating dates
+
+- ``/Gen/date``
+- ``/Gen/date(in:)``
+- ``/Gen/date(inYear:)``
+- ``/Gen/dateTime``
+- ``/Gen/dateTime(in:)``
+- ``/Gen/dateTime(inYear:)``
+- ``/Gen/year``
+- ``/Gen/year(in:)``
+
 ### Handling immutable collections
 
 - ``/Gen/case``
 - ``/Gen/element(of:)``
 - ``/Gen/shuffled(_:)``
+- ``/Gen/optionSet``
 
 ### Generating specific number types
 
