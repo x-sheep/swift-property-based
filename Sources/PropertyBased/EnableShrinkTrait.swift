@@ -15,22 +15,24 @@ import Testing
 public struct EnableShrinkTrait: TestTrait, SuiteTrait, TestScoping {
     @_documentation(visibility: internal)
     public var isRecursive: Bool { false }
-    
-    public func provideScope(for test: Test, testCase: Test.Case?, performing function: @Sendable () async throws -> Void) async throws {
+
+    public func provideScope(
+        for test: Test, testCase: Test.Case?, performing function: @Sendable () async throws -> Void
+    ) async throws {
         try await Self.$isEnabled.withValue(shouldEnable) {
             try await function()
         }
     }
-    
+
     @TaskLocal static var isEnabled = false
-    
+
     var shouldEnable: Bool
 }
 
 extension Trait where Self == EnableShrinkTrait {
     /// Enable shrinking within this test or test suite.
     public static var shrinking: Self { shrinking(true) }
-    
+
     /// Enable or disable shrinking within this test or test suite.
     /// - Parameter enabled: Whether to enable shrinking.
     /// - Returns: An instance of ``EnableShrinkTrait``.

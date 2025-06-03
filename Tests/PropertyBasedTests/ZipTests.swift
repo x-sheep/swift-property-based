@@ -1,6 +1,7 @@
 // Auto-generated from ZipTests.swift.gyb
 
 import Testing
+
 @testable import PropertyBased
 
 @Suite struct ZipTests {
@@ -26,27 +27,36 @@ import Testing
             #expect(!values.isEmpty)
         }
 
-        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) { a, b, c, d, e, f in
+        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) {
+            a, b, c, d, e, f in
             let values = [a, b, c, d, e, f]
             #expect(!values.isEmpty)
         }
 
-        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) { a, b, c, d, e, f, g in
+        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) {
+            a, b, c, d, e, f, g in
             let values = [a, b, c, d, e, f, g]
             #expect(!values.isEmpty)
         }
 
-        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) { a, b, c, d, e, f, g, h in
+        await propertyCheck(
+            count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool
+        ) { a, b, c, d, e, f, g, h in
             let values = [a, b, c, d, e, f, g, h]
             #expect(!values.isEmpty)
         }
 
-        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) { a, b, c, d, e, f, g, h, i in
+        await propertyCheck(
+            count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool
+        ) { a, b, c, d, e, f, g, h, i in
             let values = [a, b, c, d, e, f, g, h, i]
             #expect(!values.isEmpty)
         }
 
-        await propertyCheck(count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool) { a, b, c, d, e, f, g, h, i, j in
+        await propertyCheck(
+            count: 5, input: Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool,
+            Gen.bool
+        ) { a, b, c, d, e, f, g, h, i, j in
             let values = [a, b, c, d, e, f, g, h, i, j]
             #expect(!values.isEmpty)
         }
@@ -104,7 +114,8 @@ import Testing
             #expect(shrunk != nil)
         } while false
         repeat {
-            let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
+            let gen = zip(
+                Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
             let result = gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)

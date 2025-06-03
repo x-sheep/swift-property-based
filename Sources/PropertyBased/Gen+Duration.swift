@@ -14,13 +14,15 @@ extension Duration {
     @inlinable public static var zero: Self {
         .init(secondsComponent: 0, attosecondsComponent: 0)
     }
-    
+
     @usableFromInline var int128: Int128 {
         Int128(self.components.attoseconds) + (Int128(self.components.seconds) * attosecondsPerSecond)
     }
-    
+
     @usableFromInline init(_ int128: Int128) {
-        self.init(secondsComponent: Int64(int128 / attosecondsPerSecond), attosecondsComponent: Int64(int128 % attosecondsPerSecond))
+        self.init(
+            secondsComponent: Int64(int128 / attosecondsPerSecond),
+            attosecondsComponent: Int64(int128 % attosecondsPerSecond))
     }
 }
 
@@ -30,9 +32,11 @@ extension Gen where Value == Duration {
     ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random durations within the bounds of range.
-    @inlinable public static func duration(in range: ClosedRange<Duration>) -> Generator<Duration, Shrink.Integer<Int128>> {
-        let seconds = range.lowerBound.int128 ... range.upperBound.int128
-        
+    @inlinable public static func duration(in range: ClosedRange<Duration>) -> Generator<
+        Duration, Shrink.Integer<Int128>
+    > {
+        let seconds = range.lowerBound.int128...range.upperBound.int128
+
         return Gen<Int128>.value(in: seconds).map { Duration($0) }
     }
 }

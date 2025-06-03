@@ -21,12 +21,12 @@ extension Gen where Value: Sendable {
 
 extension Gen where Value == Bool {
     /// A generator of random boolean values.
-    /// 
+    ///
     /// ## See Also
     ///
     /// - ``bool(_:)``
     public static var bool: Generator<Bool, Repeated<Bool>> { bool() }
-    
+
     /// Produces a generator of random boolean values with a specific rate.
     /// - Parameter rate: The rate of `true` values. Must be a number between 0 and 1.
     /// - Returns: A generator of random boolean values.

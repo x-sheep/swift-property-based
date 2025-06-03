@@ -12,21 +12,21 @@ extension Shrink {
     /// It will not contain values that have bits set that are unset in the original value.
     public struct Bitwise<Element: FixedWidthInteger>: Sequence {
         @usableFromInline let initial: Element
-        
+
         @inlinable public init(_ initial: Element) {
             self.initial = initial
         }
-        
+
         public func makeIterator() -> Iterator {
             Iterator(value: Element.Magnitude(truncatingIfNeeded: initial))
         }
-        
+
         public struct Iterator: IteratorProtocol {
             @usableFromInline
             var value: Element.Magnitude
-            
+
             @usableFromInline var index: Int = 0
-            
+
             public mutating func next() -> Element? {
                 while index < Element.bitWidth {
                     let result = value & ~(1 << index)
@@ -35,7 +35,7 @@ extension Shrink {
                         return Element(truncatingIfNeeded: result)
                     }
                 }
-                
+
                 return nil
             }
         }

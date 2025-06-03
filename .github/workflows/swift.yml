@@ -24,3 +24,13 @@ jobs:
         run: swift build -v
       - name: Run tests
         run: swift test -v
+  format:
+    name: Format
+    runs-on: macos-latest
+    steps:
+      - uses: swift-actions/setup-swift@682457186b71c25a884c45c06f859febbe259240
+        with:
+          swift-version: "6.1"
+      - uses: actions/checkout@v4
+      - name: Format
+        run: swift format lint **/*.swift -r -s

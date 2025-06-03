@@ -11,20 +11,20 @@ extension Shrink {
     /// See ``/PropertyBased/Swift/FloatingPoint/shrink(towards:)`` to construct a sequence of this type.
     public struct Floating<FloatType: FloatingPoint>: Sequence, IteratorProtocol {
         public typealias Element = FloatType
-        
+
         @usableFromInline var current: FloatType
         @usableFromInline var leap: FloatType
-        
+
         /// The first value in the sequence.
         @usableFromInline let first: FloatType
         /// Stop the sequence when reaching the end. Do not yield this value.
         @usableFromInline let end: FloatType
-        
+
         @usableFromInline init(from: FloatType, bound: FloatType) {
             first = bound
             current = bound
             end = from
-            
+
             leap = (from / 2) - (bound / 2)
             if leap.isNaN {
                 current = .nan
@@ -32,27 +32,27 @@ extension Shrink {
                 leap = leap > 0 ? .greatestFiniteMagnitude : -.greatestFiniteMagnitude
             }
         }
-        
+
         public mutating func next() -> FloatType? {
             guard !current.isNaN else {
                 return nil
             }
-            
+
             let hasReachedEnd = leap < 0 ? current <= end : current >= end
             guard !hasReachedEnd, leap != 0 else {
                 return nil
             }
-            
+
             if current.isInfinite {
                 defer { current = current > 0 ? .greatestFiniteMagnitude : -.greatestFiniteMagnitude }
                 return current
             }
-            
+
             defer {
                 let newValue = current + leap
                 current = newValue != current ? newValue : end
             }
-            
+
             leap /= 2
             return current
         }
@@ -69,7 +69,7 @@ extension FloatingPoint {
     public func shrink(towards bound: Self) -> Shrink.Floating<Self> {
         Shrink.Floating(from: self, bound: bound)
     }
-    
+
     /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
     ///
     /// If this value is NaN, the sequence is empty.
@@ -85,7 +85,7 @@ extension FloatingPoint {
             shrink(towards: bound)
         }
     }
-    
+
     /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
     ///
     /// If this value is NaN, the sequence is empty.
@@ -93,7 +93,7 @@ extension FloatingPoint {
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
     @inlinable public func shrink(within range: Range<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
-        shrink(within: range.lowerBound ... range.upperBound.nextDown, towards: bound)
+        shrink(within: range.lowerBound...range.upperBound.nextDown, towards: bound)
     }
 
     /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
@@ -102,7 +102,9 @@ extension FloatingPoint {
     /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
-    @inlinable public func shrink(within range: PartialRangeThrough<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+    @inlinable public func shrink(within range: PartialRangeThrough<Self>, towards bound: Self = 0)
+        -> Shrink.Floating<Self>
+    {
         shrink(towards: min(bound, range.upperBound))
     }
 
@@ -112,7 +114,9 @@ extension FloatingPoint {
     /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
-    @inlinable public func shrink(within range: PartialRangeUpTo<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+    @inlinable public func shrink(within range: PartialRangeUpTo<Self>, towards bound: Self = 0)
+        -> Shrink.Floating<Self>
+    {
         shrink(towards: min(bound, range.upperBound.nextDown))
     }
 
@@ -122,7 +126,9 @@ extension FloatingPoint {
     /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
     /// - Returns: A new sequence.
-    @inlinable public func shrink(within range: PartialRangeFrom<Self>, towards bound: Self = 0) -> Shrink.Floating<Self> {
+    @inlinable public func shrink(within range: PartialRangeFrom<Self>, towards bound: Self = 0)
+        -> Shrink.Floating<Self>
+    {
         shrink(towards: max(bound, range.lowerBound))
     }
 }

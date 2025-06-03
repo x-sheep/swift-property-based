@@ -7,27 +7,29 @@
 /// that builds a shrinking sequence for any value.
 public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
-    
+
     /// Generate a single result, before mapping or filtering.
     @usableFromInline
     internal var _runIntermediate: @Sendable (inout any SeededRandomNumberGenerator) -> sending InputValue
-    
+
     /// Map an intermediate result to its final value, or return `nil` if the value should be filtered.
     @usableFromInline
     internal var _mapFilter: @Sendable (InputValue) -> ResultValue?
-    
+
     @usableFromInline
     internal var _shrinker: @Sendable (InputValue) -> ShrinkSequence
-    
+
     /// Run the generator until a single unfiltered value is found.
     @inlinable
-    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G) -> sending (input: InputValue, result: ResultValue) {
+    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G) -> sending (
+        input: InputValue, result: ResultValue
+    ) {
         var arng: any SeededRandomNumberGenerator = rng
         defer { rng = arng as! G }
-        
+
         while true {
             let run = _runIntermediate(&arng)
-            
+
             if let ret = _mapFilter(run) {
                 return (run, ret)
             }
@@ -42,10 +44,10 @@ extension Generator {
     public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending ResultValue {
         runFull(&rng).result
     }
-    
+
     /// Remove the shrinker for this generator.
     /// - Returns: A new generator with the shrinking function removed.
-    @_disfavoredOverload // Only to show warning for redundant calls
+    @_disfavoredOverload  // Only to show warning for redundant calls
     public func withoutShrink() -> Generator<ResultValue, Shrink.None<InputValue>> {
         .init(
             run: _runIntermediate,
@@ -53,11 +55,13 @@ extension Generator {
             finalResult: self._mapFilter
         )
     }
-    
+
     @inlinable
     @_documentation(visibility: private)
     @available(*, deprecated, message: "This generator already has no shrinker.")
-    public func withoutShrink<T>() -> Generator<ResultValue, Shrink.None<T>> where ShrinkSequence == Shrink.None<T> { self }
+    public func withoutShrink<T>() -> Generator<ResultValue, Shrink.None<T>> where ShrinkSequence == Shrink.None<T> {
+        self
+    }
 }
 
 extension Generator where InputValue == ResultValue {
@@ -121,7 +125,9 @@ extension Generator {
     /// - Parameter transform: A function that transforms `ResultValue`s into `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func map<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue) -> Generator<NewValue, ShrinkSequence> {
+    public func map<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue) -> Generator<
+        NewValue, ShrinkSequence
+    > {
         return .init(
             run: _runIntermediate,
             shrink: _shrinker,
@@ -133,13 +139,15 @@ extension Generator {
             }
         )
     }
-    
+
     /// Transforms a generator of pairs into a generator of `NewValue`s by applying a transformation on both values.
     ///
     /// - Parameter transform: A function that transforms a 2-tuple into `NewValue`s.
     /// - Returns: A generator of `NewValue`s.
     @inlinable
-    public func map<NewValue, ItemA, ItemB>(_ transform: @Sendable @escaping (ItemA, ItemB) -> NewValue) -> Generator<NewValue, ShrinkSequence> where ResultValue == (ItemA, ItemB) {
+    public func map<NewValue, ItemA, ItemB>(_ transform: @Sendable @escaping (ItemA, ItemB) -> NewValue) -> Generator<
+        NewValue, ShrinkSequence
+    > where ResultValue == (ItemA, ItemB) {
         return .init(
             run: _runIntermediate,
             shrink: _shrinker,
@@ -151,13 +159,15 @@ extension Generator {
             }
         )
     }
-    
+
     /// Produces a generator of the non-nil results of calling the given transformation with a value of the generator.
     ///
     /// - Parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
     /// - Returns: A generator of the non-nil results of calling the given transformation with a value of the generator.
     @inlinable
-    public func compactMap<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue?) -> Generator<NewValue, ShrinkSequence> {
+    public func compactMap<NewValue>(_ transform: @Sendable @escaping (ResultValue) -> NewValue?) -> Generator<
+        NewValue, ShrinkSequence
+    > {
         return .init(
             run: _runIntermediate,
             shrink: _shrinker,
@@ -169,13 +179,14 @@ extension Generator {
             }
         )
     }
-    
+
     /// Produces a generator of values that match the predicate.
     ///
     /// - Parameter predicate: A predicate.
     /// - Returns: A generator of values that match the predicate.
     @inlinable
-    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<ResultValue, ShrinkSequence> {
+    public func filter(_ predicate: @Sendable @escaping (ResultValue) -> Bool) -> Generator<ResultValue, ShrinkSequence>
+    {
         return self.compactMap { predicate($0) ? $0 : nil }
     }
 }
@@ -188,30 +199,33 @@ extension Generator {
     /// - ``optional(valueRate:)``
     @inlinable
     public var optional: Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> { optional() }
-    
+
     /// Produces a new generator of optional values.
     /// - Parameter valueRate: The rate of not-`nil` values. Must be a number between 0 and 1.
     /// - Returns: A generator of optional values.
     public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
-        return .init(run: { rng in
-            if Float.random(in: 0..<1, using: &rng) > valueRate {
-                return nil as InputValue?
-            }
-            return self._runIntermediate(&rng)
-        }, shrink: { value in
-            if let value {
-                Shrink.WithNil(_shrinker(value))
-            } else {
-                Shrink.WithNil(nil)
-            }
-        }, finalResult: {
-            if let some = $0 {
-                return self._mapFilter(some)
-            }
-            return .some(.none)
-        })
+        return .init(
+            run: { rng in
+                if Float.random(in: 0..<1, using: &rng) > valueRate {
+                    return nil as InputValue?
+                }
+                return self._runIntermediate(&rng)
+            },
+            shrink: { value in
+                if let value {
+                    Shrink.WithNil(_shrinker(value))
+                } else {
+                    Shrink.WithNil(nil)
+                }
+            },
+            finalResult: {
+                if let some = $0 {
+                    return self._mapFilter(some)
+                }
+                return .some(.none)
+            })
     }
-    
+
     /// Produces a new generator of failable values.
     ///
     /// - Parameters:
@@ -223,7 +237,9 @@ extension Generator {
         InFailure,
         FailSeq: Sequence<InFailure>,
         FailResult: Error,
-    >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<Result<ResultValue, FailResult>, Shrink.Tuple<(InputValue, InFailure, Bool)>> where InputValue: Sendable {
+    >(withFailure gen: Generator<FailResult, FailSeq>, successRate: Float = 0.75) -> Generator<
+        Result<ResultValue, FailResult>, Shrink.Tuple<(InputValue, InFailure, Bool)>
+    > where InputValue: Sendable {
         zip(self, gen, Gen.bool(successRate).withoutShrink())
             .map { success, failure, isSuccess in
                 isSuccess ? .success(success) : .failure(failure)
