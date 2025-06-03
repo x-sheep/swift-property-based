@@ -19,12 +19,12 @@ extension Generator where ResultValue: SIMDScalar {
     public var simd2: Generator<SIMD2<ResultValue>, Shrink.Tuple<(InputValue, InputValue)>> {
         return pair.map { SIMD2($0, $1) }
     }
-    
+
     /// Produces a generator that creates a SIMD vector of values.
     public var simd3: Generator<SIMD3<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue)>> {
         return zip(self, self, self).map { t in SIMD3(t.0, t.1, t.2) }
     }
-    
+
     /// Produces a generator that creates a SIMD vector of values.
     public var simd4: Generator<SIMD4<ResultValue>, Shrink.Tuple<(InputValue, InputValue, InputValue, InputValue)>> {
         return zip(self, self, self, self).map { t in SIMD4(t.0, t.1, t.2, t.3) }

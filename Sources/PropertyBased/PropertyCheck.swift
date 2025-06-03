@@ -83,7 +83,7 @@ import Testing
 /// The generator could come up with an array like `[63, 61, 33, 53, 97, 68, 23, 16]`, which sums to `414`. Ideally, we want to have an input that sums to exactly `250`.
 ///
 /// Enable the shrinker by adding the `shrinking` trait:
-/// 
+///
 /// ```swift
 /// @Test(.shrinking) func checkSumInRange() async
 /// ```
@@ -108,44 +108,44 @@ public func propertyCheck<InputValue, ResultValue>(
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
-    
+
     precondition(Test.Case.current != nil, "This function must be called from within a Test.")
     precondition(count >= 0, "count must be a non-negative number")
-    
+
     guard count > 0 else { return }
-    
+
     let fixedRng = FixedSeedTrait.fixedRandom
-    
+
     let actualCount = fixedRng != nil ? 1 : count
-    
+
     for _ in 0..<actualCount {
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
-        
+
         let (inputValue, resultValue) = input.runFull(&rng)
-        
+
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)
         }
-        
+
         if foundIssues > 0 {
             let seed = rngCopy.traitHint
-            
+
             var shrunkenInput = inputValue
-            
+
             var didShrink = EnableShrinkTrait.isEnabled
             var shrinkCount = 0
             while didShrink {
                 didShrink = false
                 let candidates = input._shrinker(shrunkenInput)
-                
+
                 for c in candidates {
                     guard let mappedShrunk = input._mapFilter(c) else { continue }
-                    
+
                     let shrunkIssues = await countIssues(isolation: isolation, suppress: true) {
                         try await body(mappedShrunk)
                     }
-                    
+
                     if shrunkIssues > 0 {
                         didShrink = true
                         shrinkCount += 1
@@ -154,27 +154,30 @@ public func propertyCheck<InputValue, ResultValue>(
                     }
                 }
             }
-            
+
             // If previous inputs were suppressed, run the block one more time to fully record all issues.
             if EnableShrinkTrait.isEnabled {
                 _ = await countIssues(isolation: isolation, suppress: false) {
                     try await body(input._mapFilter(shrunkenInput)!)
                 }
             }
-            
+
             let originalParamLabel = String(describingForTest: resultValue)
-            
+
             let failureMessage: String
-            
+
             if shrinkCount == 0 {
                 failureMessage = "Failure occured with input \(originalParamLabel)."
             } else {
                 let shrunkParamLabel = String(describingForTest: input._mapFilter(shrunkenInput)!)
-                failureMessage = "Failure occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
+                failureMessage =
+                    "Failure occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
             }
-            
+
             if fixedRng == nil {
-                Issue.record("\(failureMessage)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.", sourceLocation: sourceLocation)
+                Issue.record(
+                    "\(failureMessage)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.",
+                    sourceLocation: sourceLocation)
             } else {
                 Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
             }

@@ -15,38 +15,42 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
         self.rng = rng
         self.sourceLocation = sourceLocation
     }
-    
+
     let rng: Xoshiro?
     let sourceLocation: SourceLocation
-    
+
     @TaskLocal
     static var fixedRandom: (rng: Xoshiro, location: SourceLocation)?
-    
+
     public func provideScope(for test: Test, testCase: Test.Case?, performing function: () async throws -> Void) async {
         if let existing = Self.fixedRandom {
             Issue.record("Two different fixed seeds are used in the same test.", sourceLocation: existing.location)
             return
         }
-        
+
         guard let rng else {
-            Issue.record("An invalid seed was provided. Remove the fixedSeed Trait from the Test.", sourceLocation: sourceLocation)
+            Issue.record(
+                "An invalid seed was provided. Remove the fixedSeed Trait from the Test.",
+                sourceLocation: sourceLocation)
             return
         }
-        
+
         let foundIssues = await countIssues(suppress: false) {
             try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
                 try await function()
             }
         }
-        
+
         if foundIssues == 0 {
-            Issue.record("A fixed seed was used, but no expectation failure occured. The property was not tested fully.", sourceLocation: sourceLocation)
+            Issue.record(
+                "A fixed seed was used, but no expectation failure occured. The property was not tested fully.",
+                sourceLocation: sourceLocation)
         }
     }
 }
 
 extension Trait where Self == FixedSeedTrait {
-#if canImport(Foundation)
+    #if canImport(Foundation)
     /// Override the seed used by all property checks within this Test.
     ///
     /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
@@ -62,13 +66,17 @@ extension Trait where Self == FixedSeedTrait {
         let rng = Xoshiro(seed: seed.description)
         return Self(rng, sourceLocation)
     }
-#else
-    @available(*, unavailable, message: "Base64-encoded seeds aren't supported on platforms without Foundation.\nUse the fixedSeed() overload that takes UInt64's instead.")
+    #else
+    @available(
+        *, unavailable,
+        message:
+            "Base64-encoded seeds aren't supported on platforms without Foundation.\nUse the fixedSeed() overload that takes UInt64's instead."
+    )
     public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
         fatalError("Base64 is not supported")
     }
-#endif
-    
+    #endif
+
     /// Override the seed used by all property checks within this Test.
     ///
     /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.
@@ -83,7 +91,9 @@ extension Trait where Self == FixedSeedTrait {
     ///   - sourceLocation: The source location of the trait.
     ///
     /// - Returns: An instance of ``FixedSeedTrait``.
-    public static func fixedSeed(_ s1: UInt64, _ s2: UInt64, _ s3: UInt64, _ s4: UInt64, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
+    public static func fixedSeed(
+        _ s1: UInt64, _ s2: UInt64, _ s3: UInt64, _ s4: UInt64, sourceLocation: SourceLocation = #_sourceLocation
+    ) -> Self {
         let rng = Xoshiro(seed: (s1, s2, s3, s4))
         return Self(rng, sourceLocation)
     }

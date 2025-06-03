@@ -7,12 +7,12 @@
 
 extension Shrink {
     /// Appends two sequences. The sequences can have different types, as long as the elements have the same type.
-    public struct Appended<First: Sequence, Second: Sequence> : Sequence where First.Element == Second.Element {
+    public struct Appended<First: Sequence, Second: Sequence>: Sequence where First.Element == Second.Element {
         public typealias Element = First.Element
-        
+
         public let first: First?
         public let second: Second?
-        
+
         /// Create a sequence by appending two sequences.
         ///
         /// A `nil` parameter is treated as an empty sequence.
@@ -23,21 +23,21 @@ extension Shrink {
             self.first = first
             self.second = second
         }
-        
+
         @inlinable public func makeIterator() -> Iterator {
             return Iterator(first, second)
         }
-        
+
         public struct Iterator: IteratorProtocol {
             @usableFromInline var first: First.Iterator?
             @usableFromInline var second: Second.Iterator?
-            
+
             @inlinable init(_ first: First?, _ second: Second?) {
                 self.first = first?.makeIterator()
                 self.second = second?.makeIterator()
-                
+
             }
-            
+
             mutating public func next() -> Element? {
                 return first?.next() ?? second?.next()
             }
@@ -50,7 +50,8 @@ extension Sequence {
     /// - Parameter other: The sequence to append. If this is `nil`, no elements are appended.
     /// - Returns: A new sequence.
     @inlinable
-    public func append<Other: Sequence>(_ other: Other?) -> Shrink.Appended<Self, Other> where Other.Element == Element {
+    public func append<Other: Sequence>(_ other: Other?) -> Shrink.Appended<Self, Other>
+    where Other.Element == Element {
         Shrink.Appended(first: self, second: other)
     }
 }

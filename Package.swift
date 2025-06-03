@@ -9,7 +9,7 @@ let package = Package(
         .library(
             name: "PropertyBased",
             targets: ["PropertyBased"]
-        ),
+        )
     ],
     dependencies: [],
     targets: [

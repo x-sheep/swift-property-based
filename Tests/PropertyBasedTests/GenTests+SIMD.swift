@@ -5,8 +5,8 @@
 //  Created by Lennard Sprong on 21/05/2025.
 //
 
-import Testing
 import PropertyBased
+import Testing
 
 #if canImport(simd)
 import simd
@@ -23,7 +23,7 @@ import simd
             }
         }
     }
-    
+
     @Test func testSIMD3() async {
         let gen = Gen.float(in: 0...1).simd3
         await confirmation(expectedCount: 90...) { confirm in
@@ -34,7 +34,7 @@ import simd
             }
         }
     }
-    
+
     @Test func testSIMD4() async {
         let gen = Gen.float(in: 0...1).simd4
         await confirmation(expectedCount: 90...) { confirm in
@@ -45,8 +45,8 @@ import simd
             }
         }
     }
-    
-#if canImport(simd)
+
+    #if canImport(simd)
     @Test func testUnitVectorFloat2() async {
         await propertyCheck(input: Gen<simd_float2>.unitVector) { vec in
             #expect(abs(length(vec) - 1) < 0.0001)
@@ -77,7 +77,7 @@ import simd
             #expect(abs(length(vec) - 1) < 0.0001)
         }
     }
-    
+
     @Test func testQuatF() async {
         await propertyCheck(input: Gen.simd_quatf) { quat in
             #expect(abs(quat.length - 1) < 0.0001)
@@ -88,5 +88,5 @@ import simd
             #expect(abs(quat.length - 1) < 0.0001)
         }
     }
-#endif
+    #endif
 }

@@ -11,22 +11,22 @@
 ///
 /// Re-using seeds across multiple executions of the program must result in the same same sequence of values, provided that the Swift library version and the program's dependencies remain unchanged.
 public protocol SeededRandomNumberGenerator: RandomNumberGenerator, Hashable, Sendable {
-    
+
     /// The type to use as the seed.
     associatedtype Seed: Sendable
-    
+
     /// The current seed of the generator.
     ///
     /// Calling `next()` on this generator will change the current seed value.
     /// Creating a new instance of the generator with this seed must result in an instance identical to the current generator.
     var currentSeed: Seed { get }
-    
+
     /// Create an instance of this generator with a given seed.
     ///
     /// If the seed is invalid or incomplete, this initializer returns `nil`.
     /// - Parameter seed: The seed to use.
     init?(seed: Seed)
-    
+
     /// Create an instance of this generator with a seed provided by a high-quality random source.
     init()
 }

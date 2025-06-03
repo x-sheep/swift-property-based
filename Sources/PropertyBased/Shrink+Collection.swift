@@ -30,31 +30,33 @@ extension Shrink {
     public struct Omit<Seq: RemovableCollection>: Sequence {
         let collection: Seq
         let isActive: Bool
-        
+
         public func makeIterator() -> Iterator {
             Iterator(collection: collection, index: isActive ? collection.startIndex : collection.endIndex)
         }
-        
+
         public struct Iterator: IteratorProtocol {
             let collection: Seq
             var index: Seq.Index
-            
+
             public mutating func next() -> Seq? {
                 guard index != collection.endIndex else { return nil }
                 defer { index = collection.index(after: index) }
-                
+
                 var newCollection = collection
                 newCollection.remove(at: index)
                 return newCollection
             }
         }
     }
-    
+
     /// Return a sequence of collections that each have one element omitted from the given collection.
     /// - Parameter collection: The collection to shrink.
     /// - Parameter lowerBound: The minimum amount of items the collection should keep.
     /// - Returns: A sequence of collections.
-    public static func omitSingleElement<Base: RemovableCollection>(from collection: Base, lowerBound: Int = 0) -> Shrink.Omit<Base> {
+    public static func omitSingleElement<Base: RemovableCollection>(from collection: Base, lowerBound: Int = 0)
+        -> Shrink.Omit<Base>
+    {
         return Omit(collection: collection, isActive: collection.count > lowerBound)
     }
 }

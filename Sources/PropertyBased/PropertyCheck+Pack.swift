@@ -17,14 +17,14 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
     perform body: (OutA, OutB) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1), 
+        count: count,
+        input: zip(g0, g1),
         perform: {
             try await body($0.0, $0.1)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -38,15 +38,15 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
     perform body: (OutA, OutB, OutC) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2), 
+        count: count,
+        input: zip(g0, g1, g2),
         perform: {
             try await body($0.0, $0.1, $0.2)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -60,16 +60,16 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
     perform body: (OutA, OutB, OutC, OutD) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3), 
+        count: count,
+        input: zip(g0, g1, g2, g3),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -83,17 +83,17 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
     perform body: (OutA, OutB, OutC, OutD, OutE) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -107,18 +107,18 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
-    _ g5: Generator<OutF, some Sequence<InF>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
+    _ g5: Generator<OutF, some Sequence<InF>>,
     perform body: (OutA, OutB, OutC, OutD, OutE, OutF) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4, g5), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4, g5),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4, $0.5)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -132,19 +132,19 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
-    _ g5: Generator<OutF, some Sequence<InF>>, 
-    _ g6: Generator<OutG, some Sequence<InG>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
+    _ g5: Generator<OutF, some Sequence<InF>>,
+    _ g6: Generator<OutG, some Sequence<InG>>,
     perform body: (OutA, OutB, OutC, OutD, OutE, OutF, OutG) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4, g5, g6), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4, g5, g6),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, $0.6)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -158,20 +158,20 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
-    _ g5: Generator<OutF, some Sequence<InF>>, 
-    _ g6: Generator<OutG, some Sequence<InG>>, 
-    _ g7: Generator<OutH, some Sequence<InH>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
+    _ g5: Generator<OutF, some Sequence<InF>>,
+    _ g6: Generator<OutG, some Sequence<InG>>,
+    _ g7: Generator<OutH, some Sequence<InH>>,
     perform body: (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4, g5, g6, g7), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4, g5, g6, g7),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, $0.6, $0.7)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -185,21 +185,21 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
-    _ g5: Generator<OutF, some Sequence<InF>>, 
-    _ g6: Generator<OutG, some Sequence<InG>>, 
-    _ g7: Generator<OutH, some Sequence<InH>>, 
-    _ g8: Generator<OutI, some Sequence<InI>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
+    _ g5: Generator<OutF, some Sequence<InF>>,
+    _ g6: Generator<OutG, some Sequence<InG>>,
+    _ g7: Generator<OutH, some Sequence<InH>>,
+    _ g8: Generator<OutI, some Sequence<InI>>,
     perform body: (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4, g5, g6, g7, g8), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4, g5, g6, g7, g8),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, $0.6, $0.7, $0.8)
         }, isolation: isolation, sourceLocation: sourceLocation)
@@ -213,24 +213,23 @@ public func propertyCheck<
 >(
     count: Int = 100,
     input g0: Generator<OutA, some Sequence<InA>>,
-    _ g1: Generator<OutB, some Sequence<InB>>, 
-    _ g2: Generator<OutC, some Sequence<InC>>, 
-    _ g3: Generator<OutD, some Sequence<InD>>, 
-    _ g4: Generator<OutE, some Sequence<InE>>, 
-    _ g5: Generator<OutF, some Sequence<InF>>, 
-    _ g6: Generator<OutG, some Sequence<InG>>, 
-    _ g7: Generator<OutH, some Sequence<InH>>, 
-    _ g8: Generator<OutI, some Sequence<InI>>, 
-    _ g9: Generator<OutJ, some Sequence<InJ>>, 
+    _ g1: Generator<OutB, some Sequence<InB>>,
+    _ g2: Generator<OutC, some Sequence<InC>>,
+    _ g3: Generator<OutD, some Sequence<InD>>,
+    _ g4: Generator<OutE, some Sequence<InE>>,
+    _ g5: Generator<OutF, some Sequence<InF>>,
+    _ g6: Generator<OutG, some Sequence<InG>>,
+    _ g7: Generator<OutH, some Sequence<InH>>,
+    _ g8: Generator<OutI, some Sequence<InI>>,
+    _ g9: Generator<OutJ, some Sequence<InJ>>,
     perform body: (OutA, OutB, OutC, OutD, OutE, OutF, OutG, OutH, OutI, OutJ) async throws -> Void,
     isolation: isolated (any Actor)? = #isolation,
     sourceLocation: SourceLocation = #_sourceLocation
 ) async {
     await propertyCheck(
-        count: count, 
-        input: zip(g0, g1, g2, g3, g4, g5, g6, g7, g8, g9), 
+        count: count,
+        input: zip(g0, g1, g2, g3, g4, g5, g6, g7, g8, g9),
         perform: {
             try await body($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, $0.6, $0.7, $0.8, $0.9)
         }, isolation: isolation, sourceLocation: sourceLocation)
 }
-

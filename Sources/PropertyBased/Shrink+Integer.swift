@@ -11,23 +11,23 @@ extension Shrink {
     /// See ``/PropertyBased/Swift/FixedWidthInteger/shrink(towards:)`` to construct a sequence of this type.
     public struct Integer<IntegerType: FixedWidthInteger>: Sequence, IteratorProtocol {
         public typealias Element = IntegerType
-        
+
         @usableFromInline var current: IntegerType
         @usableFromInline var leap: IntegerType
-        
+
         @usableFromInline let isSubtracting: Bool
-        
+
         /// The first value in the sequence.
         @usableFromInline let first: IntegerType
         /// Stop the sequence when reaching the end. Do not yield this value.
         @usableFromInline let end: IntegerType
-        
+
         @usableFromInline init(from: IntegerType, bound: IntegerType) {
             first = bound
             current = bound
             end = from
             isSubtracting = bound > from
-            
+
             let newLeap: (partialValue: IntegerType, overflow: Bool)
             if isSubtracting {
                 newLeap = (bound / 2).subtractingReportingOverflow(from / 2)
@@ -36,13 +36,13 @@ extension Shrink {
             }
             leap = !newLeap.overflow ? newLeap.partialValue : .max / 2
         }
-        
+
         public mutating func next() -> IntegerType? {
             let hasReachedEnd = isSubtracting ? current <= end : current >= end
             guard !hasReachedEnd, leap > 0 else {
                 return nil
             }
-            
+
             defer {
                 if isSubtracting {
                     current -= leap
@@ -66,7 +66,7 @@ extension FixedWidthInteger {
     public func shrink(towards bound: Self) -> Shrink.Integer<Self> {
         Shrink.Integer(from: self, bound: bound)
     }
-    
+
     /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
     /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.
@@ -80,7 +80,7 @@ extension FixedWidthInteger {
             shrink(towards: bound)
         }
     }
-    
+
     /// Get a shrinking sequence that shrinks this value as close to the given bound as possible.
     /// - Parameter range: If this range doesn't contain the `bound` parameter, the bound closest to the `bound` parameter will be used.
     /// - Parameter bound: The preferred bound to shrink towards. Defaults to zero.

@@ -6,20 +6,20 @@
 /// The algorithm used is `xoshiro256**`: http://xoshiro.di.unimi.it.
 public struct Xoshiro: RandomNumberGenerator, Sendable {
     @usableFromInline var state: (UInt64, UInt64, UInt64, UInt64)
-    
+
     public var currentState: (UInt64, UInt64, UInt64, UInt64) { state }
-    
+
     @inlinable
     public init() {
         var rng = SystemRandomNumberGenerator()
         self.state = (rng.next(), rng.next(), rng.next(), rng.next())
     }
-    
+
     @inlinable
     public init(seed: (UInt64, UInt64, UInt64, UInt64)) {
         self.state = seed
     }
-    
+
     @inlinable
     public mutating func next() -> UInt64 {
         // Adopted from https://github.com/mattgallagher/CwlUtils/blob/0bfc4587d01cfc796b6c7e118fc631333dd8ab33/Sources/CwlUtils/CwlRandom.swift
@@ -40,7 +40,7 @@ extension Xoshiro: Hashable {
     public static func == (lhs: Xoshiro, rhs: Xoshiro) -> Bool {
         lhs.currentState == rhs.currentState
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         currentState.0.hash(into: &hasher)
         currentState.1.hash(into: &hasher)
@@ -54,26 +54,26 @@ import Foundation
 
 extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = String
-    
+
     public init?(seed: String) {
         guard let data = Data(base64Encoded: seed),
-              data.count == MemoryLayout<UInt64>.size * 4
+            data.count == MemoryLayout<UInt64>.size * 4
         else { return nil }
-        
+
         let state = data.withUnsafeBytes {
             let pointer = $0.bindMemory(to: UInt64.self)
             return (pointer[0], pointer[1], pointer[2], pointer[3])
         }
-        
+
         self.init(seed: state)
     }
-    
+
     public var currentSeed: String {
         let bytes: ContiguousArray = [currentState.0, currentState.1, currentState.2, currentState.3]
         let data = bytes.withUnsafeBufferPointer { Data(buffer: $0) }
         return data.base64EncodedString()
     }
-    
+
     var traitHint: String {
         "(\"\(currentSeed)\")"
     }
@@ -81,7 +81,7 @@ extension Xoshiro: SeededRandomNumberGenerator {
 #else
 extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = (UInt64, UInt64, UInt64, UInt64)
-    
+
     public var currentSeed: Seed { currentState }
     var traitHint: String { "\(currentState)" }
 }
