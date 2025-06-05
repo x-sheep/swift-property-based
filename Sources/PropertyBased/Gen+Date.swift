@@ -73,7 +73,7 @@ extension Gen where Value == Date {
         guard let lower = DateComponents(calendar: .neutral, year: actualRange.lowerBound, month: 1, day: 1).date,
             let upper = DateComponents(calendar: .neutral, year: actualRange.upperBound + 1, month: 1, day: 1).date
         else {
-            fatalError("dateTime(inYear:) got invalid year range: \(range)")
+            preconditionFailure("dateTime(inYear:) got invalid year range: \(range)")
         }
 
         return dateTime(in: lower..<upper)
@@ -157,7 +157,7 @@ extension Gen where Value == Date {
         guard let lower = DateComponents(calendar: .neutral, year: actualRange.lowerBound, month: 1, day: 1).date,
             let upper = DateComponents(calendar: .neutral, year: actualRange.upperBound, month: 12, day: 31).date
         else {
-            fatalError("date(inYear:) got invalid year range: \(range)")
+            preconditionFailure("date(inYear:) got invalid year range: \(range)")
         }
 
         return date(in: lower...upper)

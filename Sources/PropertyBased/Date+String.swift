@@ -46,7 +46,7 @@ extension Date: @retroactive ExpressibleByStringLiteral {
             }
         }
 
-        fatalError("\(value) is not a valid ISO 8601 date")
+        preconditionFailure("\(value) is not a valid ISO 8601 date")
     }
 }
 
