@@ -4,7 +4,7 @@
 /// Pseudo-random generator.
 ///
 /// The algorithm used is `xoshiro256**`: http://xoshiro.di.unimi.it.
-public struct Xoshiro: RandomNumberGenerator, Sendable {
+public struct Xoshiro: RandomNumberGenerator, BitwiseCopyable, Sendable {
     @usableFromInline var state: (UInt64, UInt64, UInt64, UInt64)
 
     public var currentState: (UInt64, UInt64, UInt64, UInt64) { state }
