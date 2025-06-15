@@ -65,6 +65,11 @@ extension Gen where Value == Character {
 extension Generator where ResultValue == Character {
     /// Produces a new generator of strings of this generator's characters.
     ///
+    /// ### Example
+    /// ```swift
+    /// Gen.lowercaseLetter.string(of: 1 ... 10)
+    /// ```
+    ///
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.
     @inlinable
@@ -73,6 +78,11 @@ extension Generator where ResultValue == Character {
     }
 
     /// Produces a new generator of strings of this generator's characters.
+    ///
+    /// ### Example
+    /// ```swift
+    /// Gen.letterOrNumber.string(of: 6)
+    /// ```
     ///
     /// - Parameter count: The size of the random string.
     /// - Returns: A generator of strings.

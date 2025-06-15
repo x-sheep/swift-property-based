@@ -43,7 +43,7 @@ extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
     ///     case north, south, east, west
     /// }
     /// let gen = Gen<Direction>.case
-    /// ````
+    /// ```
     @inlinable
     public static var `case`: Generator<Value, Shrink.None<Value>> {
         return .init { rng in
@@ -59,6 +59,11 @@ extension Generator {
     >
 
     /// Produces a new generator of arrays of this generator's values.
+    ///
+    /// ### Example
+    /// ```swift
+    /// Gen.bool.array(of: 1 ... 10)
+    /// ```
     ///
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
@@ -86,6 +91,11 @@ extension Generator {
 
     /// Produces a new generator of arrays of this generator's values.
     ///
+    /// ### Example
+    /// ```swift
+    /// Gen.bool.array(of: 5)
+    /// ```
+    ///
     /// - Parameter count: The size of the random array.
     /// - Returns: A generator of arrays.
     @inlinable
@@ -95,7 +105,7 @@ extension Generator {
 
     /// Produces a new generator of dictionaries of this generator's pairs.
     ///
-    /// - Parameter count: The size of the random dictionary.
+    /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
     @inlinable
     public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[K: V], ArrayShrink>
@@ -107,7 +117,7 @@ extension Generator {
 
     /// Produces a new generator of dictionaries of this generator's pairs.
     ///
-    /// - Parameter count: The size of the random dictionary.
+    /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
     @inlinable
     public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink>
@@ -119,7 +129,12 @@ extension Generator {
 extension Generator where ResultValue: Hashable {
     /// Produces a new generator of sets of this generator's values.
     ///
-    /// - Parameter count: The size of the random set.
+    /// ### Example
+    /// ```swift
+    /// Gen.int().set(ofAtMost: 1 ... 10)
+    /// ```
+    ///
+    /// - Parameter count: The amount of items to generate. If duplicate items are generated, the set will have a smaller size.
     /// - Returns: A generator of sets.
     @inlinable
     public func set(ofAtMost count: ClosedRange<Int>) -> Generator<Set<ResultValue>, ArrayShrink> {
@@ -128,7 +143,12 @@ extension Generator where ResultValue: Hashable {
 
     /// Produces a new generator of sets of this generator's values.
     ///
-    /// - Parameter count: The size of the random set.
+    /// ### Example
+    /// ```swift
+    /// Gen.int().set(ofAtMost: 5)
+    /// ```
+    ///
+    /// - Parameter count: The amount of items to generate. If duplicate items are generated, the set will have a smaller size.
     /// - Returns: A generator of sets.
     @inlinable
     public func set(ofAtMost count: Int) -> Generator<Set<ResultValue>, ArrayShrink> {
@@ -140,6 +160,19 @@ extension Gen where Value: OptionSet, Value.RawValue: FixedWidthInteger & Sendab
     /// Produces a generator of sets for an OptionSet.
     ///
     /// This generator will generate sets that may exceed the static properties declared in this option set.
+    ///
+    /// ### Example
+    /// ```swift
+    /// struct Alignment: OptionSet {
+    ///     var rawValue: UInt8
+    ///
+    ///     static let top = Self(rawValue: 1 << 0)
+    ///     static let bottom = Self(rawValue: 1 << 1)
+    ///     static let leading = Self(rawValue: 1 << 2)
+    ///     static let trailing = Self(rawValue: 1 << 3)
+    /// }
+    /// let gen = Gen<Alignment>.optionSet
+    /// ```
     public static var optionSet: Generator<Value, Shrink.Bitwise<Value.RawValue>> {
         Gen<Value.RawValue>.bitSet.map { Value(rawValue: $0) }
     }

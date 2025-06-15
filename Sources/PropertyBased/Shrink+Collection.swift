@@ -9,6 +9,10 @@
 ///
 /// Custom collection types can use this protocol to support shrinking by removing elements. All types that conform to `RangeReplaceableCollection`
 /// already meet the requirement, and `swift-collection` types such as `OrderedSet` and `OrderedDictionary` can also conform without further changes.
+///
+/// ## See Also
+///
+/// - ``/PropertyBased/Shrink/omitSingleElement(from:lowerBound:)``
 public protocol RemovableCollection<Element>: Collection {
     /// Remove the element at the specified position.
     ///

@@ -10,11 +10,6 @@
 
 @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension Duration {
-    /// An empty duration.
-    @inlinable public static var zero: Self {
-        .init(secondsComponent: 0, attosecondsComponent: 0)
-    }
-
     @usableFromInline var int128: Int128 {
         Int128(self.components.attoseconds) + (Int128(self.components.seconds) * attosecondsPerSecond)
     }
@@ -29,6 +24,11 @@ extension Duration {
 @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension Gen where Value == Duration {
     /// Produces a generator of random durations within the specified range.
+    ///
+    /// ### Example
+    /// ```swift
+    /// Gen.duration(in: .zero ... .minutes(1))
+    /// ```
     ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random durations within the bounds of range.

@@ -4,6 +4,11 @@
 extension Gen where Value: BinaryFloatingPoint & Sendable, Value.RawSignificand: FixedWidthInteger {
     /// Produces a generator of random values within the specified range.
     ///
+    /// ### Example
+    /// ```swift
+    /// Gen<Float16>.value(in: 0 ... 1)
+    /// ```
+    ///
     /// - Parameter range: The range in which to create a random value. `range` must be finite.
     /// - Returns: A generator of random values within the bounds of range.
     @inlinable
@@ -15,6 +20,11 @@ extension Gen where Value: BinaryFloatingPoint & Sendable, Value.RawSignificand:
     }
 
     /// Produces a generator of random values within the specified range.
+    ///
+    /// ### Example
+    /// ```swift
+    /// Gen<Float16>.value(in: 0 ..< 1)
+    /// ```
     ///
     /// - Parameter range: The range in which to create a random value. `range` must be finite.
     /// - Returns: A generator of random values within the bounds of range.

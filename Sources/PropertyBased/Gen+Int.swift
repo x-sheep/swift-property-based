@@ -4,6 +4,11 @@
 extension Gen where Value: FixedWidthInteger & Sendable {
     /// Produces a generator of random values within the specified range.
     ///
+    /// ### Example
+    /// ```swift
+    /// Gen<UInt>.value(in: 0 ... 255)
+    /// ```
+    ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random values within the bounds of range.
     @inlinable
@@ -17,6 +22,11 @@ extension Gen where Value: FixedWidthInteger & Sendable {
     }
 
     /// Produces a generator of random values within the specified range.
+    ///
+    /// ### Example
+    /// ```swift
+    /// Gen<Int8>.value(in: 0...)
+    /// ```
     ///
     /// - Parameter range: The range in which to create a random value.
     /// - Returns: A generator of random values within the bounds of range.
