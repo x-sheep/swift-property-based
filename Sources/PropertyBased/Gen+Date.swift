@@ -41,7 +41,7 @@ extension Gen where Value == Int {
 
         return .init(
             run: { rng in Int.random(in: actualRange, using: &rng) },
-            shrink: { $0.shrink(towards: currentYear) }
+            shrink: { $0.shrink(within: actualRange, towards: currentYear) }
         )
     }
 }
