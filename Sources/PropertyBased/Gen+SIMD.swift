@@ -12,7 +12,7 @@ extension Generator {
     ///
     /// ### Example
     /// ```swift
-    /// Gen.cgFloat(in: 0 ..< 800).pair.map { CGPoint.init(x: $0, y: $1) }
+    /// Gen.cgFloat(in: 0 ..< 800).pair.map { CGPoint(x: $0, y: $1) }
     /// ```
     public var pair: Generator<(ResultValue, ResultValue), Shrink.Tuple<(InputValue, InputValue)>> {
         return zip(self, self)

@@ -105,6 +105,14 @@ extension Generator {
 
     /// Produces a new generator of dictionaries of this generator's pairs.
     ///
+    /// ### Example
+    /// ```swift
+    /// zip(
+    ///     Gen.int(),
+    ///     Gen.letter.string(of: 10)
+    /// ).dictionary(ofAtMost: 1 ... 10)
+    /// ```
+    ///
     /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
     @inlinable
@@ -116,6 +124,14 @@ extension Generator {
     }
 
     /// Produces a new generator of dictionaries of this generator's pairs.
+    ///
+    /// ### Example
+    /// ```swift
+    /// zip(
+    ///     Gen.int(),
+    ///     Gen.letter.string(of: 10)
+    /// ).dictionary(ofAtMost: 5)
+    /// ```
     ///
     /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
