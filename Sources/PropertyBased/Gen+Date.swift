@@ -117,6 +117,8 @@ extension Gen where Value == Date {
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
     /// - Returns: A new generator.
     public static func dateTime(in range: Range<Date>) -> Generator<Date, DateTimeShrink> {
+        precondition(!range.isEmpty, "Range must not be empty")
+
         let interval = range.lowerBound.timeIntervalSinceReferenceDate..<range.upperBound.timeIntervalSinceReferenceDate
         let end = Date().timeIntervalSinceReferenceDate
 
@@ -215,6 +217,8 @@ extension Gen where Value == Date {
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
     /// - Returns: A new generator.
     public static func date(in range: Range<Date>) -> Generator<Date, Shrink.Integer<Int>> {
+        precondition(!range.isEmpty, "Range must not be empty")
+
         let newUpper = range.upperBound.timeIntervalSinceReferenceDate - secondsPerDay
         return date(in: range.lowerBound...Date(timeIntervalSinceReferenceDate: newUpper))
     }
