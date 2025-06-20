@@ -261,7 +261,7 @@ extension Generator {
 }
 
 extension Generator {
-    /// Wrap the shrinking sequence into a type-erased `AnySequence` struct.
+    /// Wrap the shrinking sequence into an `AnySequence` struct.
     ///
     /// This can be used if multiple generators must have the exact same type.
     /// - Returns: A copy of this generator.
@@ -270,6 +270,24 @@ extension Generator {
             run: _runIntermediate,
             shrink: { AnySequence(_shrinker($0)) },
             finalResult: _mapFilter
+        )
+    }
+
+    /// Wrap the shrinking sequence into a type-erased `AnySequence` struct.
+    ///
+    /// This can be used if multiple generators must have the exact same type, and the underlying input value must also be hidden.
+    /// - Returns: A copy of this generator.
+    @inlinable public func eraseToAny() -> Generator<ResultValue, AnySequence<Any>> {
+        return .init(
+            run: { rng in
+                self._runIntermediate(&rng) as Any
+            },
+            shrink: {
+                AnySequence(_shrinker($0 as! InputValue).lazy.map { $0 as Any })
+            },
+            finalResult: {
+                self._mapFilter($0 as! InputValue)
+            }
         )
     }
 }
