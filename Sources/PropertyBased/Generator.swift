@@ -206,7 +206,7 @@ extension Generator {
     public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
         return .init(
             run: { rng in
-                if Float.random(in: 0..<1, using: &rng) > valueRate {
+                if Float.random(in: 0..<1, using: &rng) >= valueRate {
                     return nil as InputValue?
                 }
                 return self._runIntermediate(&rng)
