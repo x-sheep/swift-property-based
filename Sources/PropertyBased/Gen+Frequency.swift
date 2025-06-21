@@ -43,4 +43,32 @@ extension Gen {
             }
         )
     }
+
+    #if swift(>=6.2)
+    public static func oneOf<each Seq: Sequence>(_ generators: repeat Generator<Value, each Seq>)
+        -> Generator<Value, AnySequence<(index: Int, value: Any)>>
+    {
+        var gens: [(rate: Float, gen: Generator<Value, AnySequence<Any>>)] = []
+
+        for gen in repeat each generators {
+            gens.append((rate: 1.0, gen.eraseToAny()))
+        }
+
+        return frequency(gens)
+    }
+
+    public static func frequency<each Seq: Sequence>(
+        _ generators: repeat (rate: Float, gen: Generator<Value, each Seq>)
+    )
+        -> Generator<Value, AnySequence<(index: Int, value: Any)>>
+    {
+        var gens: [(rate: Float, gen: Generator<Value, AnySequence<Any>>)] = []
+
+        for (rate, gen) in repeat each generators {
+            gens.append((rate: rate, gen.eraseToAny()))
+        }
+
+        return frequency(gens)
+    }
+    #endif  // swift(>=6.2)
 }
