@@ -1,11 +1,40 @@
 // Auto-generated from Zip.swift.gyb
 
-// Yes, I very much would like to use Swift's parameter packing here,
-// but there is currently a compiler crash when trying to evaluate the `Gen` type,
-// which needs to read from the Value type pack twice. There is also no way to work around it
-// by only packing the Sequence type, since same-type constraints are not currently supported by Swift.
-//
-// These functions will all be removed as soon as it can be fully expressed using a parameter pack.
+#if compiler(>=6.2)
+
+/// Combines multiple generators into a single one.
+///
+/// - Parameters:
+///   - p0: A generator of `OutA`s.
+///   - p1: A generator of `OutB`s.
+/// - Returns: A generator of tuples.
+@inlinable
+public func zip<each Out, each Seq: Sequence>(
+    _ gen: repeat Generator<each Out, each Seq>
+) -> Generator<
+    (repeat each Out),
+    Shrink.Tuple<(repeat (each Seq).Element)>
+> {
+    return .init(
+        run: { rng in
+            (repeat (each gen).runFull(&rng).input)
+        },
+        shrink: { tuple in
+            Shrink.shrinkTuple(tuple, shrinkers: repeat (each gen)._shrinker)
+        },
+        finalResult: { input in
+            do {
+                let pair = (repeat (each input, each gen))
+                return try (repeat (each pair).1.tryMap((each pair).0))
+            } catch {
+                return nil
+            }
+        })
+}
+
+#else
+
+// The above parameter pack function crashes in earlier Swift compilers.
 
 /// Combines multiple generators into a single one.
 ///
@@ -475,3 +504,5 @@ public func zip<
             return (r0, r1, r2, r3, r4, r5, r6, r7, r8, r9)
         })
 }
+
+#endif
