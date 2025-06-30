@@ -51,6 +51,20 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 }
 
 extension Generator {
+    enum GenerationError: Swift.Error {
+        case rejected
+    }
+
+    @usableFromInline
+    internal func tryMap(_ input: InputValue) throws -> ResultValue {
+        guard let first = _mapFilter(input) else {
+            throw GenerationError.rejected
+        }
+        return first
+    }
+}
+
+extension Generator {
     /// Generate a single value.
     /// - Parameter rng: The random number generator to use.
     /// - Returns: A randomly generated value.
