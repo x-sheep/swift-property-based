@@ -11,15 +11,15 @@ import Testing
 
 @Suite struct GenFrequencyTests {
     enum Choice: Hashable {
-        case first
-        case second(Int)
-        case third(String)
+        case plain
+        case number(Int)
+        case text(String)
     }
 
     let gen = Gen.oneOf(
-        Gen.always(Choice.first),
-        Gen.int().map(Choice.second),
-        Gen.lowercaseLetter.string(of: 8).map(Choice.third),
+        Gen.always(Choice.plain),
+        Gen.int().map(Choice.number),
+        Gen.lowercaseLetter.string(of: 8).map(Choice.text),
     )
 
     @Test func testGenerateEnum() async {
@@ -30,11 +30,11 @@ import Testing
                 await confirmation(expectedCount: 1...) { confirm3 in
                     await propertyCheck(count: 200, input: gen) { item in
                         switch item {
-                        case .first:
+                        case .plain:
                             confirm1()
-                        case .second:
+                        case .number:
                             confirm2()
-                        case .third:
+                        case .text:
                             confirm3()
                         }
                     }
@@ -44,11 +44,11 @@ import Testing
     }
 
     @Test func testShrinkChoice() async throws {
-        let value = (index: 1, value: 500)
-        let results = Array(gen._shrinker(value))
+        let value = (index: 1, value: 500 as Any)
+        let results = gen._shrinker(value).compactMap(gen._mapFilter)
         try #require(results.count > 1)
-        #expect(results.first?.value as? Int == 0)
-        #expect(!results.contains { $0.value as? Int == 500 })
+        #expect(results.first == .number(0))
+        #expect(!results.contains(.number(500)))
     }
 }
 #endif  // compiler(>=6.2)
