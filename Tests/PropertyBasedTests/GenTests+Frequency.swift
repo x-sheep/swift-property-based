@@ -1,0 +1,54 @@
+//
+//  GenTests+Frequency.swift
+//  PropertyBased
+//
+//  Created by Lennard Sprong on 08/07/2025.
+//
+
+#if compiler(>=6.2)
+import Testing
+@testable import PropertyBased
+
+@Suite struct GenFrequencyTests {
+    enum Choice: Hashable {
+        case first
+        case second(Int)
+        case third(String)
+    }
+
+    let gen = Gen.oneOf(
+        Gen.always(Choice.first),
+        Gen.int().map(Choice.second),
+        Gen.lowercaseLetter.string(of: 8).map(Choice.third),
+    )
+
+    @Test func testGenerateEnum() async {
+        await testGen(gen)
+
+        await confirmation(expectedCount: 1...) { confirm1 in
+            await confirmation(expectedCount: 1...) { confirm2 in
+                await confirmation(expectedCount: 1...) { confirm3 in
+                    await propertyCheck(count: 200, input: gen) { item in
+                        switch item {
+                        case .first:
+                            confirm1()
+                        case .second:
+                            confirm2()
+                        case .third:
+                            confirm3()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test func testShrinkChoice() async throws {
+        let value = (index: 1, value: 500)
+        let results = Array(gen._shrinker(value))
+        try #require(results.count > 1)
+        #expect(results.first?.value as? Int == 0)
+        #expect(!results.contains { $0.value as? Int == 500 })
+    }
+}
+#endif  // compiler(>=6.2)
