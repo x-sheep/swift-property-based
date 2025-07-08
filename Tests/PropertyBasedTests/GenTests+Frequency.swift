@@ -5,8 +5,8 @@
 //  Created by Lennard Sprong on 08/07/2025.
 //
 
-#if compiler(>=6.2)
 import Testing
+
 @testable import PropertyBased
 
 @Suite struct GenFrequencyTests {
@@ -16,13 +16,29 @@ import Testing
         case text(String)
     }
 
-    let gen = Gen.oneOf(
+    // MARK: oneOf
+
+    static let unpackedGen = Gen.oneOf(
+        Gen.always(Choice.plain).eraseToAny(),
+        Gen.int().map(Choice.number).eraseToAny(),
+        Gen.lowercaseLetter.string(of: 8).map(Choice.text).eraseToAny(),
+    )
+
+    #if compiler(>=6.2)
+    static let packedGen = Gen.oneOf(
         Gen.always(Choice.plain),
         Gen.int().map(Choice.number),
         Gen.lowercaseLetter.string(of: 8).map(Choice.text),
     )
 
-    @Test func testGenerateEnum() async {
+    static let generators = [(0, unpackedGen), (1, packedGen)]
+    #else
+    static let generators = [(0, unpackedGen)]
+    #endif  // compiler(>=6.2)
+
+    @Test(arguments: generators)
+    func testGenerateEnum(_ pair: (Int, Generator<Choice, AnySequence<(index: Int, value: Any)>>)) async {
+        let gen = pair.1
         await testGen(gen)
 
         await confirmation(expectedCount: 1...) { confirm1 in
@@ -43,12 +59,43 @@ import Testing
         }
     }
 
-    @Test func testShrinkChoice() async throws {
+    @Test(arguments: generators)
+    func testShrinkChoice(_ pair: (Int, Generator<Choice, AnySequence<(index: Int, value: Any)>>)) async throws {
+        let gen = pair.1
         let value = (index: 1, value: 500 as Any)
         let results = gen._shrinker(value).compactMap(gen._mapFilter)
         try #require(results.count > 1)
         #expect(results.first == .number(0))
         #expect(!results.contains(.number(500)))
     }
+
+    // MARK: frequency
+
+    static let unpackedFreqGen = Gen<Choice>.frequency([
+        (1, Gen.int().map(Choice.number).eraseToAny()),
+        (2.0, Gen.lowercaseLetter.string(of: 8).map(Choice.text).eraseToAny()),
+        (0, Gen.always(Choice.plain).eraseToAny()),
+    ])
+
+    #if compiler(>=6.2)
+    static let packedFreqGen = Gen.frequency(
+        (1, Gen.int().map(Choice.number)),
+        (2, Gen.lowercaseLetter.string(of: 8).map(Choice.text)),
+        (0, Gen.always(Choice.plain)),
+    )
+
+    static let freqGenerators = [(0, unpackedFreqGen), (1, packedFreqGen)]
+    #else
+    static let freqGenerators = [(0, unpackedFreqGen)]
+    #endif  // compiler(>=6.2)
+
+    @Test(arguments: freqGenerators)
+    func testGenerateWithFrequency(_ pair: (Int, Generator<Choice, AnySequence<(index: Int, value: Any)>>)) async {
+        let gen = pair.1
+        await testGen(gen)
+
+        await propertyCheck(count: 200, input: gen) { item in
+            #expect(item != .plain)
+        }
+    }
 }
-#endif  // compiler(>=6.2)
