@@ -35,7 +35,7 @@ Example with multiple inputs, and a custom repeat count:
 import Testing
 import PropertyBased
 
-let stringCreator = Gen.letterOrNumber.string(of: Gen.int(in: 1...10))
+let stringCreator: Generator<String, some Sequence> = Gen.letterOrNumber.string(of: 1...10)
 
 @Test func testStringRepeat() async {
   await propertyCheck(count: 500, input: stringCreator, Gen.int(in: 0...5)) { str, n in

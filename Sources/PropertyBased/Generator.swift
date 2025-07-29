@@ -5,6 +5,11 @@
 ///
 /// A Generator contains a specific function that creates new values, as well as a function
 /// that builds a shrinking sequence for any value.
+///
+/// In most cases, the exact type of `ShrinkSequence` doesn't need to be public in your code, and the `some` keyword can be used instead.
+/// ```swift
+/// let gen = Generator<Output, some Sequence> = ...
+/// ```
 public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
 
