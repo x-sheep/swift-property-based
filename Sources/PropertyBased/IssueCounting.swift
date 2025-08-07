@@ -12,13 +12,30 @@ func countIssues(isolation: isolated (any Actor)? = #isolation, suppress: Bool, 
 {
     let found = Mutex(0)
 
-    // This is currently the only way to get a callback whenever an issue is found within a block.
+    #if swift(>=6.2)
+    nonisolated(unsafe) let closure = perform
+
+    let handler = IssueHandlingTrait.filterIssues { _ in
+        found.withLock { $0 += 1 }
+        return !suppress
+    }
+
+    try? await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
+        try await run(closure, in: isolation)
+    }
+    #else
     try? await withKnownIssue(isIntermittent: true, isolation: isolation) {
         try await perform()
     } matching: { _ in
         found.withLock { $0 += 1 }
         return suppress
     }
+    #endif
 
     return found.withLock { $0 }
+}
+
+@inlinable
+func run(_ closure: () async throws -> Void, in isolation: isolated (any Actor)?) async throws {
+    try await closure()
 }
