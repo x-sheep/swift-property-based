@@ -13,45 +13,21 @@ extension Shrink {
         public typealias Element = IntegerType
 
         @usableFromInline var current: IntegerType
-        @usableFromInline var leap: IntegerType
-
-        @usableFromInline let isSubtracting: Bool
-
-        /// The first value in the sequence.
-        @usableFromInline let first: IntegerType
         /// Stop the sequence when reaching the end. Do not yield this value.
         @usableFromInline let end: IntegerType
 
         @usableFromInline init(from: IntegerType, bound: IntegerType) {
-            first = bound
             current = bound
             end = from
-            isSubtracting = bound > from
-
-            let newLeap: (partialValue: IntegerType, overflow: Bool)
-            if isSubtracting {
-                newLeap = (bound / 2).subtractingReportingOverflow(from / 2)
-            } else {
-                newLeap = (from / 2).subtractingReportingOverflow(bound / 2)
-            }
-            leap = !newLeap.overflow ? newLeap.partialValue : .max / 2
         }
 
         public mutating func next() -> IntegerType? {
-            let hasReachedEnd = isSubtracting ? current <= end : current >= end
-            guard !hasReachedEnd, leap > 0 else {
+            guard current != end else {
                 return nil
             }
-
             defer {
-                if isSubtracting {
-                    current -= leap
-                } else {
-                    current += leap
-                }
-            }
-            if current != first {
-                leap /= 2
+                let next = current.midpoint(towards: end)
+                current = current != next ? next : end
             }
             return current
         }
@@ -59,6 +35,18 @@ extension Shrink {
 }
 
 extension FixedWidthInteger {
+
+    // Adapted from https://github.com/apple/swift-numerics/pull/293
+    @inlinable func midpoint(towards other: Self) -> Self {
+        // Isolate bits in a + b with weight 2, and those with weight 1
+        let twos = self & other
+        let ones = self ^ other
+        let floor = twos &+ ones >> 1
+        let frac = ones & 1
+
+        return floor &+ (self < other ? frac : 0)
+    }
+
     /// Get a shrinking sequence that shrinks this value to a specific value.
     /// - Parameter bound: The value to shrink towards.
     /// - Returns: A new sequence.
