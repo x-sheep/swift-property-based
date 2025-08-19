@@ -16,10 +16,14 @@ import Testing
         }
     }
 
+    #if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
     @Test func testGenerateFloat16() async {
         await testGen(Gen.float16(in: 0...1))
         await testGen(Gen.float16(in: 0..<1))
     }
+    #endif
+
     @Test func testGenerateFloat32() async {
         await testGen(Gen.float(in: 0...1))
         await testGen(Gen.float(in: 0..<1))
@@ -28,6 +32,13 @@ import Testing
         await testGen(Gen.double(in: 0...1))
         await testGen(Gen.double(in: 0..<1))
     }
+
+    #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
+    @Test func testGenerateFloat80() async {
+        await testGen(Gen.float80(in: 0...1))
+        await testGen(Gen.float80(in: 0..<1))
+    }
+    #endif
 
     @Test func testGenerateInt() async { await testGen(Gen.int()) }
     @Test func testGenerateInt8() async { await testGen(Gen.int8()) }

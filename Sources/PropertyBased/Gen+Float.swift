@@ -77,6 +77,7 @@ extension Gen where Value == Double {
     }
 }
 
+#if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
 @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
 extension Gen where Value == Float16 {
     /// Produces a generator of random floats within the specified range.
@@ -97,6 +98,7 @@ extension Gen where Value == Float16 {
         return value(in: range)
     }
 }
+#endif
 
 #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
 extension Gen where Value == Float80 {
