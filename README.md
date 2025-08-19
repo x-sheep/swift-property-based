@@ -5,7 +5,7 @@
 
 PropertyBased is a Swift 6 library that enables Property-Based Testing in `swift-testing`, similar to QuickCheck for Haskell or FsCheck for F# and C#.
 
-Property-Based Testing can be used as an alternative for (or in addition to) testing with hardcoded values. Run tests with random values, and easily switch to specific values when debugging a test failure. 
+Property-Based Testing can be used as an alternative for (or in addition to) testing with hardcoded values. Run tests with composable random inputs, then easily switch to specific failing cases just by adding a single line.
 
 This project aims to support all platforms which can run Swift Testing, including platforms without [Foundation](https://developer.apple.com/documentation/foundation) support.
 
