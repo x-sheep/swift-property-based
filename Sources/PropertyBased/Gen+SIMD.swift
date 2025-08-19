@@ -19,7 +19,7 @@ extension Generator {
     }
 }
 
-extension Generator where ResultValue: SIMDScalar {
+extension Generator where ResultValue: SIMDScalar & Sendable {
     /// Produces a generator that creates a SIMD vector of values.
     ///
     /// ### Example

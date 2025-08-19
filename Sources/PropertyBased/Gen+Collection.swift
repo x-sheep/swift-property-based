@@ -1,6 +1,14 @@
 // Adapted from https://github.com/pointfreeco/swift-gen
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
+#if compiler(>=6.2)
+@_documentation(visibility: internal)
+public typealias SendableHashableType = Hashable & SendableMetatype
+#else
+@_documentation(visibility: internal)
+public typealias SendableHashableType = Hashable
+#endif
+
 extension Gen {
     /// Produces a generator of random elements of the given collection.
     ///
@@ -116,7 +124,9 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: ClosedRange<Int>) -> Generator<[K: V], ArrayShrink>
+    public func dictionary<K: SendableHashableType, V>(ofAtMost count: ClosedRange<Int>) -> Generator<
+        [K: V], ArrayShrink
+    >
     where ResultValue == (K, V) {
         return array(of: count).map {
             Dictionary($0, uniquingKeysWith: { a, _ in a })
@@ -136,13 +146,13 @@ extension Generator {
     /// - Parameter count: The size of the random dictionary. If duplicate keys are generated, the dictionary will have a smaller size.
     /// - Returns: A generator of dictionaries.
     @inlinable
-    public func dictionary<K: Hashable, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink>
+    public func dictionary<K: SendableHashableType, V>(ofAtMost count: Int) -> Generator<[K: V], ArrayShrink>
     where ResultValue == (K, V) {
         return dictionary(ofAtMost: count...count)
     }
 }
 
-extension Generator where ResultValue: Hashable {
+extension Generator where ResultValue: SendableHashableType {
     /// Produces a new generator of sets of this generator's values.
     ///
     /// ### Example
@@ -172,7 +182,7 @@ extension Generator where ResultValue: Hashable {
     }
 }
 
-extension Gen where Value: OptionSet, Value.RawValue: FixedWidthInteger & Sendable {
+extension Gen where Value: OptionSet & Sendable, Value.RawValue: FixedWidthInteger & Sendable {
     /// Produces a generator of sets for an OptionSet.
     ///
     /// This generator will generate sets that may exceed the static properties declared in this option set.

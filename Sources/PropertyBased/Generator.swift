@@ -1,6 +1,14 @@
 // Adapted from https://github.com/pointfreeco/swift-gen
 // Copyright (c) 2019 Point-Free, Inc. MIT License
 
+#if compiler(>=6.2)
+@_documentation(visibility: internal)
+public typealias SendableSequenceType = Sequence & SendableMetatype
+#else
+@_documentation(visibility: internal)
+public typealias SendableSequenceType = Sequence
+#endif
+
 /// A composable, transformable context for generating random values.
 ///
 /// A Generator contains a specific function that creates new values, as well as a function
@@ -10,7 +18,7 @@
 /// ```swift
 /// let gen = Generator<Output, some Sequence> = ...
 /// ```
-public struct Generator<ResultValue, ShrinkSequence: Sequence>: Sendable {
+public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
 
     /// Generate a single result, before mapping or filtering.
