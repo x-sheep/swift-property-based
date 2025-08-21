@@ -95,7 +95,7 @@ extension Generator where InputValue == ResultValue {
     ///   - shrink: A function that returns a shrinking sequence from any input.
     @inlinable
     public init(
-        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue,
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue,
         shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
     ) {
         self._runIntermediate = run
@@ -124,7 +124,7 @@ extension Generator where ShrinkSequence == Shrink.None<ResultValue> {
     /// - Parameter run: A block that returns a random value using a given random number generator.
     @inlinable
     public init(
-        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue
     ) {
         _runIntermediate = run
         _shrinker = { _ in .init() }
