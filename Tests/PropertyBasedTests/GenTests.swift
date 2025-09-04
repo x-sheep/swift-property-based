@@ -134,10 +134,19 @@ import Testing
     }
 
     struct CustomOptionSet: OptionSet, Hashable, Sendable {
+        static let all = Self(rawValue: 255)
         var rawValue: UInt
     }
 
     @Test func testGenerateOptionSet() async {
         await testGen(Gen<CustomOptionSet>.optionSet)
+    }
+    @Test func testGenerateOptionSetLimited() async {
+        let gen = Gen.optionSet(of: CustomOptionSet.all)
+        await testGen(gen)
+
+        await propertyCheck(input: gen) { item in
+            #expect(item.rawValue <= 255)
+        }
     }
 }

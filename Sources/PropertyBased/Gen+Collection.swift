@@ -186,6 +186,7 @@ extension Gen where Value: OptionSet & Sendable, Value.RawValue: FixedWidthInteg
     /// Produces a generator of sets for an OptionSet.
     ///
     /// This generator will generate sets that may exceed the static properties declared in this option set.
+    /// To specify an upper limit, use ``optionSet(of:)``.
     ///
     /// ### Example
     /// ```swift
@@ -199,7 +200,31 @@ extension Gen where Value: OptionSet & Sendable, Value.RawValue: FixedWidthInteg
     /// }
     /// let gen = Gen<Alignment>.optionSet
     /// ```
+    /// ## See Also
+    /// - ``optionSet(of:)``
     public static var optionSet: Generator<Value, Shrink.Bitwise<Value.RawValue>> {
         Gen<Value.RawValue>.bitSet.map { Value(rawValue: $0) }
+    }
+
+    /// Produces a generator of sets for an OptionSet.
+    ///
+    /// ### Example
+    /// ```swift
+    /// struct Alignment: OptionSet {
+    ///     var rawValue: UInt8
+    ///
+    ///     static let top = Self(rawValue: 1 << 0)
+    ///     static let bottom = Self(rawValue: 1 << 1)
+    ///     static let leading = Self(rawValue: 1 << 2)
+    ///     static let trailing = Self(rawValue: 1 << 3)
+    ///     static let all: Self = [.top, .bottom, .leading, .trailing]
+    /// }
+    /// let gen = Gen.optionSet(of: Alignment.all)
+    /// ```
+    ///
+    /// - Parameter options: The options to choose from.
+    /// - Returns: A generator of option sets.
+    public static func optionSet(of options: Value) -> Generator<Value, Shrink.Bitwise<Value.RawValue>> {
+        Gen<Value.RawValue>.bitSet.map { Value(rawValue: $0 & options.rawValue) }
     }
 }

@@ -59,6 +59,7 @@ You can generate individual characters, and use ``/Generator/string(of:)`` to fo
 - ``/Gen/element(of:)``
 - ``/Gen/shuffled(_:)``
 - ``/Gen/optionSet``
+- ``/Gen/optionSet(of:)``
 
 ### Generating specific number types
 
