@@ -53,6 +53,11 @@ You can generate individual characters, and use ``/Generator/string(of:)`` to fo
 - ``/Gen/year``
 - ``/Gen/year(in:)``
 
+### Generating enums with associated values
+
+- ``/Gen/oneOf(_:)``
+- ``/Gen/frequency(_:)``
+
 ### Handling immutable collections
 
 - ``/Gen/case``
