@@ -19,11 +19,11 @@ jobs:
   linux:
     name: Swift ${{ matrix.swift }} on Linux
     runs-on: ubuntu-latest
-    container: swift:${{ matrix.swift }}
+    container: swiftlang/swift:nightly-${{ matrix.swift }}
     strategy:
       fail-fast: false
       matrix:
-        swift: ["6.1"]
+        swift: ["6.1", "6.2"]
     steps:
       - uses: actions/checkout@v4
       - name: Build
