@@ -19,7 +19,7 @@ jobs:
   linux:
     name: Swift ${{ matrix.swift }} on Linux
     runs-on: ubuntu-latest
-    container: swiftlang/swift:nightly-${{ matrix.swift }}
+    container: swiftlang/swift:nightly-${{ matrix.swift }}-jammy
     strategy:
       fail-fast: false
       matrix:
