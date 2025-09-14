@@ -54,6 +54,7 @@ extension Gen where Value: CaseIterable & Sendable, Value.AllCases: Sendable {
     /// ```
     @inlinable
     public static var `case`: Generator<Value, Shrink.None<Value>> {
+        precondition(!Value.allCases.isEmpty, "CaseIterable must have at least one case")
         return .init { rng in
             Value.allCases.randomElement(using: &rng)!
         }
