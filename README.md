@@ -5,17 +5,39 @@
 
 PropertyBased is a Swift 6 library that enables Property-Based Testing in `swift-testing`, similar to QuickCheck for Haskell or FsCheck for F# and C#.
 
-Property-Based Testing can be used as an alternative for (or in addition to) testing with hardcoded values. Run tests with composable random inputs, then easily switch to specific failing cases just by adding a single line.
+Property-Based Testing can be used as an alternative for (or in addition to) testing with hardcoded values.
 
-This project aims to support all platforms which can run Swift Testing, including platforms without [Foundation](https://developer.apple.com/documentation/foundation) support.
+## Features
+
+* Works through Swift Testing, including on platforms without [Foundation](https://developer.apple.com/documentation/foundation) support
+* Contains a set of generators for all commonly-used types in the Swift standard library, as well as Dates, `OptionSet` and `CaseIterable` enums
+* Compose generators to create more complex inputs
+* Automatically [shrink](#shrinking) large inputs to easily digestable inputs, including for custom types without extra effort
+* Switch to specific failing cases with just [a single line](#using-fixed-seeds)
 
 ## Requirements
 
-* Swift 6.1 (or Xcode 16.3)
+* Swift 6.2 (or Xcode 26)
+  * Limited support for Swift 6.1 and Xcode 16.3
 * Any platform supported by Swift Testing
   * macOS 10.15+
   * iOS/tvOS 13.0+, watchOS 6.0+, visionOS 1.0+
   * Linux, Windows, etc.
+
+## Installation
+
+### When writing a Swift package:
+
+Add the following line to the dependencies array in your `Package.swift` file:
+```swift
+.package(url: "https://github.com/x-sheep/swift-property-based.git", from: "1.0.0")
+```
+
+### When writing an Xcode project:
+
+1. Open your Project
+2. Go to File > Add Package Dependencies...
+3. Paste the repository URL in the search field: `https://github.com/x-sheep/swift-property-based.git`
 
 ## Examples
 
@@ -77,9 +99,6 @@ func failsSometimes() async {
 
 # Shrinking
 
-> [!NOTE] 
-> This feature is experimental, and disabled by default. The shrinking output will be very verbose, due to a limitation in Swift Testing.
-
 When a failing case has been found, it's possible that the input is large and contrived, such as arrays with many elements. When _shrinking_ is enabled, PropertyBased will repeat a failing test until it finds the smallest possible input that still causes a failure.
 
 For example, the following test fails when the given numbers sum to a value above a certain threshold:
@@ -95,15 +114,16 @@ For example, the following test fails when the given numbers sum to a value abov
 
 The generator could come up with an array like `[63, 61, 33, 53, 97, 68, 23, 16]`, which sums to `414`. Ideally, we want to have an input that sums to exactly `250`.
 
-Enable the shrinker by adding the `shrinking` trait:
+After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, while the middle element has been reduced to be closer to the edge. PropertyBased will output both the shrunk input and the original input:
 
-```swift
-@Test(.shrinking) func checkSumInRange() async
+```
+Failure occured with input [46, 97, 68, 23, 16].
+(shrunk down from [63, 61, 33, 53, 97, 68, 23, 16] after 7 iterations)
 ```
 
-After shrinking, the new failing case is `[46, 97, 68, 23, 16]`, which sums to exactly `250`. The first few elements have been removed, while the middle element has been reduced to be closer to the edge.
-
 When using the built-in generators and the `zip` function, shrinkers will also be composed.
+
+The `.shrinking` TestTrait or SuiteTrait can be used to override shrinking behavior.
 
 # License
 
