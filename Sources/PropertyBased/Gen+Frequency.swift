@@ -85,7 +85,7 @@ extension Gen {
                 let pick = FloatLiteralType.random(in: 0..<total, using: &rng)
                 let index = options.firstIndex { $0.limit > pick }! as Int
 
-                return (index: index, value: options[index].gen._runIntermediate(&rng))
+                return (index: index, value: options[index].gen.runFull(&rng).input)
             },
             shrink: { pair in
                 let opt = options[pair.index]
