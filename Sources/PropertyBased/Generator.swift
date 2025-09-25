@@ -34,9 +34,11 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Run the generator until a single unfiltered value is found.
     @inlinable
-    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G) -> sending (
-        input: InputValue, result: ResultValue
-    ) {
+    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G)
+        -> sending (
+            input: InputValue, result: ResultValue
+        )
+    {
         var arng: any SeededRandomNumberGenerator = rng
         defer { rng = arng as! G }
 
