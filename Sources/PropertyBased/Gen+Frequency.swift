@@ -128,6 +128,7 @@ extension Gen {
     /// - Parameter generators: The generators to choose from.
     /// - Returns: A new generator.
     @available(swift 6.2)
+    @_disfavoredOverload
     public static func oneOf<each Seq: Sequence>(_ generators: repeat Generator<Value, each Seq>)
         -> Generator<Value, AnySequence<(index: Int, value: Any)>>
     {
