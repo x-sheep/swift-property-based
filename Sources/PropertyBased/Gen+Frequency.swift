@@ -174,7 +174,6 @@ extension Gen {
     )
         -> Generator<Value, AnySequence<(index: Int, value: Any)>>
     {
-
         #if swift(>=6.2)
         var gens: [(weight: FloatLiteralType, gen: Generator<Value, AnySequence<Any>>)] = []
 
