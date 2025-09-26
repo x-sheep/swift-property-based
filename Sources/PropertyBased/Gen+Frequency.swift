@@ -5,8 +5,8 @@
 //  Created by Lennard Sprong on 20/06/2025.
 //
 
-#if swift(>=6.2)
 extension Gen {
+    #if swift(>=6.2)
     /// Produces a generator that randomly selects one of the provided generators.
     ///
     /// Every generator has an equal chance of being run.
@@ -32,6 +32,7 @@ extension Gen {
     /// - Parameter generators: The generators to choose from.
     /// - Returns: A new generator.
     @_documentation(visibility: internal)
+    @available(swift 6.2)
     public static func oneOf<Input>(_ generators: Generator<Value, AnySequence<Input>>...)
         -> Generator<Value, AnySequence<(index: Int, value: Input)>>
     {
@@ -63,6 +64,7 @@ extension Gen {
     /// - Parameter generators: The generators to choose from, with a weight for each.
     /// - Returns: A new generator.
     @_documentation(visibility: internal)
+    @available(swift 6.2)
     public static func frequency<Input>(
         _ generators: [(weight: FloatLiteralType, gen: Generator<Value, AnySequence<Input>>)]
     )
@@ -99,6 +101,8 @@ extension Gen {
         )
     }
 
+    #endif  // swift(>=6.2)
+
     /// Produces a generator that randomly selects one of the provided generators.
     ///
     /// Every generator has an equal chance of being run.
@@ -123,10 +127,12 @@ extension Gen {
     ///
     /// - Parameter generators: The generators to choose from.
     /// - Returns: A new generator.
+    @available(swift 6.2)
     @_disfavoredOverload
     public static func oneOf<each Seq: Sequence>(_ generators: repeat Generator<Value, each Seq>)
         -> Generator<Value, AnySequence<(index: Int, value: Any)>>
     {
+        #if swift(>=6.2)
         var gens: [(weight: FloatLiteralType, gen: Generator<Value, AnySequence<Any>>)] = []
 
         for gen in repeat each generators {
@@ -134,6 +140,9 @@ extension Gen {
         }
 
         return frequency(gens)
+        #else
+        fatalError("Not supported by Swift compiler below 6.2")
+        #endif
     }
 
     /// Produces a generator that randomly selects one of the provided generators, with a weighted distribution.
@@ -158,12 +167,14 @@ extension Gen {
     ///
     /// - Parameter generators: The generators to choose from, with a weight for each.
     /// - Returns: A new generator.
+    @available(swift 6.2)
     @_disfavoredOverload
     public static func frequency<each Seq: Sequence>(
         _ generators: repeat (weight: FloatLiteralType, gen: Generator<Value, each Seq>)
     )
         -> Generator<Value, AnySequence<(index: Int, value: Any)>>
     {
+        #if swift(>=6.2)
         var gens: [(weight: FloatLiteralType, gen: Generator<Value, AnySequence<Any>>)] = []
 
         for (weight, gen) in repeat each generators {
@@ -171,6 +182,8 @@ extension Gen {
         }
 
         return frequency(gens)
+        #else
+        fatalError("Not supported by Swift compiler below 6.2")
+        #endif
     }
 }
-#endif  // swift(>=6.2)
