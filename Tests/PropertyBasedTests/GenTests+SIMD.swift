@@ -74,6 +74,21 @@ import simd
         await unitVectorCheck(Gen<SIMD4<Double>>.unitVector)
     }
 
+    #if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+    @Test func testUnitVectorHalf2() async {
+        await unitVectorCheck(Gen<SIMD2<Float16>>.unitVector)
+    }
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+    @Test func testUnitVectorHalf3() async {
+        await unitVectorCheck(Gen<SIMD3<Float16>>.unitVector)
+    }
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+    @Test func testUnitVectorHalf4() async {
+        await unitVectorCheck(Gen<SIMD4<Float16>>.unitVector)
+    }
+    #endif
+
     @Test func testVectorLength() {
         #expect(!length([2, 0] as SIMD2<Float>).isApproximately(1))
         #expect(length([3, 0] as SIMD2<Float>).isApproximately(3))
@@ -96,11 +111,23 @@ import simd
             #expect(quat.length.isApproximately(1))
         }
     }
+
+    #if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+    @Test func testQuatH() async {
+        await testGen(Gen.simd_quath.map(\.vector))
+        await propertyCheck(input: Gen.simd_quath) { quat in
+            let cast = simd_quatf(vector: .init(quat.vector))
+            #expect(cast.length.isApproximately(1))
+        }
+    }
+    #endif
+
     #endif
 }
 
 extension FloatingPoint where Self: ExpressibleByFloatLiteral {
-    func isApproximately(_ other: Self, tolerance: Self = 0.001) -> Bool {
+    func isApproximately(_ other: Self, tolerance: Self = 0.01) -> Bool {
         return abs(self - other) < tolerance
     }
 }

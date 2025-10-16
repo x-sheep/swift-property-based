@@ -103,6 +103,35 @@ extension Gen<SIMD4<Double>> {
     }
 }
 
+#if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+@available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+extension Gen<SIMD2<Float16>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD2<Float16>, Shrink.None<(Float16, Float16)>> {
+        let gen = Gen<Float16>.float16(in: 0...1)
+        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+@available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+extension Gen<SIMD3<Float16>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD3<Float16>, Shrink.None<(Float16, Float16, Float16)>> {
+        let gen = Gen<Float16>.float16(in: 0...1)
+        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+@available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+extension Gen<SIMD4<Float16>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD4<Float16>, Shrink.None<(Float16, Float16, Float16, Float16)>> {
+        let gen = Gen<Float16>.float16(in: 0...1)
+        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+#endif
+
 #if canImport(simd)
 extension Gen where Value == simd_quatf {
     /// A generator of rotation quaternions with length 1 and a random angle.
@@ -121,6 +150,19 @@ extension Gen where Value == simd_quatd {
         return zip(angle, vector).map { t in simd.simd_quatd(angle: t.0, axis: t.1) }
     }
 }
+
+#if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+@available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *)
+extension Gen where Value == simd_quath {
+    /// A generator of rotation quaternions with length 1 and a random angle.
+    public static var simd_quath: Generator<simd_quath, Shrink.Tuple<(Float, (Float, Float, Float))>> {
+        return Gen<simd_quatf>.simd_quatf.map { q in
+            simd.simd_quath(vector: simd_half4(q.vector))
+        }
+    }
+}
+#endif
+
 #endif
 
 @_disfavoredOverload
