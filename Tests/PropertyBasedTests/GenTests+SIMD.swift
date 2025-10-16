@@ -5,8 +5,9 @@
 //  Created by Lennard Sprong on 21/05/2025.
 //
 
-import PropertyBased
 import Testing
+
+@testable import PropertyBased
 
 #if canImport(simd)
 import simd
@@ -46,47 +47,60 @@ import simd
         }
     }
 
-    #if canImport(simd)
-    @Test func testUnitVectorFloat2() async {
-        await propertyCheck(input: Gen<simd_float2>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
-        }
-    }
-    @Test func testUnitVectorFloat3() async {
-        await propertyCheck(input: Gen<simd_float3>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
-        }
-    }
-    @Test func testUnitVectorFloat4() async {
-        await propertyCheck(input: Gen<simd_float4>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
-        }
-    }
-    @Test func testUnitVectorDouble2() async {
-        await propertyCheck(input: Gen<simd_double2>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
-        }
-    }
-    @Test func testUnitVectorDouble3() async {
-        await propertyCheck(input: Gen<simd_double3>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
-        }
-    }
-    @Test func testUnitVectorDouble4() async {
-        await propertyCheck(input: Gen<simd_double4>.unitVector) { vec in
-            #expect(abs(length(vec) - 1) < 0.0001)
+    func unitVectorCheck<T: SIMD & Sendable>(_ gen: Generator<T, some Sequence>) async
+    where T.Scalar: FloatingPoint & ExpressibleByFloatLiteral {
+        await testGen(gen)
+        await propertyCheck(input: gen) { vec in
+            #expect(length(vec).isApproximately(1))
         }
     }
 
+    @Test func testUnitVectorFloat2() async {
+        await unitVectorCheck(Gen<SIMD2<Float>>.unitVector)
+    }
+    @Test func testUnitVectorFloat3() async {
+        await unitVectorCheck(Gen<SIMD3<Float>>.unitVector)
+    }
+    @Test func testUnitVectorFloat4() async {
+        await unitVectorCheck(Gen<SIMD4<Float>>.unitVector)
+    }
+    @Test func testUnitVectorDouble2() async {
+        await unitVectorCheck(Gen<SIMD2<Double>>.unitVector)
+    }
+    @Test func testUnitVectorDouble3() async {
+        await unitVectorCheck(Gen<SIMD3<Double>>.unitVector)
+    }
+    @Test func testUnitVectorDouble4() async {
+        await unitVectorCheck(Gen<SIMD4<Double>>.unitVector)
+    }
+
+    @Test func testVectorLength() {
+        #expect(!length([2, 0] as SIMD2<Float>).isApproximately(1))
+        #expect(length([3, 0] as SIMD2<Float>).isApproximately(3))
+        #expect(length([3, 0, 0] as SIMD3<Float>).isApproximately(3))
+        #expect(length([3, 0, 0] as SIMD3<Float>).isApproximately(3))
+        #expect(length([3, 4] as SIMD2<Float>).isApproximately(5))
+        #expect(length([2, 4, 6] as SIMD3<Float>).isApproximately(7.483315))
+    }
+
+    #if canImport(simd)
     @Test func testQuatF() async {
+        await testGen(Gen.simd_quatf)
         await propertyCheck(input: Gen.simd_quatf) { quat in
-            #expect(abs(quat.length - 1) < 0.0001)
+            #expect(quat.length.isApproximately(1))
         }
     }
     @Test func testQuatD() async {
+        await testGen(Gen.simd_quatd)
         await propertyCheck(input: Gen.simd_quatd) { quat in
-            #expect(abs(quat.length - 1) < 0.0001)
+            #expect(quat.length.isApproximately(1))
         }
     }
     #endif
+}
+
+extension FloatingPoint where Self: ExpressibleByFloatLiteral {
+    func isApproximately(_ other: Self, tolerance: Self = 0.001) -> Bool {
+        return abs(self - other) < tolerance
+    }
 }

@@ -5,6 +5,10 @@
 //  Created by Lennard Sprong on 19/05/2025.
 //
 
+#if canImport(simd)
+import simd
+#endif
+
 extension Generator {
     /// Produces a generator that creates a pair of values.
     ///
@@ -51,56 +55,55 @@ extension Generator where ResultValue: SIMDScalar & Sendable {
     }
 }
 
+extension Gen<SIMD2<Float>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD2<Float>, Shrink.None<(Float, Float)>> {
+        let gen = Gen<Float>.float(in: 0...1)
+        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+extension Gen<SIMD3<Float>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD3<Float>, Shrink.None<(Float, Float, Float)>> {
+        let gen = Gen<Float>.float(in: 0...1)
+        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+extension Gen<SIMD4<Float>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD4<Float>, Shrink.None<(Float, Float, Float, Float)>> {
+        let gen = Gen<Float>.float(in: 0...1)
+        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+extension Gen<SIMD2<Double>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD2<Double>, Shrink.None<(Double, Double)>> {
+        let gen = Gen<Double>.double(in: 0...1)
+        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+extension Gen<SIMD3<Double>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD3<Double>, Shrink.None<(Double, Double, Double)>> {
+        let gen = Gen<Double>.double(in: 0...1)
+        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
+extension Gen<SIMD4<Double>> {
+    /// A generator of vectors with length 1.
+    public static var unitVector: Generator<SIMD4<Double>, Shrink.None<(Double, Double, Double, Double)>> {
+        let gen = Gen<Double>.double(in: 0...1)
+        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
+    }
+}
+
 #if canImport(simd)
-import simd
-extension Gen where Value == simd_float2 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_float2, Shrink.None<(Float, Float)>> {
-        let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
-extension Gen where Value == simd_float3 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_float3, Shrink.None<(Float, Float, Float)>> {
-        let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
-extension Gen where Value == simd_float4 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_float4, Shrink.None<(Float, Float, Float, Float)>> {
-        let gen = Gen<Float>.float(in: 0...1)
-        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
-extension Gen where Value == simd_double2 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_double2, Shrink.None<(Double, Double)>> {
-        let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd2.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
-extension Gen where Value == simd_double3 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_double3, Shrink.None<(Double, Double, Double)>> {
-        let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd3.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
-extension Gen where Value == simd_double4 {
-    /// A generator of vectors with length 1.
-    public static var unitVector: Generator<simd_double4, Shrink.None<(Double, Double, Double, Double)>> {
-        let gen = Gen<Double>.double(in: 0...1)
-        return gen.simd4.map { normalize($0) }.filter { $0.x.isFinite }.withoutShrink()
-    }
-}
-
 extension Gen where Value == simd_quatf {
     /// A generator of rotation quaternions with length 1 and a random angle.
     public static var simd_quatf: Generator<simd_quatf, Shrink.Tuple<(Float, (Float, Float, Float))>> {
@@ -119,3 +122,12 @@ extension Gen where Value == simd_quatd {
     }
 }
 #endif
+
+@_disfavoredOverload
+func length<F: FloatingPoint, T: SIMD<F>>(_ item: T) -> F {
+    (item * item).sum().squareRoot()
+}
+@_disfavoredOverload
+func normalize<F: FloatingPoint, T: SIMD<F>>(_ item: T) -> T {
+    return item / length(item)
+}
