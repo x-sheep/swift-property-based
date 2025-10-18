@@ -1,8 +1,8 @@
 //
-//  Date+String.swift
+//  DateLiteral.swift
 //  PropertyBased
 //
-//  Created by Lennard Sprong on 31/05/2025.
+//  Created by Lennard Sprong on 17/10/2025.
 //
 
 #if canImport(Foundation)
@@ -24,14 +24,29 @@ let dateFormats = [
     "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
 ]
 
-extension Date: @retroactive ExpressibleByStringLiteral {
-    /// Create a date from a ISO8601-formatted string.
-    ///
-    /// The date components are required. The time and offset components are optional.
-    ///
-    /// This initializer exists as a convenience for creating date ranges. It is not recommended for use in a production environment.
-    ///
-    /// - Parameter value: The string to parse.
+/// A helper type that allows creating dates using string literals.
+///
+/// Dates are ISO8601-formatted strings. The date components are required, while the time and offset components are optional.
+///
+/// ## Examples
+/// ```swift
+/// let date: DateLiteral = "2025-01-30"
+/// let dateTime: DateLiteral = "2020-01-20T16:00:00"
+/// ```
+public struct DateLiteral: RawRepresentable, Sendable {
+    public init(rawValue: Date) {
+        self.rawValue = rawValue
+    }
+    public let rawValue: Date
+}
+
+extension DateLiteral: Comparable {
+    public static func < (lhs: DateLiteral, rhs: DateLiteral) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+extension DateLiteral: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         let formatter = DateFormatter()
         formatter.calendar = .neutral
@@ -41,7 +56,7 @@ extension Date: @retroactive ExpressibleByStringLiteral {
         for format in dateFormats {
             formatter.dateFormat = format
             if let date = formatter.date(from: value) {
-                self = date
+                rawValue = date
                 return
             }
         }

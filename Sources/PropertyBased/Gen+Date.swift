@@ -98,6 +98,19 @@ extension Gen where Value == Date {
     /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
     ///
     /// ```swift
+    /// Gen.dateTime(in: "2024-01-01"...)
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func dateTime(in range: PartialRangeFrom<DateLiteral>) -> Generator<Date, DateTimeShrink> {
+        dateTime(in: range.lowerBound.rawValue...)
+    }
+
+    /// A generator that creates dates with time components.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
     /// Gen.dateTime(in: ..<"2025-01-01")
     /// ```
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
@@ -105,6 +118,19 @@ extension Gen where Value == Date {
     public static func dateTime(in range: PartialRangeUpTo<Date>) -> Generator<Date, DateTimeShrink> {
         let lower = Calendar.neutral.date(byAdding: .year, value: -yearWindow, to: range.upperBound)!
         return dateTime(in: lower..<range.upperBound)
+    }
+
+    /// A generator that creates dates with time components.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
+    /// Gen.dateTime(in: ..<"2025-01-01")
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func dateTime(in range: PartialRangeUpTo<DateLiteral>) -> Generator<Date, DateTimeShrink> {
+        dateTime(in: ..<range.upperBound.rawValue)
     }
 
     /// A generator that creates dates with time components.
@@ -132,6 +158,10 @@ extension Gen where Value == Date {
             },
             finalResult: { Date(timeIntervalSinceReferenceDate: $0) }
         )
+    }
+
+    public static func dateTime(in range: Range<DateLiteral>) -> Generator<Date, DateTimeShrink> {
+        dateTime(in: range.lowerBound.rawValue..<range.upperBound.rawValue)
     }
 }
 
@@ -184,6 +214,19 @@ extension Gen where Value == Date {
     /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
     ///
     /// ```swift
+    /// Gen.date(in: "2024-01-01"...)
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func date(in range: PartialRangeFrom<DateLiteral>) -> Generator<Date, Shrink.Integer<Int>> {
+        date(in: range.lowerBound.rawValue...)
+    }
+
+    /// A generator that creates dates without time components, in the UTC timezone.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
     /// Gen.date(in: ..<"2024-01-01")
     /// ```
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
@@ -198,6 +241,19 @@ extension Gen where Value == Date {
     /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
     ///
     /// ```swift
+    /// Gen.date(in: ..<"2024-01-01")
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func date(in range: PartialRangeUpTo<DateLiteral>) -> Generator<Date, Shrink.Integer<Int>> {
+        date(in: ..<range.upperBound.rawValue)
+    }
+
+    /// A generator that creates dates without time components, in the UTC timezone.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
     /// Gen.date(in: ..."2024-01-01")
     /// ```
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
@@ -205,6 +261,19 @@ extension Gen where Value == Date {
     public static func date(in range: PartialRangeThrough<Date>) -> Generator<Date, Shrink.Integer<Int>> {
         let lower = Calendar.neutral.date(byAdding: .year, value: -yearWindow, to: range.upperBound)!
         return date(in: lower...range.upperBound)
+    }
+
+    /// A generator that creates dates without time components, in the UTC timezone.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
+    /// Gen.date(in: ..."2024-01-01")
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func date(in range: PartialRangeThrough<DateLiteral>) -> Generator<Date, Shrink.Integer<Int>> {
+        date(in: ...range.upperBound.rawValue)
     }
 
     /// A generator that creates dates without time components, in the UTC timezone.
@@ -228,6 +297,19 @@ extension Gen where Value == Date {
     /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
     ///
     /// ```swift
+    /// Gen.date(in: "2024-01-01" ..< "2025-01-01")
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func date(in range: Range<DateLiteral>) -> Generator<Date, Shrink.Integer<Int>> {
+        date(in: range.lowerBound.rawValue..<range.upperBound.rawValue)
+    }
+
+    /// A generator that creates dates without time components, in the UTC timezone.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
     /// Gen.date(in: "2024-01-01" ... "2025-12-31")
     /// ```
     /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
@@ -244,6 +326,19 @@ extension Gen where Value == Date {
             shrink: { $0.shrink(within: interval, towards: end) },
             finalResult: { Date(timeIntervalSinceReferenceDate: TimeInterval($0) * secondsPerDay) }
         )
+    }
+
+    /// A generator that creates dates without time components, in the UTC timezone.
+    ///
+    /// Dates can be passed in directly, or written as string literals in ISO 8601 format:
+    ///
+    /// ```swift
+    /// Gen.date(in: "2024-01-01" ... "2025-12-31")
+    /// ```
+    /// - Parameter range: A range which contains all generated dates. Undefined bounds will be set to 60 years from the other bound.
+    /// - Returns: A new generator.
+    public static func date(in range: ClosedRange<DateLiteral>) -> Generator<Date, Shrink.Integer<Int>> {
+        date(in: range.lowerBound.rawValue...range.upperBound.rawValue)
     }
 }
 
