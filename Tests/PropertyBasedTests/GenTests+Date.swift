@@ -8,7 +8,15 @@
 #if canImport(Foundation)
 import Testing
 import Foundation
-@testable import PropertyBased
+import PropertyBased
+
+extension Calendar {
+    static var neutral: Calendar {
+        var cal = Calendar(identifier: .iso8601)
+        cal.timeZone = TimeZone(secondsFromGMT: 0)!
+        return cal
+    }
+}
 
 @Suite struct GenDateTests {
     @Test func testGenerateDateTime() async {
