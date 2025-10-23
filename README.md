@@ -33,6 +33,13 @@ Add the following line to the dependencies array in your `Package.swift` file:
 .package(url: "https://github.com/x-sheep/swift-property-based.git", from: "1.0.0")
 ```
 
+Then add the following to your test target:
+```swift
+dependencies: [
+  .product(name: "PropertyBased", package: "swift-property-based"),
+]
+```
+
 ### When writing an Xcode project:
 
 1. Open your Project
@@ -105,10 +112,10 @@ For example, the following test fails when the given numbers sum to a value abov
 
 ```swift
 @Test func checkSumInRange() async {
-    await propertyCheck(input: Gen.int(in: 0...100).array(of: 1...10)) { numbers in
-        let sum = numbers.reduce(0, +)
-        #expect(sum < 250)
-    }
+  await propertyCheck(input: Gen.int(in: 0...100).array(of: 1...10)) { numbers in
+    let sum = numbers.reduce(0, +)
+    #expect(sum < 250)
+  }
 }
 ```
 
