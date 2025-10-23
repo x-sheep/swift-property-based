@@ -119,6 +119,8 @@ public func propertyCheck<InputValue, ResultValue>(
     let actualCount = fixedRng != nil ? 1 : count
 
     for _ in 0..<actualCount {
+        guard !Task.isCancelled else { return }
+
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
 
