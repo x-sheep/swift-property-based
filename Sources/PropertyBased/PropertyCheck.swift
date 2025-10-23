@@ -142,6 +142,8 @@ public func propertyCheck<InputValue, ResultValue>(
                 let candidates = input._shrinker(shrunkenInput)
 
                 for c in candidates {
+                    guard !Task.isCancelled else { return }
+
                     guard let mappedShrunk = input._mapFilter(c) else { continue }
 
                     let shrunkIssues = await countIssues(isolation: isolation, suppress: true) {
