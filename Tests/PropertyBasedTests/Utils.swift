@@ -67,6 +67,7 @@ func testGen<T: Hashable & Sendable>(_ gen: Generator<T, some Sequence>) async {
     #expect(count > 50)
 
     var rng = Xoshiro() as any SeededRandomNumberGenerator
-    let value = gen._runIntermediate(&rng)
+    var progress = PropertyCheckProgress.one
+    let value = gen._runIntermediate(&rng, &progress)
     gen._shrinker(value).reduce(into: ()) { _, _ in }
 }

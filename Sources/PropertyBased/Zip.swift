@@ -22,10 +22,10 @@ public func zip<InA, InB, OutA, OutB>(
     Shrink.Tuple<(InA, InB)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -59,11 +59,11 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
     Shrink.Tuple<(InA, InB, InC)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -100,12 +100,12 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
     Shrink.Tuple<(InA, InB, InC, InD)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -145,13 +145,13 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
     Shrink.Tuple<(InA, InB, InC, InD, InE)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -194,14 +194,14 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
-                p5.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
+                p5.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -248,15 +248,15 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
-                p5.runFull(&rng).input,
-                p6.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
+                p5.runFull(&rng, &progress).input,
+                p6.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -307,16 +307,16 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
-                p5.runFull(&rng).input,
-                p6.runFull(&rng).input,
-                p7.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
+                p5.runFull(&rng, &progress).input,
+                p6.runFull(&rng, &progress).input,
+                p7.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -370,17 +370,17 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
-                p5.runFull(&rng).input,
-                p6.runFull(&rng).input,
-                p7.runFull(&rng).input,
-                p8.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
+                p5.runFull(&rng, &progress).input,
+                p6.runFull(&rng, &progress).input,
+                p7.runFull(&rng, &progress).input,
+                p8.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
@@ -439,18 +439,18 @@ public func zip<
     Shrink.Tuple<(InA, InB, InC, InD, InE, InF, InG, InH, InI, InJ)>
 > {
     return .init(
-        run: { rng in
+        run: { rng, progress in
             (
-                p0.runFull(&rng).input,
-                p1.runFull(&rng).input,
-                p2.runFull(&rng).input,
-                p3.runFull(&rng).input,
-                p4.runFull(&rng).input,
-                p5.runFull(&rng).input,
-                p6.runFull(&rng).input,
-                p7.runFull(&rng).input,
-                p8.runFull(&rng).input,
-                p9.runFull(&rng).input,
+                p0.runFull(&rng, &progress).input,
+                p1.runFull(&rng, &progress).input,
+                p2.runFull(&rng, &progress).input,
+                p3.runFull(&rng, &progress).input,
+                p4.runFull(&rng, &progress).input,
+                p5.runFull(&rng, &progress).input,
+                p6.runFull(&rng, &progress).input,
+                p7.runFull(&rng, &progress).input,
+                p8.runFull(&rng, &progress).input,
+                p9.runFull(&rng, &progress).input,
             )
         },
         shrink: { tuple in
