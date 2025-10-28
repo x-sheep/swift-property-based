@@ -115,33 +115,44 @@ public func propertyCheck<InputValue, ResultValue>(
     guard count > 0 else { return }
 
     let fixedRng = FixedSeedTrait.fixedRandom
-    var rngWithIssues: (rng: Xoshiro, value: InputValue, isError: Bool)?
+    var rngWithIssues: (seed: String, value: InputValue, isError: Bool)?
 
     let actualCount = fixedRng != nil ? 1 : count
 
-    for _ in 0..<actualCount {
+    var progress =
+        fixedRng?.progress
+        ?? PropertyCheckProgress(
+            completed: 0, rejected: 0, total: EnableSizingTrait.isEnabled ? actualCount : 1)
+
+    for runIndex in 0..<actualCount {
         guard !Task.isCancelled else { return }
 
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
+        let progressCopy = progress
 
-        let (inputValue, resultValue) = input.runFull(&rng)
+        if EnableSizingTrait.isEnabled {
+            progress.completed = runIndex
+        }
+
+        let (inputValue, resultValue) = input.runFull(&rng, &progress)
 
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)
         }
 
         if foundIssues.errors > 0 {
-            rngWithIssues = (rngCopy, inputValue, isError: true)
+            let seed = rngCopy.traitHint(withProgress: progressCopy)
+            rngWithIssues = (seed, inputValue, isError: true)
             break
         } else if rngWithIssues == nil, foundIssues.warnings > 0 {
-            rngWithIssues = (rngCopy, inputValue, isError: false)
+            let seed = rngCopy.traitHint(withProgress: progressCopy)
+            rngWithIssues = (seed, inputValue, isError: false)
         }
     }
 
     if let rngWithIssues {
-        let seed = rngWithIssues.rng.traitHint
-
+        let seed = rngWithIssues.seed
         var shrunkenInput = rngWithIssues.value
         var isErrorLevel = rngWithIssues.isError
 

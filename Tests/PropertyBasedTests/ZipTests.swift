@@ -67,56 +67,65 @@ import Testing
 
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(
                 Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            var progress = PropertyCheckProgress.one
+            let result = gen._runIntermediate(&rng, &progress)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false

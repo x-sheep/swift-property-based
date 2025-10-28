@@ -31,9 +31,9 @@ public func zip<${inTupleType}, ${outTupleType}>(
     Shrink.Tuple<(${inTupleType})>
 > {
     return .init(
-        run: { rng in (
+        run: { rng, progress in (
 %  for n in range(size):
-            p${n}.runFull(&rng).input,
+            p${n}.runFull(&rng, &progress).input,
 %  end
         )},
         shrink: { tuple in

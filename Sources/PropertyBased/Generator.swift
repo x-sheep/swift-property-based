@@ -23,7 +23,8 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Generate a single result, before mapping or filtering.
     @usableFromInline
-    internal var _runIntermediate: @Sendable (inout any SeededRandomNumberGenerator) -> sending InputValue
+    internal var _runIntermediate:
+        @Sendable (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) -> sending InputValue
 
     /// Map an intermediate result to its final value, or return `nil` if the value should be filtered.
     @usableFromInline
@@ -34,7 +35,7 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Run the generator until a single unfiltered value is found.
     @inlinable
-    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G)
+    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G, _ progress: inout PropertyCheckProgress)
         -> sending (
             input: InputValue, result: ResultValue
         )
@@ -43,10 +44,12 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
         defer { rng = arng as! G }
 
         while true {
-            let run = _runIntermediate(&arng)
+            let run = _runIntermediate(&arng, &progress)
 
             if let ret = _mapFilter(run) {
                 return (run, ret)
+            } else {
+                progress._rejected += 1
             }
         }
     }
@@ -57,7 +60,8 @@ extension Generator {
     /// - Parameter rng: The random number generator to use.
     /// - Returns: A randomly generated value.
     public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending ResultValue {
-        runFull(&rng).result
+        var progress = PropertyCheckProgress.one
+        return runFull(&rng, &progress).result
     }
 
     /// Remove the shrinker for this generator.
@@ -76,6 +80,19 @@ extension Generator {
     @available(*, deprecated, message: "This generator already has no shrinker.")
     public func withoutShrink<T>() -> Generator<ResultValue, Shrink.None<T>> where ShrinkSequence == Shrink.None<T> {
         self
+    }
+
+    /// Remove the sizing function for this generator.
+    /// - Returns: A new generator with the sizing function removed.
+    public func withoutSizing() -> Self {
+        .init(
+            run: { rng, _ in
+                var one = PropertyCheckProgress.one
+                return self._runIntermediate(&rng, &one)
+            },
+            shrink: self._shrinker,
+            finalResult: self._mapFilter
+        )
     }
 }
 
@@ -100,16 +117,33 @@ extension Generator where InputValue == ResultValue {
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue,
         shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
     ) {
-        self._runIntermediate = run
+        self._runIntermediate = { rng, _ in run(&rng) }
         self._shrinker = shrink
         self._mapFilter = { $0 }
+    }
+
+    // TODO: docs
+    @inlinable
+    public static func sized(
+        run:
+            @Sendable @escaping (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) ->
+            sending ResultValue,
+        shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
+    ) -> Self {
+        .init(
+            run: { rng, progress in run(&rng, &progress) },
+            shrink: shrink,
+            finalResult: { $0 }
+        )
     }
 }
 
 extension Generator {
     @inlinable
     internal init(
-        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue,
+        run:
+            @Sendable @escaping (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) ->
+            sending InputValue,
         shrink: @Sendable @escaping (InputValue) -> ShrinkSequence,
         finalResult: @Sendable @escaping (InputValue) -> ResultValue?
     ) {
@@ -128,7 +162,7 @@ extension Generator where ShrinkSequence == Shrink.None<ResultValue> {
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue
     ) {
-        _runIntermediate = run
+        _runIntermediate = { rng, _ in run(&rng) }
         _shrinker = { _ in .init() }
         _mapFilter = { $0 }
     }
@@ -220,11 +254,11 @@ extension Generator {
     /// - Returns: A generator of optional values.
     public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
         return .init(
-            run: { rng in
+            run: { rng, progress in
                 if Float.random(in: 0..<1, using: &rng) >= valueRate {
                     return nil as InputValue?
                 }
-                return self._runIntermediate(&rng)
+                return self.runFull(&rng, &progress).input
             },
             shrink: { value in
                 if let value {
@@ -283,8 +317,8 @@ extension Generator {
     /// - Returns: A copy of this generator.
     @inlinable public func eraseToAny() -> Generator<ResultValue, AnySequence<Any>> {
         return .init(
-            run: { rng in
-                self._runIntermediate(&rng) as Any
+            run: { rng, progress in
+                self._runIntermediate(&rng, &progress) as Any
             },
             shrink: {
                 AnySequence(_shrinker($0 as! InputValue).lazy.map { $0 as Any })

@@ -13,8 +13,11 @@ extension Gen where Value: BinaryFloatingPoint & Sendable, Value.RawSignificand:
     /// - Returns: A generator of random values within the bounds of range.
     @inlinable
     public static func value(in range: ClosedRange<Value>) -> Generator<Value, Shrink.Floating<Value>> {
-        return .init(
-            run: { rng in Value.random(in: range, using: &rng) },
+        return .sized(
+            // TODO: use sized here
+            run: { rng, progress in
+                Value.random(in: range.sized(fraction: progress.fraction), using: &rng)
+            },
             shrink: { $0.shrink(within: range) }
         )
     }
