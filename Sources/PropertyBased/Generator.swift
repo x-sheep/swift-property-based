@@ -23,7 +23,8 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Generate a single result, before mapping or filtering.
     @usableFromInline
-    internal var _runIntermediate: @Sendable (inout any SeededRandomNumberGenerator) -> sending InputValue
+    internal var _runIntermediate:
+        @Sendable (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) -> sending InputValue
 
     /// Map an intermediate result to its final value, or return `nil` if the value should be filtered.
     @usableFromInline
@@ -34,7 +35,7 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Run the generator until a single unfiltered value is found.
     @inlinable
-    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G)
+    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G, _ progress: inout PropertyCheckProgress)
         -> sending (
             input: InputValue, result: ResultValue
         )
@@ -43,10 +44,12 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
         defer { rng = arng as! G }
 
         while true {
-            let run = _runIntermediate(&arng)
+            let run = _runIntermediate(&arng, &progress)
 
             if let ret = _mapFilter(run) {
                 return (run, ret)
+            } else {
+                progress._rejected += 1
             }
         }
     }
@@ -57,7 +60,8 @@ extension Generator {
     /// - Parameter rng: The random number generator to use.
     /// - Returns: A randomly generated value.
     public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending ResultValue {
-        runFull(&rng).result
+        var progress = PropertyCheckProgress.one
+        return runFull(&rng, &progress).result
     }
 
     /// Remove the shrinker for this generator.
@@ -100,16 +104,31 @@ extension Generator where InputValue == ResultValue {
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue,
         shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
     ) {
-        self._runIntermediate = run
+        self._runIntermediate = { rng, _ in run(&rng) }
         self._shrinker = shrink
         self._mapFilter = { $0 }
+    }
+    
+    // TODO: docs
+    @inlinable
+    public static func sized(
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) -> sending ResultValue,
+        shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
+    ) -> Self {
+        .init(
+            run: { rng, progress in run(&rng, &progress) },
+            shrink: shrink,
+            finalResult: { $0 }
+        )
     }
 }
 
 extension Generator {
     @inlinable
     internal init(
-        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue,
+        run:
+            @Sendable @escaping (inout any SeededRandomNumberGenerator, inout PropertyCheckProgress) ->
+            sending InputValue,
         shrink: @Sendable @escaping (InputValue) -> ShrinkSequence,
         finalResult: @Sendable @escaping (InputValue) -> ResultValue?
     ) {
@@ -128,7 +147,7 @@ extension Generator where ShrinkSequence == Shrink.None<ResultValue> {
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue
     ) {
-        _runIntermediate = run
+        _runIntermediate = { rng, _ in run(&rng) }
         _shrinker = { _ in .init() }
         _mapFilter = { $0 }
     }
@@ -220,11 +239,11 @@ extension Generator {
     /// - Returns: A generator of optional values.
     public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
         return .init(
-            run: { rng in
+            run: { rng, progress in
                 if Float.random(in: 0..<1, using: &rng) >= valueRate {
                     return nil as InputValue?
                 }
-                return self._runIntermediate(&rng)
+                return self.runFull(&rng, &progress).input
             },
             shrink: { value in
                 if let value {
@@ -281,8 +300,8 @@ extension Generator {
     /// - Returns: A copy of this generator.
     @inlinable public func eraseToAny() -> Generator<ResultValue, AnySequence<Any>> {
         return .init(
-            run: { rng in
-                self._runIntermediate(&rng) as Any
+            run: { rng, progress in
+                self._runIntermediate(&rng, &progress) as Any
             },
             shrink: {
                 AnySequence(_shrinker($0 as! InputValue).lazy.map { $0 as Any })
@@ -292,4 +311,47 @@ extension Generator {
             }
         )
     }
+}
+
+/// An object that contains the progress of a specific propertyCheck block.
+///
+/// The ``fraction`` property can be used to resize the random inputs, to gradually increase
+/// the bounds of a Generator over the course of a test run.
+@frozen public struct PropertyCheckProgress: Hashable, Sendable {
+    internal init(completed: Int, rejected: Int, total: Int) {
+        self.completed = completed
+        self._rejected = rejected
+        self.total = total
+    }
+    
+    /// The amount of succesfully generated random values.
+    ///
+    /// This value will not exceed the `total` amount.
+    public internal(set) var completed: Int
+    
+    @usableFromInline internal var _rejected: Int
+    
+    /// The amount of times that the test block will be executed.
+    public internal(set) var total: Int
+
+    /// A number between 0 exclusive and 1 inclusive that can be used to resize the random inputs.
+    ///
+    /// This number will gradually increase over the course of a test run, while taking the test duration and the Generator's filters into account.
+    public var fraction: Float {
+        // TODO: improve this formula by including the rejected count
+        let f = Float(completed) / Float(total)
+        return min(1, max(0.1, f * 2))
+    }
+    
+    /// The amount of generated random values that were rejected by the Generator's filters.
+    @inlinable public var rejected: Int { _rejected }
+
+    static let one: Self = PropertyCheckProgress(completed: 0, rejected: 0, total: 1)
+}
+
+extension PropertyCheckProgress: Comparable {
+    public static func < (lhs: PropertyCheckProgress, rhs: PropertyCheckProgress) -> Bool {
+        lhs.fraction < rhs.fraction
+    }
+
 }

@@ -15,8 +15,10 @@ extension Gen where Value: FixedWidthInteger & Sendable {
     public static func value(in range: ClosedRange<Value> = Value.min...Value.max) -> Generator<
         Value, Shrink.Integer<Value>
     > {
-        return .init(
-            run: { rng in Value.random(in: range, using: &rng) },
+        return .sized(
+            run: { rng, progress in
+                Value.random(in: range.sized(fraction: progress.fraction), using: &rng)
+            },
             shrink: { $0.shrink(within: range) }
         )
     }

@@ -118,13 +118,16 @@ public func propertyCheck<InputValue, ResultValue>(
 
     let actualCount = fixedRng != nil ? 1 : count
 
-    for _ in 0..<actualCount {
+    var progress = PropertyCheckProgress(completed: 0, rejected: 0, total: actualCount)
+
+    for runIndex in 0..<actualCount {
         guard !Task.isCancelled else { return }
 
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
 
-        let (inputValue, resultValue) = input.runFull(&rng)
+        progress.completed = runIndex
+        let (inputValue, resultValue) = input.runFull(&rng, &progress)
 
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)
