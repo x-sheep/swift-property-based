@@ -16,7 +16,7 @@ public typealias SendableSequenceType = Sequence
 ///
 /// In most cases, the exact type of `ShrinkSequence` doesn't need to be public in your code, and the `some` keyword can be used instead.
 /// ```swift
-/// let gen = Generator<Output, some Sequence> = ...
+/// let gen: Generator<Output, some Sequence> = ...
 /// ```
 public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Sendable {
     public typealias InputValue = ShrinkSequence.Element
