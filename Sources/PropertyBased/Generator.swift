@@ -233,11 +233,13 @@ extension Generator {
                     Shrink.WithNil(nil)
                 }
             },
-            finalResult: {
-                if let some = $0 {
-                    return self._mapFilter(some)
+            finalResult: { value in
+                guard let value else {
+                    return .some(.none)
                 }
-                return .some(.none)
+
+                let filtered = self._mapFilter(value)
+                return filtered.flatMap { .some($0) }
             })
     }
 
