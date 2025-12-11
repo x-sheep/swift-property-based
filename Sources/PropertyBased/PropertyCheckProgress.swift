@@ -50,5 +50,25 @@ extension PropertyCheckProgress: Comparable {
     public static func < (lhs: PropertyCheckProgress, rhs: PropertyCheckProgress) -> Bool {
         lhs.fraction < rhs.fraction
     }
+}
 
+extension PropertyCheckProgress {
+    var traitHint: String {
+        "\(completed),\(total),\(rejected)"
+    }
+
+    init?(fromHint hint: String) {
+        let tokens = hint.split(separator: ",", maxSplits: 4, omittingEmptySubsequences: false)
+        guard tokens.count == 3,
+            let a = Int(tokens[0]),
+            let b = Int(tokens[1]),
+            let c = Int(tokens[2])
+        else {
+            return nil
+        }
+
+        completed = a
+        total = b
+        _rejected = c
+    }
 }

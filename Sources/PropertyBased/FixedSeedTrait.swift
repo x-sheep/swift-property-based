@@ -11,16 +11,18 @@ import Testing
 ///
 /// Use ``fixedSeed(_:sourceLocation:)`` to construct an instance of this trait.
 public struct FixedSeedTrait: TestTrait, TestScoping {
-    init(_ rng: Xoshiro?, _ sourceLocation: SourceLocation) {
+    init(_ rng: Xoshiro?, _ progress: PropertyCheckProgress, _ sourceLocation: SourceLocation) {
         self.rng = rng
+        self.progress = progress
         self.sourceLocation = sourceLocation
     }
 
     let rng: Xoshiro?
+    let progress: PropertyCheckProgress
     let sourceLocation: SourceLocation
 
     @TaskLocal
-    static var fixedRandom: (rng: Xoshiro, location: SourceLocation)?
+    static var fixedRandom: (rng: Xoshiro, progress: PropertyCheckProgress, location: SourceLocation)?
 
     public func provideScope(for test: Test, testCase: Test.Case?, performing function: () async throws -> Void) async {
         if let existing = Self.fixedRandom {
@@ -36,7 +38,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
         }
 
         let foundIssues = await countIssues(suppress: false) {
-            try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
+            try await Self.$fixedRandom.withValue((rng, progress, location: sourceLocation)) {
                 try await function()
             }
         }
@@ -64,7 +66,8 @@ extension Trait where Self == FixedSeedTrait {
     /// - Returns: An instance of ``FixedSeedTrait``.
     public static func fixedSeed(_ seed: StaticString, sourceLocation: SourceLocation = #_sourceLocation) -> Self {
         let rng = Xoshiro(seed: seed.description)
-        return Self(rng, sourceLocation)
+        // TODO: add support for deserialized progress
+        return Self(rng, .one, sourceLocation)
     }
     #else
     @available(
@@ -88,13 +91,16 @@ extension Trait where Self == FixedSeedTrait {
     ///   - s2: The second part of the seed.
     ///   - s3: The third part of the seed.
     ///   - s4: The fourth part of the seed.
+    ///   - s5: The fifth part of the seed.
     ///   - sourceLocation: The source location of the trait.
     ///
     /// - Returns: An instance of ``FixedSeedTrait``.
     public static func fixedSeed(
-        _ s1: UInt64, _ s2: UInt64, _ s3: UInt64, _ s4: UInt64, sourceLocation: SourceLocation = #_sourceLocation
+        _ s1: UInt64, _ s2: UInt64, _ s3: UInt64, _ s4: UInt64, _ s5: StaticString? = nil,
+        sourceLocation: SourceLocation = #_sourceLocation
     ) -> Self {
         let rng = Xoshiro(seed: (s1, s2, s3, s4))
-        return Self(rng, sourceLocation)
+        let progress = s5.flatMap { PropertyCheckProgress(fromHint: $0.description) }
+        return Self(rng, progress ?? .one, sourceLocation)
     }
 }

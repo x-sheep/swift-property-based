@@ -118,14 +118,17 @@ public func propertyCheck<InputValue, ResultValue>(
 
     let actualCount = fixedRng != nil ? 1 : count
 
-    var progress = PropertyCheckProgress(
-        completed: 0, rejected: 0, total: EnableSizingTrait.isEnabled ? actualCount : 1)
+    var progress =
+        fixedRng?.progress
+        ?? PropertyCheckProgress(
+            completed: 0, rejected: 0, total: EnableSizingTrait.isEnabled ? actualCount : 1)
 
     for runIndex in 0..<actualCount {
         guard !Task.isCancelled else { return }
 
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
+        let progressCopy = progress
 
         if EnableSizingTrait.isEnabled {
             progress.completed = runIndex
@@ -138,7 +141,7 @@ public func propertyCheck<InputValue, ResultValue>(
         }
 
         if foundIssues > 0 {
-            let seed = rngCopy.traitHint
+            let seed = rngCopy.traitHint(withProgress: progressCopy)
 
             var shrunkenInput = inputValue
 

@@ -74,8 +74,13 @@ extension Xoshiro: SeededRandomNumberGenerator {
         return data.base64EncodedString()
     }
 
-    var traitHint: String {
-        "(\"\(currentSeed)\")"
+    func traitHint(withProgress progress: PropertyCheckProgress = .one) -> String {
+        if progress == .one {
+            "(\"\(currentSeed)\")"
+        } else {
+            // TODO: use progress
+            "(\"\(currentSeed)\")"
+        }
     }
 }
 #else
@@ -83,6 +88,13 @@ extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = (UInt64, UInt64, UInt64, UInt64)
 
     public var currentSeed: Seed { currentState }
-    var traitHint: String { "\(currentState)" }
+    func traitHint(withProgress progress: PropertyCheckProgress = .one) -> String {
+        if progress == .one {
+            "\(currentState)"
+        } else {
+            // TODO: test this part
+            "\((currentState.0, currentState.1, currentState.2, currentState.3, progress.traitHint))"
+        }
+    }
 }
 #endif
