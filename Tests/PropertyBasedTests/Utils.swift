@@ -9,11 +9,22 @@ import Testing
 
 @testable import PropertyBased
 
-func gatherIssues(block: @Sendable () async throws -> Void) async -> [String] {
+func gatherIssues(isolation: isolated (any Actor)? = #isolation, block: () async throws -> Void) async -> [String] {
     let mutex = Mutex([] as [String])
 
-    // No way to stop issues from still being recorded. Ignore those for now.
-    await withKnownIssue(isIntermittent: true) {
+    #if swift(>=6.2)
+    nonisolated(unsafe) let closure = block
+
+    let handler = IssueHandlingTrait.filterIssues { issue in
+        mutex.withLock { $0.append(issue.description) }
+        return false
+    }
+
+    try? await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
+        try await run(closure, in: isolation)
+    }
+    #else
+    await withKnownIssue(isIntermittent: true, isolation: isolation) {
         do {
             try await block()
         } catch {
@@ -23,6 +34,7 @@ func gatherIssues(block: @Sendable () async throws -> Void) async -> [String] {
         mutex.withLock { $0.append(issue.description) }
         return true
     }
+    #endif
 
     return mutex.withLock { $0 }
 }
