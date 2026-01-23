@@ -226,6 +226,6 @@ extension Gen where Value: OptionSet & Sendable, Value.RawValue: FixedWidthInteg
     /// - Parameter options: The options to choose from.
     /// - Returns: A generator of option sets.
     public static func optionSet(of options: Value) -> Generator<Value, Shrink.Bitwise<Value.RawValue>> {
-        Gen<Value.RawValue>.bitSet.map { Value(rawValue: $0 & options.rawValue) }
+        Gen<Value.RawValue>.bitSet(mask: options.rawValue).map { Value(rawValue: $0) }
     }
 }

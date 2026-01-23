@@ -39,9 +39,17 @@ extension Gen where Value: FixedWidthInteger & Sendable {
     ///
     /// The associated shrinker will remove every bit, but will never set bits that are unset in the original value.
     @inlinable
-    public static var bitSet: Generator<Value, Shrink.Bitwise<Value>> {
+    public static var bitSet: Generator<Value, Shrink.Bitwise<Value>> { bitSet() }
+
+    /// Produces a generator of random integers within the given bit mask.
+    ///
+    /// The associated shrinker will remove every bit, but will never set bits that are unset in the original value.
+    /// - Parameter mask: The bit mask to apply to each generated value.
+    /// - Returns: A generator of random values.
+    @inlinable
+    public static func bitSet(mask: Value = ~0) -> Generator<Value, Shrink.Bitwise<Value>> {
         return .init(
-            run: { rng in Value.random(in: .min ... .max, using: &rng) },
+            run: { rng in Value.random(in: .min ... .max, using: &rng) & mask },
             shrink: { .init($0) }
         )
     }
