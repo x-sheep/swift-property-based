@@ -24,6 +24,12 @@ import Testing
         try #require(results.count > 1)
         #expect(results.first == end)
         #expect(!results.contains(start))
+
+        if start > end {
+            #expect(results.allSatisfy { $0 >= end })
+        } else {
+            #expect(results.allSatisfy { $0 <= end })
+        }
     }
 
     @Test func testShrinkWithNan() throws {
@@ -51,5 +57,9 @@ import Testing
 
         let shrink5 = (20).shrink(within: 1.5...10)
         #expect(shrink5.current == 1.5)
+
+        var shrink6 = (10.0).shrink(towards: 0)
+        _ = shrink6.next()
+        #expect(shrink6.current == 5)
     }
 }

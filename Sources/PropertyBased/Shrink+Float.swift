@@ -25,7 +25,7 @@ extension Shrink {
             current = bound
             end = from
 
-            leap = (from / 2) - (bound / 2)
+            leap = from - bound
             if leap.isNaN {
                 current = .nan
             } else if leap.isInfinite {
