@@ -134,7 +134,7 @@ The `.shrinking` TestTrait or SuiteTrait can be used to override shrinking behav
 
 # License
 
-Copyright (c) 2025 Lennard Sprong.
+Copyright (c) 2025-2026 Lennard Sprong.
 
 Includes a modified version of [swift-gen](https://github.com/pointfreeco/swift-gen), which is Copyright (c) 2019 Point-Free, Inc.
 

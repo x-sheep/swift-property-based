@@ -10,7 +10,7 @@ import Foundation
 
 // This value is a constant, to keep test runs reproducible.
 // This value may only be changed between package releases.
-let defaultYear = 2025
+let defaultYear = 2026
 let yearWindow = 60
 
 @usableFromInline let defaultYearRange = (defaultYear - yearWindow)...(defaultYear + yearWindow)
