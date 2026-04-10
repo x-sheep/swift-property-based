@@ -9,7 +9,7 @@
 ///
 /// Identical instances of this generator must generate the same sequence of values when repeatedly calling `next()`.
 ///
-/// Re-using seeds across multiple executions of the program must result in the same same sequence of values, provided that the Swift library version and the program's dependencies remain unchanged.
+/// Re-using seeds across multiple executions of the program must result in the same sequence of values, provided that the Swift library version and the program's dependencies remain unchanged.
 public protocol SeededRandomNumberGenerator: RandomNumberGenerator, Hashable, Sendable {
 
     /// The type to use as the seed.
