@@ -41,7 +41,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
             }
         }
 
-        if foundIssues == 0 {
+        if foundIssues.errors == 0 {
             Issue.record(
                 "A fixed seed was used, but no expectation failure occured. The property was not tested fully.",
                 sourceLocation: sourceLocation)
