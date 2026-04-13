@@ -115,6 +115,7 @@ public func propertyCheck<InputValue, ResultValue>(
     guard count > 0 else { return }
 
     let fixedRng = FixedSeedTrait.fixedRandom
+    var rngWithIssues: (rng: Xoshiro, value: InputValue, isError: Bool)?
 
     let actualCount = fixedRng != nil ? 1 : count
 
@@ -130,62 +131,88 @@ public func propertyCheck<InputValue, ResultValue>(
             try await body(resultValue)
         }
 
-        if foundIssues > 0 {
-            let seed = rngCopy.traitHint
+        if foundIssues.errors > 0 {
+            rngWithIssues = (rngCopy, inputValue, isError: true)
+            break
+        } else if rngWithIssues == nil, foundIssues.warnings > 0 {
+            rngWithIssues = (rngCopy, inputValue, isError: false)
+        }
+    }
 
-            var shrunkenInput = inputValue
+    if let rngWithIssues {
+        let seed = rngWithIssues.rng.traitHint
 
-            var didShrink = EnableShrinkTrait.isEnabled
-            var shrinkCount = 0
-            while didShrink {
-                didShrink = false
-                let candidates = input._shrinker(shrunkenInput)
+        var shrunkenInput = rngWithIssues.value
+        var isErrorLevel = rngWithIssues.isError
 
-                for c in candidates {
-                    guard !Task.isCancelled else { return }
+        var didShrink = EnableShrinkTrait.isEnabled
+        var shrinkCount = 0
+        while didShrink {
+            didShrink = false
+            let candidates = input._shrinker(shrunkenInput)
 
-                    guard let mappedShrunk = input._mapFilter(c) else { continue }
+            for c in candidates {
+                guard !Task.isCancelled else { return }
 
-                    let shrunkIssues = await countIssues(isolation: isolation, suppress: true) {
-                        try await body(mappedShrunk)
-                    }
+                guard let mappedShrunk = input._mapFilter(c) else { continue }
 
-                    if shrunkIssues > 0 {
-                        didShrink = true
-                        shrinkCount += 1
-                        shrunkenInput = c
-                        break
-                    }
+                let shrunkIssues = await countIssues(isolation: isolation, suppress: true) {
+                    try await body(mappedShrunk)
+                }
+
+                if shrunkIssues.errors > 0 || (shrunkIssues.warnings > 0 && !isErrorLevel) {
+                    didShrink = true
+                    shrinkCount += 1
+                    shrunkenInput = c
+                    break
                 }
             }
+        }
 
-            // If previous inputs were suppressed, run the block one more time to fully record all issues.
-            if EnableShrinkTrait.isEnabled {
-                _ = await countIssues(isolation: isolation, suppress: false) {
-                    try await body(input._mapFilter(shrunkenInput)!)
-                }
+        // If previous inputs were suppressed, run the block one more time to fully record all issues.
+        if EnableShrinkTrait.isEnabled {
+            let finalCount = await countIssues(isolation: isolation, suppress: false) {
+                try await body(input._mapFilter(shrunkenInput)!)
             }
-
-            let originalParamLabel = String(describingForTest: resultValue)
-
-            let failureMessage: String
-
-            if shrinkCount == 0 {
-                failureMessage = "Failure occured with input \(originalParamLabel)."
-            } else {
-                let shrunkParamLabel = String(describingForTest: input._mapFilter(shrunkenInput)!)
-                failureMessage =
-                    "Failure occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
+            if finalCount.errors > 0 {
+                isErrorLevel = true
             }
+        }
 
-            if fixedRng == nil {
+        let resultValue = input._mapFilter(rngWithIssues.value)!
+        let originalParamLabel = String(describingForTest: resultValue)
+
+        let failureMessage: String
+
+        let issueTypeLabel = isErrorLevel ? "Failure" : "Warning"
+
+        if shrinkCount == 0 {
+            failureMessage = "\(issueTypeLabel) occured with input \(originalParamLabel)."
+        } else {
+            let shrunkParamLabel = String(describingForTest: input._mapFilter(shrunkenInput)!)
+            failureMessage =
+                "\(issueTypeLabel) occured with input \(shrunkParamLabel).\n(shrunk down from \(originalParamLabel) after \(shrinkCount) iteration\(shrinkCount != 1 ? "s" : ""))"
+        }
+
+        if fixedRng == nil {
+            if isErrorLevel {
                 Issue.record(
                     "\(failureMessage)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.",
                     sourceLocation: sourceLocation)
-            } else {
-                Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
             }
-            return
+
+            #if swift(>=6.3)
+            if !isErrorLevel {
+                Issue.record(
+                    "\(failureMessage)\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue.",
+                    severity: .warning,
+                    sourceLocation: sourceLocation)
+            }
+            #endif
+
+        } else {
+            Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
         }
+        return
     }
 }

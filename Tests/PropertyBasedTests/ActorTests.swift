@@ -24,7 +24,7 @@ import Testing
                 #expect(i < 500)
             }
         }
-        #expect(issues > 0)
+        #expect(issues.errors > 0)
     }
 
     @OtherActor @Test func testOnOtherActor() async {
@@ -35,6 +35,6 @@ import Testing
                 #expect(i < 500)
             }
         }
-        #expect(issues > 0)
+        #expect(issues.errors > 0)
     }
 }
