@@ -122,8 +122,12 @@ extension Gen where Value == Float80 {
 }
 #endif
 
-#if canImport(Foundation)
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
 extension Gen where Value == CGFloat {
     /// Produces a generator of random floats within the specified range.
     ///

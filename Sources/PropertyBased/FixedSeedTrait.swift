@@ -50,7 +50,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
 }
 
 extension Trait where Self == FixedSeedTrait {
-    #if canImport(Foundation)
+    #if canImport(FoundationEssentials) || canImport(Foundation)
     /// Override the seed used by all property checks within this Test.
     ///
     /// If one of your property checks fails intermittently, apply this trait to reliably reproduce the issue.

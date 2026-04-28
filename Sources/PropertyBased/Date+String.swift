@@ -5,8 +5,12 @@
 //  Created by Lennard Sprong on 31/05/2025.
 //
 
-#if canImport(Foundation)
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
 
 extension Calendar {
     static var neutral: Calendar {
