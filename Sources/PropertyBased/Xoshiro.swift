@@ -49,8 +49,12 @@ extension Xoshiro: Hashable {
     }
 }
 
-#if canImport(Foundation)
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
 
 extension Xoshiro: SeededRandomNumberGenerator {
     public typealias Seed = String

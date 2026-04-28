@@ -6,6 +6,7 @@
 //
 
 #if canImport(Foundation)
+
 import Foundation
 
 extension Calendar {
@@ -47,6 +48,29 @@ extension Date: @retroactive ExpressibleByStringLiteral {
         }
 
         preconditionFailure("\(value) is not a valid ISO 8601 date")
+    }
+}
+
+#elseif canImport(FoundationEssentials)
+
+import FoundationEssentials
+
+extension Date: @retroactive ExpressibleByStringLiteral {
+    /// Create a date from a ISO8601-formatted string.
+    ///
+    /// The date components are required. The time and offset components are optional.
+    ///
+    /// This initializer exists as a convenience for creating date ranges. It is not recommended for use in a production environment.
+    ///
+    /// - Parameter value: The string to parse.
+    public init(stringLiteral value: String) {
+        let formatter = ISO8601DateFormatter()
+
+        guard let date = formatter.date(from: value) else {
+            preconditionFailure("\(value) is not a valid ISO 8601 date")
+        }
+
+        self = date
     }
 }
 
