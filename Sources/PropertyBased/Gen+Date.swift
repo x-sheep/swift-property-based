@@ -5,8 +5,12 @@
 //  Created by Lennard Sprong on 30/05/2025.
 //
 
-#if canImport(Foundation)
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
 
 // This value is a constant, to keep test runs reproducible.
 // This value may only be changed between package releases.

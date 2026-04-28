@@ -5,8 +5,12 @@
 //  Created by Lennard Sprong on 30/05/2025.
 //
 
-#if canImport(Foundation)
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
 
 extension Shrink {
     /// Shrink a TimeInterval by rounding to seconds, then minutes, then 15 minute intervals.
