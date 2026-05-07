@@ -5,9 +5,14 @@
 //  Created by Lennard Sprong on 31/05/2025.
 //
 
-#if canImport(Foundation)
-import Testing
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#elseif canImport(Foundation)
 import Foundation
+#endif
+#if canImport(FoundationEssentials) || canImport(Foundation)
+
+import Testing
 import PropertyBased
 
 extension Calendar {
