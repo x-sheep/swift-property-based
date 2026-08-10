@@ -125,7 +125,31 @@ public func propertyCheck<InputValue, ResultValue>(
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
 
-        let (inputValue, resultValue) = input.runFull(&rng)
+        let inputValue: InputValue
+        let resultValue: ResultValue
+        do {
+            (inputValue, resultValue) = try input.runFull(&rng)
+        } catch {
+            var failureMessage: String
+            if let genError = error as? GeneratorError, case .runLimitExceeded(let count) = genError {
+                failureMessage =
+                    "Failed to generate a valid input after \(count) attempts. Check if the Generator is filtering too many values."
+
+                if MaxAttemptsTrait._maxAttempts == nil {
+                    failureMessage += "\n\nYou can add `.maxAttempts()` to the Test or Suite to increase the limit."
+                }
+            } else {
+                failureMessage = "Unknown error during generation: \(error)"
+            }
+
+            if fixedRng == nil {
+                let seed = rngCopy.traitHint
+                failureMessage += "\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue."
+            }
+
+            Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
+            return
+        }
 
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)

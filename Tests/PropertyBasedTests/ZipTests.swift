@@ -67,56 +67,56 @@ import Testing
 
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false
         repeat {
             let gen = zip(
                 Gen.bool(1), Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool, Gen.bool)
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false

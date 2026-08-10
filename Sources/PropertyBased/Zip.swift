@@ -23,7 +23,7 @@ public func zip<InA, InB, OutA, OutB>(
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
             )
@@ -60,7 +60,7 @@ public func zip<InA, InB, InC, OutA, OutB, OutC>(
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -101,7 +101,7 @@ public func zip<InA, InB, InC, InD, OutA, OutB, OutC, OutD>(
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -146,7 +146,7 @@ public func zip<InA, InB, InC, InD, InE, OutA, OutB, OutC, OutD, OutE>(
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -195,7 +195,7 @@ public func zip<InA, InB, InC, InD, InE, InF, OutA, OutB, OutC, OutD, OutE, OutF
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -249,7 +249,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, OutA, OutB, OutC, OutD, OutE,
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -308,7 +308,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, OutA, OutB, OutC, OutD, 
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -371,7 +371,7 @@ public func zip<InA, InB, InC, InD, InE, InF, InG, InH, InI, OutA, OutB, OutC, O
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,
@@ -440,7 +440,7 @@ public func zip<
 > {
     return .init(
         run: { rng in
-            (
+            try (
                 p0.runFull(&rng).input,
                 p1.runFull(&rng).input,
                 p2.runFull(&rng).input,

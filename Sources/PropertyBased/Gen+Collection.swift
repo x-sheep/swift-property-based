@@ -86,7 +86,7 @@ extension Generator {
 
                 collection.reserveCapacity(itemCount)
                 for _ in 0..<itemCount {
-                    collection.append(self.runFull(&rng).input)
+                    collection.append(try self.runFull(&rng).input)
                 }
                 return collection
             },
