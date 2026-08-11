@@ -79,14 +79,14 @@ extension Generator {
     @inlinable
     public func array(of count: ClosedRange<Int>) -> Generator<[ResultValue], ArrayShrink> {
         return .init(
-            run: { rng in
+            run: { rng, limit in
                 let itemCount = Int.random(in: count, using: &rng)
 
                 var collection: [InputValue] = []
 
                 collection.reserveCapacity(itemCount)
                 for _ in 0..<itemCount {
-                    collection.append(try self.runFull(&rng).input)
+                    collection.append(try self.runFull(&rng, limit).input)
                 }
                 return collection
             },

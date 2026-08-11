@@ -123,7 +123,7 @@ extension Gen where Value == Date {
         let end = Date().timeIntervalSinceReferenceDate
 
         return .init(
-            run: { rng in TimeInterval.random(in: interval, using: &rng) },
+            run: { rng, _ in TimeInterval.random(in: interval, using: &rng) },
             shrink: {
                 let seq =
                     abs($0.distance(to: end)) > preferredDistanceFromNow
@@ -240,7 +240,7 @@ extension Gen where Value == Date {
         let end = Int(Date().timeIntervalSinceReferenceDate / secondsPerDay)
 
         return .init(
-            run: { rng in Int.random(in: interval, using: &rng) },
+            run: { rng, _ in Int.random(in: interval, using: &rng) },
             shrink: { $0.shrink(within: interval, towards: end) },
             finalResult: { Date(timeIntervalSinceReferenceDate: TimeInterval($0) * secondsPerDay) }
         )

@@ -118,6 +118,7 @@ public func propertyCheck<InputValue, ResultValue>(
     var rngWithIssues: (rng: Xoshiro, value: InputValue, isError: Bool)?
 
     let actualCount = fixedRng != nil ? 1 : count
+    let runLimit = MaximumAttemptsTrait._maxAttempts
 
     for _ in 0..<actualCount {
         guard !Task.isCancelled else { return }
@@ -128,14 +129,14 @@ public func propertyCheck<InputValue, ResultValue>(
         let inputValue: InputValue
         let resultValue: ResultValue
         do {
-            (inputValue, resultValue) = try input.runFull(&rng)
+            (inputValue, resultValue) = try input.runFull(&rng, runLimit ?? 10000)
         } catch {
             var failureMessage: String
             if let genError = error as? GeneratorError, case .runLimitExceeded(let count) = genError {
                 failureMessage =
                     "Failed to generate a valid input after \(count) attempts. Check if the Generator is filtering too many values."
 
-                if MaxAttemptsTrait._maxAttempts == nil {
+                if runLimit == nil {
                     failureMessage += "\n\nYou can add `.maxAttempts()` to the Test or Suite to increase the limit."
                 }
             } else {

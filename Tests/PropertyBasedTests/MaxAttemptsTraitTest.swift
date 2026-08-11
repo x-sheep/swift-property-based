@@ -13,7 +13,7 @@ import Testing
     @Test func testCanModifyCount() async throws {
         let useless = Gen.always(false).filter { $0 }
 
-        let trait = MaxAttemptsTrait.maxAttempts(20)
+        let trait = MaximumAttemptsTrait.maximumAttempts(20)
         let scope = try #require(trait.scopeProvider(for: Test.current!, testCase: Test.Case.current))
 
         let issues = await gatherIssues {
