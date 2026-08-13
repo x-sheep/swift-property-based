@@ -131,16 +131,9 @@ public func propertyCheck<InputValue, ResultValue>(
         do {
             (inputValue, resultValue) = try input.runFull(&rng, runLimit ?? 10000)
         } catch {
-            var failureMessage: String
-            if let genError = error as? GeneratorError, case .runLimitExceeded(let count) = genError {
-                failureMessage =
-                    "Failed to generate a valid input after \(count) attempts. Check if the Generator is filtering too many values."
-
-                if runLimit == nil {
-                    failureMessage += "\n\nYou can add `.maxAttempts()` to the Test or Suite to increase the limit."
-                }
-            } else {
-                failureMessage = "Unknown error during generation: \(error)"
+            var failureMessage = String(describing: error)
+            if runLimit == nil, let genError = error as? GeneratorError, case .runLimitExceeded = genError {
+                failureMessage += "\n\nYou can add `.maximumAttempts()` to the Test or Suite to increase the limit."
             }
 
             if fixedRng == nil {

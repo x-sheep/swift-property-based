@@ -315,9 +315,3 @@ extension Generator {
         )
     }
 }
-
-/// Errors that may be thrown by a generator.
-public enum GeneratorError: Error {
-    /// A generator failed to generate a valid value within the specified amount of attempts.
-    case runLimitExceeded(Int)
-}
