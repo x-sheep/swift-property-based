@@ -23,7 +23,7 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
 
     /// Generate a single result, before mapping or filtering.
     @usableFromInline
-    internal var _runIntermediate: @Sendable (inout any SeededRandomNumberGenerator) -> sending InputValue
+    internal var _runIntermediate: @Sendable (inout any SeededRandomNumberGenerator, Int) throws -> sending InputValue
 
     /// Map an intermediate result to its final value, or return `nil` if the value should be filtered.
     @usableFromInline
@@ -33,8 +33,9 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
     internal var _shrinker: @Sendable (InputValue) -> ShrinkSequence
 
     /// Run the generator until a single unfiltered value is found.
-    @inlinable
-    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G)
+    @usableFromInline
+    internal func runFull<G: SeededRandomNumberGenerator>(_ rng: inout G, _ limit: Int)
+        throws
         -> sending (
             input: InputValue, result: ResultValue
         )
@@ -42,13 +43,17 @@ public struct Generator<ResultValue, ShrinkSequence: SendableSequenceType>: Send
         var arng: any SeededRandomNumberGenerator = rng
         defer { rng = arng as! G }
 
-        while true {
-            let run = _runIntermediate(&arng)
+        var attempts = 0
+
+        while attempts <= limit {
+            let run = try _runIntermediate(&arng, limit)
 
             if let ret = _mapFilter(run) {
                 return (run, ret)
             }
+            attempts += 1
         }
+        throw GeneratorError.runLimitExceeded(limit)
     }
 }
 
@@ -57,7 +62,22 @@ extension Generator {
     /// - Parameter rng: The random number generator to use.
     /// - Returns: A randomly generated value.
     public func run<G: SeededRandomNumberGenerator>(using rng: inout G) -> sending ResultValue {
-        runFull(&rng).result
+        try! runFull(&rng, Int.max).result
+    }
+
+    /// Generate a single value within a certain amount of attempts.
+    /// - Parameter rng: The random number generator to use.
+    /// - Parameter limit: The maximum amount of attempts before the generator stops.
+    /// - Returns: A randomly generated value.
+    /// - Throws: When the limit is reached.
+    public func run<G: SeededRandomNumberGenerator>(using rng: inout G, limit: Int)
+        throws(GeneratorError) -> sending ResultValue
+    {
+        do {
+            return try runFull(&rng, limit).result
+        } catch {
+            throw error as! GeneratorError
+        }
     }
 
     /// Remove the shrinker for this generator.
@@ -100,7 +120,7 @@ extension Generator where InputValue == ResultValue {
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue,
         shrink: @Sendable @escaping (InputValue) -> sending ShrinkSequence,
     ) {
-        self._runIntermediate = run
+        _runIntermediate = { rng, _ in run(&rng) }
         self._shrinker = shrink
         self._mapFilter = { $0 }
     }
@@ -109,7 +129,7 @@ extension Generator where InputValue == ResultValue {
 extension Generator {
     @inlinable
     internal init(
-        run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending InputValue,
+        run: @Sendable @escaping (inout any SeededRandomNumberGenerator, Int) throws -> sending InputValue,
         shrink: @Sendable @escaping (InputValue) -> ShrinkSequence,
         finalResult: @Sendable @escaping (InputValue) -> ResultValue?
     ) {
@@ -128,7 +148,7 @@ extension Generator where ShrinkSequence == Shrink.None<ResultValue> {
     public init(
         run: @Sendable @escaping (inout any SeededRandomNumberGenerator) -> sending ResultValue
     ) {
-        _runIntermediate = run
+        _runIntermediate = { rng, _ in run(&rng) }
         _shrinker = { _ in .init() }
         _mapFilter = { $0 }
     }
@@ -220,11 +240,11 @@ extension Generator {
     /// - Returns: A generator of optional values.
     public func optional(valueRate: Float = 0.75) -> Generator<ResultValue?, Shrink.WithNil<ShrinkSequence>> {
         return .init(
-            run: { rng in
+            run: { rng, limit in
                 if Float.random(in: 0..<1, using: &rng) >= valueRate {
                     return nil as InputValue?
                 }
-                return self._runIntermediate(&rng)
+                return try self._runIntermediate(&rng, limit)
             },
             shrink: { value in
                 if let value {
@@ -283,8 +303,8 @@ extension Generator {
     /// - Returns: A copy of this generator.
     @inlinable public func eraseToAny() -> Generator<ResultValue, AnySequence<Any>> {
         return .init(
-            run: { rng in
-                self._runIntermediate(&rng) as Any
+            run: { rng, limit in
+                try self._runIntermediate(&rng, limit) as Any
             },
             shrink: {
                 AnySequence(_shrinker($0 as! InputValue).lazy.map { $0 as Any })

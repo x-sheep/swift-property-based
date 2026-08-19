@@ -10,6 +10,7 @@
 ### Testing a generator
 
 - ``run(using:)``
+- ``run(using:limit:)``
 
 ### Grouping generated values
 

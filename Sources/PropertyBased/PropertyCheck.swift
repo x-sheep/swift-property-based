@@ -118,6 +118,7 @@ public func propertyCheck<InputValue, ResultValue>(
     var rngWithIssues: (rng: Xoshiro, value: InputValue, isError: Bool)?
 
     let actualCount = fixedRng != nil ? 1 : count
+    let runLimit = MaximumAttemptsTrait._maxAttempts
 
     for _ in 0..<actualCount {
         guard !Task.isCancelled else { return }
@@ -125,7 +126,24 @@ public func propertyCheck<InputValue, ResultValue>(
         var rng = fixedRng?.rng ?? Xoshiro()
         let rngCopy = rng
 
-        let (inputValue, resultValue) = input.runFull(&rng)
+        let inputValue: InputValue
+        let resultValue: ResultValue
+        do {
+            (inputValue, resultValue) = try input.runFull(&rng, runLimit ?? 10000)
+        } catch {
+            var failureMessage = String(describing: error)
+            if runLimit == nil, let genError = error as? GeneratorError, case .runLimitExceeded = genError {
+                failureMessage += "\n\nYou can add `.maximumAttempts()` to the Test or Suite to increase the limit."
+            }
+
+            if fixedRng == nil {
+                let seed = rngCopy.traitHint
+                failureMessage += "\n\nAdd `.fixedSeed\(seed)` to the Test to reproduce this issue."
+            }
+
+            Issue.record("\(failureMessage)", sourceLocation: sourceLocation)
+            return
+        }
 
         let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
             try await body(resultValue)

@@ -21,7 +21,7 @@ import Testing
 % for size in range(2, 11):
         repeat {
             let gen = zip(Gen.bool(1), ${', '.join([f"Gen.bool" for n in range(size-1)])})
-            let result = gen._runIntermediate(&rng)
+            let result = try! gen._runIntermediate(&rng, Int.max)
             let shrunk = gen._shrinker(result).makeIterator().next()
             #expect(shrunk != nil)
         } while false

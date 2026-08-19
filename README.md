@@ -30,7 +30,7 @@ Property-Based Testing can be used as an alternative for (or in addition to) tes
 
 Add the following line to the dependencies array in your `Package.swift` file:
 ```swift
-.package(url: "https://github.com/x-sheep/swift-property-based.git", from: "1.0.0")
+.package(url: "https://github.com/x-sheep/swift-property-based.git", from: "2.0.0")
 ```
 
 Then add the following to your test target:

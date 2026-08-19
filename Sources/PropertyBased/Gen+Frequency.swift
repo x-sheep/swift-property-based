@@ -83,11 +83,11 @@ extension Gen {
         precondition(total > 0, "At least one generator with a weight above 0 must be specified.")
 
         return Generator(
-            run: { [total] rng in
+            run: { [total] rng, limit in
                 let pick = FloatLiteralType.random(in: 0..<total, using: &rng)
                 let index = options.firstIndex { $0.limit > pick }! as Int
 
-                return (index: index, value: options[index].gen.runFull(&rng).input)
+                return try (index: index, value: options[index].gen.runFull(&rng, limit).input)
             },
             shrink: { pair in
                 let opt = options[pair.index]
