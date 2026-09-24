@@ -113,5 +113,9 @@ import Testing
 
         #expect(ClosedRange(Int.max...).contains(Int.max))
         #expect(!ClosedRange(Int.max...).contains(Int.max - 1))
+
+        #expect(ClosedRange(1...Int.max) == 1...Int.max)
+        #expect(ClosedRange(UInt8(16)...UInt8.max) == 16...UInt8.max)
+        #expect(ClosedRange(Int.max...Int.max) == Int.max...Int.max)
     }
 }

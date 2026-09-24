@@ -47,6 +47,11 @@ import Testing
     @Test func testGenerateInt64() async { await testGen(Gen.int64()) }
     @Test func testGenerateUInt() async { await testGen(Gen.uint()) }
     @Test func testGenerateUInt8() async { await testGen(Gen.uint8()) }
+
+    @Test func testGenerateClosedRangeEndingAtMax() async {
+        await testGen(Gen.uint8(in: 16...UInt8.max))
+        await testGen(Gen.int(in: 1...Int.max))
+    }
     @Test func testGenerateUInt16() async { await testGen(Gen.uint16()) }
     @Test func testGenerateUInt32() async { await testGen(Gen.uint32()) }
     @Test func testGenerateUInt64() async { await testGen(Gen.uint64()) }

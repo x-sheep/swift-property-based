@@ -10,7 +10,11 @@ extension ClosedRange where Bound: FixedWidthInteger {
     ///
     /// If the range doesn't have a lower or upper bound, `Bound.min` and `Bound.max` are used respectively.
     @usableFromInline init(_ range: some RangeExpression<Bound>) {
-        if !range.contains(Bound.max) {
+        if let range = range as? ClosedRange<Bound> {
+            // Already closed. `relative(to:)` below would ask for the index after
+            // `Bound.max` when a closed range ends there, which traps.
+            self = range
+        } else if !range.contains(Bound.max) {
             self = .init(range.relative(to: .min ..< .max))
         } else if range.contains(Bound.min) {
             self = .min ... .max
