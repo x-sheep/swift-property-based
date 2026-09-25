@@ -108,10 +108,12 @@ import Testing
         #expect(ClosedRange(..<Int.max).contains(Int.min))
         #expect(!ClosedRange(..<Int.max).contains(Int.max))
 
-        #expect(ClosedRange(...Int.max).contains(Int.min))
-        #expect(ClosedRange(...Int.max).contains(Int.max))
+        #expect(ClosedRange(...Int.max) == Int.min...Int.max)
 
         #expect(ClosedRange(Int.max...).contains(Int.max))
         #expect(!ClosedRange(Int.max...).contains(Int.max - 1))
+
+        let erased = 100...Int.max as any RangeExpression<Int>
+        #expect(ClosedRange(erased) == 100...Int.max)
     }
 }
