@@ -138,4 +138,6 @@ Copyright (c) 2025-2026 Lennard Sprong.
 
 Includes a modified version of [swift-gen](https://github.com/pointfreeco/swift-gen), which is Copyright (c) 2019 Point-Free, Inc.
 
+No AI was used in the development of this project.
+
 [MIT License](./LICENSE)
