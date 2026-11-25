@@ -19,7 +19,7 @@ extension Gen where Value == CGColor {
 }
 #endif
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 extension Gen where Value == NSColor {
