@@ -12,7 +12,12 @@ struct CountResult {
     var warnings: Int = 0
 }
 
-func countIssues(isolation: isolated (any Actor)? = #isolation, suppress: Bool, perform: () async throws -> Void) async
+func countIssues(
+    isolation: isolated (any Actor)? = #isolation,
+    suppress: Bool,
+    sourceLocation: SourceLocation? = nil,
+    perform: () async throws -> Void
+) async
     -> CountResult
 {
     let found = Mutex(CountResult())
@@ -37,8 +42,15 @@ func countIssues(isolation: isolated (any Actor)? = #isolation, suppress: Bool, 
         return issue
     }
 
-    try? await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
-        try await run(closure, in: isolation)
+    do {
+        try await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
+            try await run(closure, in: isolation)
+        }
+    } catch {
+        found.withLock { $0.errors += 1 }
+        if !suppress, let sourceLocation {
+            Issue.record(error, sourceLocation: sourceLocation)
+        }
     }
     #else
     try? await withKnownIssue(isIntermittent: true, isolation: isolation) {

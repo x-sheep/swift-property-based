@@ -20,8 +20,12 @@ func gatherIssues(isolation: isolated (any Actor)? = #isolation, block: () async
         return false
     }
 
-    try? await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
-        try await run(closure, in: isolation)
+    do {
+        try await handler.provideScope(for: Test.current!, testCase: Test.Case.current) {
+            try await run(closure, in: isolation)
+        }
+    } catch {
+        Issue.record(error)
     }
     #else
     await withKnownIssue(isIntermittent: true, isolation: isolation) {

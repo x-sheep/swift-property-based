@@ -35,7 +35,7 @@ public struct FixedSeedTrait: TestTrait, TestScoping {
             return
         }
 
-        let foundIssues = await countIssues(suppress: false) {
+        let foundIssues = await countIssues(suppress: false, sourceLocation: sourceLocation) {
             try await Self.$fixedRandom.withValue((rng, location: sourceLocation)) {
                 try await function()
             }
