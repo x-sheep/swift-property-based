@@ -145,7 +145,7 @@ public func propertyCheck<InputValue, ResultValue>(
             return
         }
 
-        let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled) {
+        let foundIssues = await countIssues(isolation: isolation, suppress: EnableShrinkTrait.isEnabled, sourceLocation: sourceLocation) {
             try await body(resultValue)
         }
 
@@ -174,7 +174,7 @@ public func propertyCheck<InputValue, ResultValue>(
 
                 guard let mappedShrunk = input._mapFilter(c) else { continue }
 
-                let shrunkIssues = await countIssues(isolation: isolation, suppress: true) {
+                let shrunkIssues = await countIssues(isolation: isolation, suppress: true, sourceLocation: nil) {
                     try await body(mappedShrunk)
                 }
 
@@ -189,7 +189,7 @@ public func propertyCheck<InputValue, ResultValue>(
 
         // If previous inputs were suppressed, run the block one more time to fully record all issues.
         if EnableShrinkTrait.isEnabled {
-            let finalCount = await countIssues(isolation: isolation, suppress: false) {
+            let finalCount = await countIssues(isolation: isolation, suppress: false, sourceLocation: sourceLocation) {
                 try await body(input._mapFilter(shrunkenInput)!)
             }
             if finalCount.errors > 0 {

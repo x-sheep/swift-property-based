@@ -78,6 +78,25 @@ import Testing
                 $0.contains("> 50")
             }))
     }
+    
+    struct SomeError: Error, CustomStringConvertible {
+        var description: String { "SomeError" }
+    }
+    
+    @Test func testErrorsArePropagated() async {
+        let issues = await gatherIssues {
+            await propertyCheck(input: Gen.int(in: 0...10)) { a in
+                if a > 8 {
+                    throw SomeError()
+                }
+            }
+        }
+        
+        #expect(
+            issues.contains(where: {
+                $0.contains("SomeError")
+            }))
+    }
 
     @Test(.shrinking(false)) func testShrinkDisabled() {
         #expect(!EnableShrinkTrait.isEnabled)
